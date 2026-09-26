@@ -1,0 +1,89 @@
+# MUHIM (2026-08-18 tuzatildi): torch==2.3.0 RTX 5070 (Blackwell, sm_120)
+# GPU'ni UMUMAN qo'llab-quvvatlamaydi — bu versiya uchun cu1xx GPU wheel'lari
+# sm_120 kernel'lariga ega emas (eng qadimi cu128 qatori torch>=2.7.0'dan
+# boshlanadi). Natijada avval yoki CPU-only wheel (+cpu, GPU'siz, sekin) o'rnatilgan,
+# yoki GPU wheel o'rnatilsa ham "DLL load failed"/kernel xatosi berardi.
+# Haqiqiy tuzatish: torch/torchaudio 2.7.1+cu128 (nvidia-smi orqali tekshirilgan
+# haydovchi CUDA 12.8+ ni qo'llab-quvvatlaydi) — quyidagicha o'rnatiladi:
+#   pip install torch==2.7.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu128
+# Oddiy "pip install -r requirements.txt" buni PyPI'dan CPU-only sifatida
+# o'rnatishga urinadi — GPU uchun albatta yuqoridagi --index-url buyrug'ini ishlating.
+torch==2.7.1
+torchaudio==2.7.1
+numpy<2
+pillow
+opencv-python
+mss
+pytesseract
+pyautogui
+pyperclip
+rapidfuzz
+langdetect
+readability-lxml
+requests
+psutil
+pywin32
+pygetwindow
+keyboard
+imageio-ffmpeg
+pydub
+simpleaudio
+telethon
+sounddevice
+vosk
+openai
+python-dotenv
+edge-tts
+# Piper — mahalliy/offline TTS ovoz (models/piper/*.onnx). Yo'q bo'lsa
+# tts_openai.py avtomatik edge-tts/OpenAI TTS'ga o'tadi (graceful fallback),
+# lekin paket bo'lmasa mahalliy ovoz UMUMAN ishlamaydi.
+piper-tts
+# stt_openai_whisper.py buni to'g'ridan-to'g'ri ishlatadi (scipy.io.wavfile) —
+# standart STT dvigateli (STT_LANGUAGE=ru => Whisper yo'li) shunga bog'liq.
+scipy
+av>=12.0.0
+python-pptx
+# IIT Φ: pip install pyphi. Python 3.10+ da pyphi/db.py ni tuzatish kerak (collections.abc.Iterable).
+pyphi
+# Semantik xotira (vector search) — ZARUR
+faiss-cpu>=1.7.4
+# knowledge_index.py buni ishlatadi (SentenceTransformer embedding modeli) —
+# ilgari shu faylda bo'lmagan, lekin KB qidiruvi buning uchun ZARUR edi.
+# MUHIM: versiya ANIQ pastki chegara bilan berilgan — versiyasiz "sentence-
+# transformers" yozilsa, real testda pip buni 0.2.3 (2019-yilgi, juda eski)
+# versiyaga yechgani aniqlandi, uning encode() metodida convert_to_numpy/
+# normalize_embeddings/device parametrlari YO'Q — knowledge_index.py buzilib
+# qoladi ("TypeError: unexpected keyword argument"). >=2.7.0 shu
+# parametrlarni qo'llab-quvvatlaydi va torch==2.3.0 bilan mos.
+sentence-transformers>=2.7.0
+# Async HTTP
+aiohttp>=3.8.0
+feedparser>=6.0.0
+python-dateutil>=2.8.0
+# Biometrika — yuz va ovoz tanish (ZARUR)
+insightface
+# MUHIM (2026-09-13 tuzatildi): shu yerda oddiy "onnxruntime" (CPU-only paket)
+# yozilgan edi — bu sabab face_arc.py'ning CUDA DLL PATH tuzatishi (real
+# InferenceSession bilan boshqa muhitda tekshirilgan) real !NeuroKey.bat
+# ishga tushishida HECH QACHON ishlamasdi: get_available_providers() da
+# CUDAExecutionProvider UMUMAN yo'q edi (CPU-only wheel uni umuman
+# o'z ichiga olmaydi), demak PATH/DLL tuzatishning o'zi ahamiyatsiz edi.
+# Haqiqiy tuzatish: onnxruntime-gpu (torch bilan bir xil CUDA 12.x qatori)
+# + cuDNN 9.x/cuBLAS/cuda_nvrtc DLL'lari pip paketlari orqali (bular
+# face_arc.py._register_cuda_dll_dirs() PATH ga qo'shadigan aynan shu
+# papkalar). Tekshirildi: real `!NeuroKey.bat` ishga tushirilganda barcha
+# 5 ta InsightFace ONNX modeli endi "Applied providers:
+# ['CUDAExecutionProvider', 'CPUExecutionProvider']" deb log qiladi.
+onnxruntime-gpu==1.23.2
+nvidia-cudnn-cu12
+nvidia-cublas-cu12
+nvidia-cuda-nvrtc-cu12
+speechbrain
+# Mikrofon + HUD audio (ZARUR)
+pyaudiowpatch
+# Telegram/yordamchi
+six
+rsa
+# PDF (hisobot)
+pypdf
+fpdf2

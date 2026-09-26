@@ -1,0 +1,96 @@
+# ─── MAXFIY — HECH QACHON COMMIT QILINMASIN ──────────────────────────────────
+.env
+.env.local
+*.key
+*.pem
+credentials.json
+token.json
+client_secret*.json
+*_secret*.json
+
+# ─── KATTA BINAR / MODEL FAYLLAR ─────────────────────────────────────────────
+blobs/
+models/
+assets/*.vrm
+*.onnx
+*.onnx.json
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+
+# ─── MEDIA ───────────────────────────────────────────────────────────────────
+*.mp4
+*.avi
+*.mov
+*.wav
+*.mp3
+*.ogg
+*.flac
+orb_red_blender_frames/
+
+# ─── ARXIV / ZIP ─────────────────────────────────────────────────────────────
+*.zip
+*.7z
+*.tar
+*.tar.gz
+_archive/
+
+# ─── PYTHON ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ─── KESH VA LOG ─────────────────────────────────────────────────────────────
+.cache/
+.torch-cache/
+__pyphi_cache__/
+demo_cache/
+neurokey_logs/
+logs/
+*.log
+
+# ─── ISHLASH DAVOMIDA O'ZGARADIGAN HOLAT ─────────────────────────────────────
+# Kod emas — tizim ishlagan sari o'zgaradigan ma'lumot.
+# Zaxira kerak bo'lsa alohida usulda saqlang.
+data/
+memory/
+*.db
+*.sqlite
+*.sqlite3
+memory.json
+conversation.json
+neurokey_state.json
+plan_today.json
+used_topics.json
+tagged_history.json
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Generatsiya qilingan kadr/preview rasmlar
+preview_h-*.png
+test_v6_*.png
+jarvis_frame_*.jpg
+data/knowledge_index/
+
+# ─── GENERATSIYA QILINADIGAN — COMMIT QILINMAYDI ─────────────────────────────
+# installer/staging/ — build_staging.py ildizdagi fayllarni NUSXALAB yasaydi.
+# Git da saqlash = har bir faylning 2 nusxasi va tuzatish 2 joyda kerak.
+installer/staging/
+installer/output/
+
+# cleanup_unused.py ishlatilmaydigan fayllarni shu papkaga ko'chiradi
+_arxiv/
+
+# Hech kim import qilmaydigan kod. MVP (juma ildizi) da qolmaydi.
+_ishlamaydi/

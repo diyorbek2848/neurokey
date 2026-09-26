@@ -1,0 +1,26 @@
+torch==2.3.0
+torchaudio==2.3.0
+numpy
+pillow
+opencv-python
+mss
+pytesseract
+pyautogui
+pyperclip
+rapidfuzz
+langdetect
+readability-lxml
+requests
+psutil
+pywin32
+pygetwindow
+imageio-ffmpeg
+pydub
+# simpleaudio — C++ Build Tools talab qiladi, boshqa kompda o'rnatilmaydi; asosiy TTS (OpenAI/edge-tts) ishlaydi
+telethon
+sounddevice
+vosk
+openai
+python-dotenv
+edge-tts
+python-pptx
