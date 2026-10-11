@@ -814,6 +814,8 @@
       <a href="future.html" style="color:var(--cyan); font-weight:700;">✨ Vision Edition</a>
     </div>
     <div class="nav-right">
+      <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck (PDF)">📄 Pitch (UZ)</a>
+      <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf" title="English Pitch Deck (PDF)">📄 Pitch (EN)</a>
       <div class="lang-switch" role="group" aria-label="Til tanlash">
         <button class="lang-btn" data-lang="uz" aria-pressed="true">UZ</button>
         <button class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
@@ -834,6 +836,12 @@
         <p data-i18n="hero_desc">
           NeuroKey — eshitadi, ko'radi, eslaydi va harakat qiladi. Quyida tizimning real vaqtda ovozli buyruqlarni qabul qilishi, ekranni ko'rishi, kognitiv xotiradan foydalanishi va kompyuterni boshqarishi namoyish etilgan.
         </p>
+        <div style="display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; align-items:center;">
+          <a class="btn btn-outline btn-sm" href="index.html">← Barcha Bo'limlar & Taqdimot</a>
+          <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf">📄 Pitch Deck (UZ)</a>
+          <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf">📄 Pitch Deck (EN)</a>
+          <button type="button" class="btn btn-outline btn-sm" onclick="copySiteLink()">🔗 Havolani nusxalash</button>
+        </div>
       </div>
     </div>
   </section>
@@ -1340,7 +1348,17 @@
     btn.addEventListener('click', function(){
       currentLang = btn.getAttribute('data-lang');
       try { localStorage.setItem('nk-lang', currentLang); } catch(e){}
-      applyLang();
+      
+  window.copySiteLink = function(){
+    var url = "https://diyorbek2848.github.io/neurokey/";
+    navigator.clipboard.writeText(url).then(function(){
+      alert("✅ NeuroKey rasmiy havolasi nusxalandi:\n\n" + url + "\n\nEndi barcha bilan bemalol ulashishingiz mumkin!");
+    }).catch(function(){
+      prompt("Havolani nusxalab oling:", url);
+    });
+  };
+
+  applyLang();
     });
   });
 

@@ -241,6 +241,86 @@
     }
     .btn-sm { padding: 8px 16px; font-size: 13px; }
 
+    /* Pitch Deck Styling */
+    .btn-pitch {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(0, 245, 255, 0.15));
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #e9d5ff;
+      font-weight: 700;
+    }
+    .btn-pitch:hover {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(0, 245, 255, 0.28));
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
+      transform: translateY(-2px);
+    }
+    .share-link-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 10px 18px;
+      background: rgba(3, 7, 20, 0.85);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--ink-2);
+      backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+    }
+    .share-link-bar b { color: var(--cyan); }
+    .share-link-bar button {
+      background: rgba(0, 245, 255, 0.15);
+      border: 1px solid rgba(0, 245, 255, 0.4);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .share-link-bar button:hover {
+      background: var(--cyan);
+      color: #020617;
+      box-shadow: 0 0 14px var(--cyan);
+    }
+    .pitch-deck-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .pitch-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      background: linear-gradient(180deg, rgba(13, 21, 45, 0.8), rgba(7, 13, 30, 0.95));
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      position: relative;
+    }
+    .pitch-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 14px 40px rgba(0, 245, 255, 0.15);
+    }
+    .pitch-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #d8b4fe;
+      width: fit-content;
+    }
+
+
     /* Sections */
     main { position: relative; z-index: 1; }
     section { padding-block: 84px; }
@@ -1998,11 +2078,14 @@
       <a href="demo.html" class="active-demo" data-i18n="nav_demo">▶ Demo (/demo)</a>
       <a href="#chatbot" data-i18n="nav_chatbot">AI Chatbot</a>
       <a href="#api-access" data-i18n="nav_api">API Kirish</a>
+      <a href="#pitch-deck" style="color:#d8b4fe; font-weight:700;">📄 Pitch Deck (PDF)</a>
       <a href="#isbot" data-i18n="nav_traction">Bozor</a>
       <a href="#investitsiya" data-i18n="nav_pricing">Tariflar</a>
       <a href="future.html" style="color:var(--cyan); font-weight:700;">✨ Vision Edition</a>
     </div>
     <div class="nav-right">
+      <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck (PDF)">📄 Pitch (UZ)</a>
+      <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf" title="English Pitch Deck (PDF)">📄 Pitch (EN)</a>
       <div class="lang-switch" role="group" aria-label="Til tanlash">
         <button class="lang-btn" data-lang="uz" aria-pressed="true">UZ</button>
         <button class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
@@ -2032,8 +2115,14 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="demo.html" data-i18n="cta_demo">▶ Jonli Demoni Ko'rish (/demo)</a>
-            <a class="btn btn-outline" href="#royxat" data-i18n="cta_waitlist">Kutish ro'yxatiga yozilish</a>
-            <a class="btn btn-outline" href="#investitsiya" data-i18n="cta_preseed">$50,000 Pre-seed Bosqichi</a>
+            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck taqdimotini ochish yoki yuklab olish">📄 O'zbekcha Pitch (PDF)</a>
+            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf" title="Download Official English Pitch Deck Presentation">📄 English Pitch (PDF)</a>
+            <a class="btn btn-outline" href="#investitsiya" data-i18n="cta_preseed">$50,000 Pre-seed</a>
+          </div>
+          <div class="share-link-bar">
+            <span>🌐 Rasmiy havola: <b>https://diyorbek2848.github.io/neurokey/</b></span>
+            <button type="button" onclick="copySiteLink()">📋 Havolani nusxalash</button>
+            <span style="font-size:11px; color:var(--cyan);">● Hamma bemalol kira oladi</span>
           </div>
           <div class="hero-stats-row">
             <div class="hero-stat">
@@ -2107,6 +2196,58 @@
           </div>
           <div class="console-msg" id="console-output">
             "Salom! Men NeuroKey — shaxsiy sun'iy intellektingizman. Ekranni ko'rishga, doimiy xotiramdagi faktlarni eslashga va kompyuteringizda buyruqlarni bajarishga tayyorman."
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- PITCH DECK SHOWCASE (O'ZBEK VA INGLIZ TILLARIDA) -->
+  <section id="pitch-deck" style="padding-top:40px; padding-bottom:40px; border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="head" style="margin-bottom:24px;">
+        <div class="eyebrow">Pitch Day 3.0 · Rasmiy Taqdimot Fayllari</div>
+        <h2>NeuroKey Pitch Deck (O'zbekcha va Inglizcha)</h2>
+        <p>
+          Hakamlar hay'ati, investorlar va mehmonlar uchun NeuroKey loyihasining to'liq 12 sahifali rasmiy taqdimoti. Muammo, yechim, 50 kognitiv modul, arxitektura, bozor tahlili (TAM $21.1B) va $50,000 pre-seed rejalari bilan tanishing:
+        </p>
+      </div>
+
+      <div class="pitch-deck-grid">
+        <!-- Uzbek Pitch Deck -->
+        <div class="glass-card pitch-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span class="pitch-card-badge">🇺🇿 O'zbek tili · 12 Slayd</span>
+              <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">2.56 MB PDF</span>
+            </div>
+            <h3 style="font-size:22px; color:#fff; margin-bottom:8px;">NeuroKey Pitch Deck (O'zbekcha)</h3>
+            <p style="font-size:14px; color:var(--ink-2); line-height:1.55;">
+              Pitch Day 3.0 uchun tayyorlangan rasmiy to'liq taqdimot. Muammo-yechim, xotira grafigi, ekranni ko'rish, 5 ta B2C tarif ($21–$84), B2B reja va moliyaviy hisob-kitoblar.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+            <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank">👁️ Brauzerda Ochish</a>
+            <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" download="NeuroKey_Pitch_Deck_UZ.pdf">⬇️ Yuklab Olish (PDF)</a>
+          </div>
+        </div>
+
+        <!-- English Pitch Deck -->
+        <div class="glass-card pitch-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span class="pitch-card-badge" style="background:rgba(0,245,255,0.15); border-color:var(--cyan); color:var(--cyan);">🇬🇧 English Edition · 12 Slides</span>
+              <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">2.55 MB PDF</span>
+            </div>
+            <h3 style="font-size:22px; color:#fff; margin-bottom:8px;">NeuroKey Pitch Deck (English)</h3>
+            <p style="font-size:14px; color:var(--ink-2); line-height:1.55;">
+              Official English presentation for global partners and judges. Covers cognitive architecture, On-Device privacy, TAM $21.1B / SOM $415K, founders' background, and $50K pre-seed roadmap.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+            <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank">👁️ View Presentation</a>
+            <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" download="NeuroKey_Pitch_Deck_EN.pdf">⬇️ Download PDF</a>
           </div>
         </div>
       </div>
@@ -2948,11 +3089,13 @@
       <div class="chatbot-card">
         <!-- Preset Quick Prompts -->
         <div class="chat-presets">
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(0)">💬 «Kecha hisobotni topib och»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(1)">💬 «Ekranni ko'rib xatolikni tushuntir»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(2)">💬 «Telefondan kompyuterga qanday ulanadi?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(3)">💬 «Zero-Cloud va Maxfiylik qanday ishlaydi?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(4)">💬 «Tariflar va narxlar qanday tuzilgan?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(0)">👥 «Jamoa va asoschilar kimlar?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(1)">⚡ «ChatGPT yoki Siri dan nimasi bilan ustun?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(2)">📱 «Telefondan kompyuterni qanday boshqaradi?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(3)">💰 «Tariflar ($21–$84) va B2B narxlari qanday?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(4)">📄 «Pitch Deck (UZ va EN) taqdimotini yuklab olish»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(5)">🔒 «Zero-Cloud va Maxfiylik qanday ishlaydi?»</button>
+          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(6)">📈 «Investitsiya ($50K Pre-seed) va Bozor (TAM $21.1B)»</button>
         </div>
 
         <!-- Chat Conversation Log -->
@@ -4193,32 +4336,42 @@ result = client.agent.execute(
   updatePhoneClock();
   setInterval(updatePhoneClock, 30000);
 
-  // INTERACTIVE AI CHATBOT PRESETS & HANDLERS
+// INTERACTIVE AI CHATBOT PRESETS & HANDLERS
   var CHAT_PRESETS = [
     {
-      q: "Kecha hisobotni topib och",
-      a: "Bajarildi! Fayl tizimi tekshirildi: Kechagi hisobot (Haftalik_Tahlil_2026.xlsx) topildi va ekranda ochildi.",
-      meta: "[AGENT ACTION]: Excel ilovasi ochildi ✓ · 320ms"
+      q: "Jamoa va asoschilar kimlar?",
+      a: "NeuroKey jamoasi: <b>Diyorbek Sobirjonov</b> (Founder & CEO, Core AI Architect — 50 modul muallifi, FoundersCamp bitiruvchisi) va <b>Elbek Azimjonov</b> (Co-founder — 5+ yillik dasturiy muhandislik tajribasi). Pre-seed mablag'i 2 asoschi va 1 dasturchi maoshi ($1,456/oy) uchun ajratilgan. Aloqa: Telegram @Neuro_Key va @RealFoundr.",
+      meta: "[JAMOA]: FoundersCamp · 50 Kognitiv Modul Mualliflari ✓"
     },
     {
-      q: "Ekranni ko'rib xatolikni tushuntir",
-      a: "Ekraningizdagi VS Code va brauzer oynasi tahlil qilindi: Python kodingizda 42-qatordagi o'zgaruvchi nomi noto'g'ri chaqirilgan. To'g'ri variant: `local_enclave=True`.",
-      meta: "[SCREEN VISION]: VLM OCR skanerlandi · 1 xato aniqlandi ✓ · 640ms"
+      q: "ChatGPT yoki Siri dan nimasi bilan ustun?",
+      a: "Oddiy chat-botlar (ChatGPT, Copilot, Siri) sizni har safar unutadi va kompyuterda real ish qilmaydi. NeuroKey 4 ta tub ustunlikka ega:<br>1) <b>Doimiy xotira (Memory Graph)</b> — barcha suhbatlar va odatlaringizni doim eslaydi;<br>2) <b>Ekranni ko'radi va OS'ni avtonom boshqaradi</b> — fayllar, dasturlar va sichqoncha bilan ishlaydi;<br>3) <b>Mahalliy jonli ovoz</b> (&lt;800ms) — o'zbek va rus tilida insondek so'zlashadi;<br>4) <b>Zero-Cloud</b> — ma'lumotlar o'z kompyuteringizda qoladi ($0 server sarfi).",
+      meta: "[USTUNLIK]: Doimiy Xotira · Ekran Multimodal VLM · OS Automation ✓"
     },
     {
-      q: "Telefondan kompyuterga qanday ulanadi?",
-      a: "Siz Telegram boti yoki NeuroKey mobil ilovasi orqali kompyuteringiz bilan P2P shifrlangan kanal orqali bog'lanasiz. Ovozli xabar yoki buyruq yuborsangiz, ofisdagi kompyuter avtonom tarzda vazifani bajaradi va natijani telefonga qaytaradi.",
-      meta: "[MOBILE BRIDGE]: P2P Encrypted Relay faol ✓"
+      q: "Telefondan kompyuterni qanday boshqaradi?",
+      a: "Telefondan kompyuterni boshqarish 2 xil qulay usulda ishlaydi:<br>1) <b>Telegram boti</b> orqali ovozli xabar yo'llaysiz ('Ofisdagi hisobotni PDF qilib mijozga yubor'), kompyuter avtonom bajaradi;<br>2) <b>Mobil LAN/Wi-Fi ilovasi</b> orqali to'g'ridan-to'g'ri P2P shifrlangan kanal ochiladi. Begona bulut shart emas!",
+      meta: "[ULANISH]: Telegram Relay & Local Wi-Fi Bridge ✓"
+    },
+    {
+      q: "Tariflar ($21–$84) va B2B narxlari qanday?",
+      a: "<b>B2C (Shaxsiy) tariflar:</b><br>• Start: <b>$21/oy</b> (8GB lokal model, $0 server);<br>• Pro: <b>$42/oy</b> (Kuchli lokal model, xotira grafigi, $0 server);<br>• Max: <b>$55/oy</b> (GPU server, 1200 vazifa);<br>• Ultra: <b>$84/oy</b> (GPU server, 3000 vazifa);<br>• Optimal yo'l: <b>+$17</b> (Smart-fix).<br><b>B2B korxonalar:</b> $50–150 (kichik) va $200–500 (o'rta). O'rtacha oylik tushum: <b>$34.57/oy</b>.",
+      meta: "[MOLIYA]: ARPU $34.57 · Break-even ~90 to'lovchi ✓"
+    },
+    {
+      q: "Pitch Deck (UZ va EN) taqdimotini yuklab olish",
+      a: "NeuroKey rasmiy Pitch Day 3.0 taqdimoti (12 slayd) 2 tilda yuklab olish uchun tayyor:<br>📄 <b>O'zbekcha Pitch Deck:</b> <a href='NeuroKey_Pitch_Deck_UZ.pdf' target='_blank' download='NeuroKey_Pitch_Deck_UZ.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_UZ.pdf (2.56 MB)</a><br>📄 <b>English Pitch Deck:</b> <a href='NeuroKey_Pitch_Deck_EN.pdf' target='_blank' download='NeuroKey_Pitch_Deck_EN.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_EN.pdf (2.55 MB)</a>",
+      meta: "[HUJJAT]: 12 slayd · Pitch Day 3.0 Rasmiy Taqdimot ✓"
     },
     {
       q: "Zero-Cloud va Maxfiylik qanday ishlaydi?",
-      a: "Start va Pro tariflarida barcha kognitiv modellar (ovoz, ko'rish, xotira) foydalanuvchining o'z kompyuterida (8GB+ RAM) 100% lokal ishlaydi. Ma'lumot hech qachon begona serverga chiqmaydi. Max/Ultra'da esa shaxsiy shifrlangan xona yaratiladi, kalit faqat sizda bo'ladi.",
-      meta: "[PRIVACY]: On-Device Enclave · Zero-Cloud ✓"
+      a: "Mutlaq xavfsizlik: Start va Pro tariflarida barcha hisob-kitoblar (ovoz, ko'rish, xotira) foydalanuvchining o'z kompyuterida <b>100% On-Device</b> kechadi ($0 server sarfi). Hech qanday ma'lumot begona bulutlarga chiqmaydi. Max va Ultra tariflarida esa ma'lumotlar faqat sizga tegishli Zero-Knowledge Enclave'da AES-256 bilan shifrlanadi.",
+      meta: "[MAXFIYLIK]: Zero-Knowledge On-Device Enclave ✓"
     },
     {
-      q: "Tariflar va narxlar qanday tuzilgan?",
-      a: "B2C uchun 5 ta tarif mavjud: Start ($21/oy - 8GB lokal), Pro ($42/oy - kuchli lokal model), Max ($55/oy - GPU server, 1200 vazifa), Ultra ($84/oy - 3000 vazifa) va Optimal yo'l (+$17 Smart fix). B2B uchun korxonalar tarifi $50–150 (kichik) va $200–500 (o'rta).",
-      meta: "[FINANCE]: O'rtacha $34.57/oy · Break-even ~90 to'lovchi ✓"
+      q: "Investitsiya ($50K Pre-seed) va Bozor (TAM $21.1B)",
+      a: "<b>Investitsiya:</b> Pre-seed bosqichida $50,000 jalb qilinmoqda. Runway — 14 oy. Zararsizlikka (break-even) atigi ~90–100 to'lovchida erishiladi.<br><b>Bozor tahlili:</b><br>• TAM: $21.1 Milliard (Global shaxsiy AI bozori);<br>• SAM: $52.6 Million (MDH va Markaziy Osiyo mutaxassislari);<br>• SOM: $415,000 (Dastlabki 1 000+ to'lovchilar).",
+      meta: "[PRE-SEED & BOZOR]: $50K · TAM $21.1B · SOM $415K ✓"
     }
   ];
 
@@ -4242,23 +4395,92 @@ result = client.agent.execute(
     setTimeout(function(){
       var low = val.toLowerCase();
       var reply = "";
-      var meta = "[COGNITIVE AGENT]: 800ms kechikish bilan qayta ishlandi ✓";
-      if(low.includes('narx') || low.includes('tarif') || low.includes('dollar') || low.includes('pul') || low.includes('obuna')){
-        reply = "NeuroKey 5 ta qulay tarifga ega: Start ($21/oy), Pro ($42/oy), Max ($55/oy), Ultra ($84/oy) va Optimal yo'l (+$17). B2B korxonalar tarifi $50 dan boshlanadi.";
-      } else if(low.includes('telefon') || low.includes('mobil') || low.includes('telegram')){
-        reply = "Telefondan turib kompyuterni boshqarish juda oson: Telegram bot yoki mobil ilovamiz orqali ovozli xabar yo'llaysiz, kompyuteringiz avtonom harakat qilib hisobot yoki faylni tayyorlaydi.";
-      } else if(low.includes('maxfiy') || low.includes('xavfsiz') || low.includes('server') || low.includes('qayerda')){
-        reply = "Mutlaq xavfsizlik: Start va Pro tariflarida sizning barcha ma'lumotlaringiz kompyuteringizning o'zida qoladi, begona bulutlarga chiqmaydi.";
-      } else if(low.includes('demo') || low.includes('video')){
-        reply = "Saytimizdagi '/demo' bo'limida 16:9 formatdagi jonli demo-videoni tomosha qilishingiz mumkin. Unda ovoz, ekran ko'rish va avtonom boshqaruv amalda ko'rsatilgan.";
-      } else {
-        reply = "Buyrug'ingiz qabul qilindi: «" + val + "». NeuroKey kognitiv moduli ushbu so'rovni tahlil qilib, tegishli operatsion tizim harakatini avtonom bajara oladi!";
+      var meta = "[COGNITIVE AGENT]: 780ms kechikish bilan qayta ishlandi ✓";
+
+      // 1. Team & Founders
+      if(low.includes('jamoa') || low.includes('team') || low.includes('asoschi') || low.includes('diyorbek') || low.includes('elbek') || low.includes('sobirjonov') || low.includes('azimjonov') || low.includes('kim yaratgan') || low.includes('founders') || low.includes('кто создал')){
+        reply = "NeuroKey jamoasi: <b>Diyorbek Sobirjonov</b> (Founder & CEO, Core AI Architect — 50 modul muallifi, FoundersCamp bitiruvchisi) va <b>Elbek Azimjonov</b> (Co-founder — 5+ yillik muhandislik tajribasi). Jamoamiz 2 asoschi va 1 dasturchi ($1,456/oy) rejasida ish olib bormoqda. Bog'lanish: Telegram @Neuro_Key va @RealFoundr.";
+        meta = "[JAMOA]: FoundersCamp · 50 Kognitiv Modul Mualliflari ✓";
+      }
+      // 2. Pitch Decks
+      else if(low.includes('pich') || low.includes('pitch') || low.includes('deck') || low.includes('taqdimot') || low.includes('slayd') || low.includes('pdf') || low.includes('hujjat') || low.includes('презентаци')){
+        reply = "NeuroKey Pitch Day 3.0 taqdimoti (12 slayd) 2 tilda tayyorlangan:<br>📄 <b>O'zbekcha:</b> <a href='NeuroKey_Pitch_Deck_UZ.pdf' target='_blank' download='NeuroKey_Pitch_Deck_UZ.pdf' style='color:var(--cyan); text-decoration:underline;'>NeuroKey_Pitch_Deck_UZ.pdf (2.56 MB)</a><br>📄 <b>English:</b> <a href='NeuroKey_Pitch_Deck_EN.pdf' target='_blank' download='NeuroKey_Pitch_Deck_EN.pdf' style='color:var(--cyan); text-decoration:underline;'>NeuroKey_Pitch_Deck_EN.pdf (2.55 MB)</a><br>Unda muammo, yechim, bozor, tariflar va $50,000 investitsiya rejasi to'liq ko'rsatilgan.";
+        meta = "[HUJJAT]: 12 slayd · Pitch Day 3.0 Rasmiy Taqdimot ✓";
+      }
+      // 3. Difference / Competitors
+      else if(low.includes('farq') || low.includes('chatgpt') || low.includes('siri') || low.includes('copilot') || low.includes('muammo') || low.includes('yechim') || low.includes('ustun') || low.includes('отличие') || low.includes('почему')){
+        reply = "NeuroKey ChatGPT, Copilot va Siridan 4 ta asosiy jihati bilan tubdan farq qiladi:<br>1) <b>Doimiy Xotira (Memory Graph)</b> — suhbatlar va shaxsiy kontekstni unutmadi;<br>2) <b>Ekranni ko'radi va OS'ni boshqaradi</b> — klaviatura, sichqoncha va ilovalar bilan avtonom ishlaydi;<br>3) <b>O'zbek/rus tilida tezkor ovoz</b> (&lt;800ms);<br>4) <b>Zero-Cloud On-Device</b> — ma'lumotlar o'z kompyuteringizda qoladi ($0 server sarfi).";
+        meta = "[USTUNLIK]: Doimiy Xotira · Ekran Multimodal VLM · OS Automation ✓";
+      }
+      // 4. Remote PC & Mobile / Telegram
+      else if(low.includes('telefon') || low.includes('mobil') || low.includes('telegram') || low.includes('ulanish') || low.includes('masofadan') || low.includes('lan') || low.includes('телефон') || low.includes('управлен')){
+        reply = "Telefondan kompyuterni boshqarish juda oson:<br>• <b>Telegram boti:</b> Ovozli xabar yo'llaysiz ('Ofisdagi hisobotni PDF qilib jo'nat'), kompyuteringiz avtonom bajaradi va natijani qaytaradi;<br>• <b>Lokal Wi-Fi LAN:</b> Bitta tarmoqda P2P shifrlangan kanal orqali hech qanday tashqi serversiz to'g'ridan-to'g'ri bog'lanadi.";
+        meta = "[ULANISH]: Telegram Relay & Local Wi-Fi Bridge ✓";
+      }
+      // 5. Pricing & Plans
+      else if(low.includes('narx') || low.includes('tarif') || low.includes('dollar') || low.includes('pul') || low.includes('obuna') || low.includes('b2c') || low.includes('b2b') || low.includes('цена') || low.includes('тариф') || low.includes('стоимост')){
+        reply = "<b>B2C Tariflar:</b> Start ($21/oy — 8GB lokal), Pro ($42/oy — kuchli lokal model), Max ($55/oy — GPU server, 1200 vazifa), Ultra ($84/oy — 3000 vazifa), Optimal yo'l (+$17 Smart-fix).<br><b>B2B Tariflar:</b> Kichik korxonalar $50–150/oy, O'rta korxonalar $200–500/oy. O'rtacha oylik tushum: $34.57/oy.";
+        meta = "[MOLIYA]: ARPU $34.57 · Break-even ~90 to'lovchi ✓";
+      }
+      // 6. Investment & Pre-seed
+      else if(low.includes('invest') || low.includes('preseed') || low.includes('pre-seed') || low.includes('50') || low.includes('mablag') || low.includes('runway') || low.includes('break-even') || low.includes('zararsiz') || low.includes('инвестиц')){
+        reply = "<b>Pre-seed bosqichi:</b> $50,000 investitsiya jalb qilinmoqda. 14 oylik runway. Mablag' 2 asoschi va 1 dasturchi maoshi ($1,456/oy), GPU server va B2B sinovlarga sarflanadi. Zararsizlikka (break-even) ~90–100 to'lovchida erishiladi.";
+        meta = "[PRE-SEED]: $50,000 · 14 oy runway · Break-even 90-100 foydalanuvchi ✓";
+      }
+      // 7. Market TAM/SAM/SOM
+      else if(low.includes('tam') || low.includes('sam') || low.includes('som') || low.includes('bozor') || low.includes('рынок')){
+        reply = "Bozor tahlili (Pitch Deck 6-sahifa):<br>• <b>TAM:</b> $21.1 Milliard (Global shaxsiy AI yordamchilari bozori);<br>• <b>SAM:</b> $52.6 Million (MDH va Markaziy Osiyo mutaxassislari);<br>• <b>SOM:</b> $415,000 (Dastlabki 1 000+ to'lovchilar).";
+        meta = "[BOZOR]: TAM $21.1B · SAM 52.6M · SOM $415K ✓";
+      }
+      // 8. Privacy & Zero-Cloud
+      else if(low.includes('maxfiy') || low.includes('xavfsiz') || low.includes('zero') || low.includes('server') || low.includes('qayerda') || low.includes('безопасн') || low.includes('приватн')){
+        reply = "<b>100% Lokal Maxfiylik:</b> Start va Pro tariflarida butun intellektual jarayon o'z kompyuteringizda kechadi ($0 server sarfi). Hech narsa begona serverga bormaydi. Max/Ultra'da esa faqat sizning shaxsiy Zero-Knowledge Enclave konteyneringizda ishlaydi.";
+        meta = "[MAXFIYLIK]: Zero-Knowledge On-Device Enclave ✓";
+      }
+      // 9. Hardware & System Requirements
+      else if(low.includes('ram') || low.includes('kompyuter') || low.includes('noutbuk') || low.includes('talab') || low.includes('gpu') || low.includes('железо') || low.includes('требован')){
+        reply = "<b>Tizim talablari:</b><br>• Minimal: 8 GB RAM, 4 yadroli CPU (Start tarifi uchun yetarli, 4-bit kvantlash);<br>• Tavsiya: 16 GB RAM yoki 6–8 GB VRAM GPU;<br>• Server rejimi (Max/Ultra): Har qanday zaif kompyuterda ham ishlaydi, chunki hisoblash serverda bajariladi.";
+        meta = "[HARDWARE]: 8GB RAM minimal · On-Device tejamkor arxitektura ✓";
+      }
+      // 10. Demo & Video
+      else if(low.includes('demo') || low.includes('video') || low.includes('prototip') || low.includes('silka') || low.includes('havola') || low.includes('link') || low.includes('демо') || low.includes('видео')){
+        reply = "Jonli demo-video va ishlayotgan prototip saytimizning <a href='demo.html' style='color:var(--cyan); font-weight:700;'>/demo sahifasida</a> mavjud. Video 16:9 formatda saytning o'zida bevosita ijro etiladi. Hozirda telefon orqali kompyuterni boshqarish bo'yicha katta yangilanish qilingan va MVP darajasiga chiqilgan.";
+        meta = "[DEMO]: /demo sahifasida jonli video va sandbox ✓";
+      }
+      // 11. Language / O'zbek tili
+      else if(low.includes('til') || low.includes('o\'zbek') || low.includes('uzb') || low.includes('rus') || low.includes('ingliz') || low.includes('язык')){
+        reply = "NeuroKey o'zbek, rus, ingliz va 100+ tilda tabiiy so'zlashadi. Mahalliy sleng, aralash gaplar va professional atamalarni aniq tushunish bo'yicha Whisper VAD modeli maxsus nozik sozlangan (fine-tuned). Kechikish &lt;800ms.";
+        meta = "[TILLAR]: O'zbek tili, Rus tili, Ingliz tili va 100+ til ✓";
+      }
+      // 12. API & SDK
+      else if(low.includes('api') || low.includes('sdk') || low.includes('curl') || low.includes('python') || low.includes('node') || low.includes('token')){
+        reply = "NeuroKey API: Saytimizdagi #api-access bo'limida jonli test token <code>nk_live_2026_preseed_test_token</code> bilan sinashingiz mumkin. POST /v1/agent/execute va WSS /v1/voice/stream endpointlari tayyor. Python va Node.js kutubxonalari mavjud.";
+        meta = "[API ACCESS]: v1.4 REST & WebSocket Streaming ✓";
+      }
+      // 13. Greeting
+      else if(low.includes('salom') || low.includes('assalom') || low.includes('hello') || low.includes('hi') || low.includes('privet') || low.includes('привет')){
+        reply = "Assalomu alaykum! Men NeuroKey shaxsiy kognitiv yordamchisiman. Ovozli buyruqlar, ekranni ko'rish, xotira grafigi va kompyuterni boshqarish bo'yicha to'liq xizmatingizdaman. Savolingizni bering: jamoamiz, tariflar ($21–$84), Pitch Deck (PDF) yoki mobil ulanish haqida batafsil javob beraman!";
+        meta = "[STATUS]: 50 Modul Faol · Ovoz va Matn Rejimi ✓";
+      }
+      // Fallback
+      else {
+        reply = "So'rovingiz qabul qilindi: «<b>" + val + "</b>». NeuroKey kognitiv arxitekturasi (Ovoz, Ekran VLM, Xotira grafigi va OS Automation) ushbu vazifani kompyuteringizda avtonom bajara oladi. Savolingiz bormi? Jamoa, tariflar ($21–$84), Pitch Deck (PDF) yoki mobil ulanish haqida so'rashingiz mumkin!";
       }
       appendChatBubble(reply, 'agent', meta);
     }, 450);
   };
 
-  function appendChatBubble(text, sender, metaText){
+  // 1-Click Copy Site Link
+  window.copySiteLink = function(){
+    var url = "https://diyorbek2848.github.io/neurokey/";
+    navigator.clipboard.writeText(url).then(function(){
+      alert("✅ NeuroKey rasmiy havolasi nusxalandi:\n\n" + url + "\n\nEndi barcha bilan bemalol ulashishingiz mumkin!");
+    }).catch(function(){
+      prompt("Havolani nusxalab oling:", url);
+    });
+  };
+
+    function appendChatBubble(text, sender, metaText){
     var box = document.getElementById('chatbot-log');
     if(!box) return;
     var b = document.createElement('div');
