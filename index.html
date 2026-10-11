@@ -2365,6 +2365,559 @@
       }
     }
 
+  
+    /* =========================================================================
+       MINIMAL PRESENTATION SLIDE NAVIGATOR & AI CHATBOT
+       ========================================================================= */
+    .pitch-deck-navigator {
+      padding-block: 48px;
+      position: relative;
+    }
+    .slide-chips-tray {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .slide-chip-btn {
+      background: rgba(13, 21, 45, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #fff;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-chip-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 245, 255, 0.15);
+    }
+    .slide-chip-btn.active {
+      border-color: var(--cyan);
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.18), rgba(99, 102, 241, 0.18));
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.35);
+    }
+    .slide-chip-icon {
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .slide-chip-text b {
+      display: block;
+      font-size: 14.5px;
+      color: #fff;
+      font-family: var(--font-display);
+      letter-spacing: 0.2px;
+    }
+    .slide-chip-text span {
+      display: block;
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 2px;
+    }
+
+    /* Active Slide Viewer Box */
+    .active-slide-window {
+      background: linear-gradient(180deg, rgba(13, 21, 45, 0.95), rgba(7, 13, 30, 0.98));
+      border: 1.5px solid rgba(0, 245, 255, 0.4);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 245, 255, 0.15);
+      position: relative;
+      min-height: 420px;
+    }
+    .slide-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .slide-tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.12);
+      border: 1px solid rgba(0, 245, 255, 0.35);
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+    .slide-ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-nav-arrow {
+      background: rgba(13, 21, 45, 0.9);
+      border: 1px solid var(--line-2);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slide-nav-arrow:hover {
+      border-color: var(--cyan);
+      background: var(--cyan);
+      color: #020617;
+      box-shadow: 0 0 14px var(--cyan);
+    }
+    .slide-content-area {
+      animation: slideFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .pitch-deck-navigator { padding-block: 28px !important; }
+      .slide-chips-tray { grid-template-columns: 1fr !important; gap: 8px !important; }
+      .slide-chip-btn { padding: 12px 14px !important; }
+      .active-slide-window { padding: 18px !important; border-radius: 16px !important; min-height: 320px !important; }
+      .slide-top-bar { padding-bottom: 12px !important; margin-bottom: 16px !important; }
+    }
+
+  
+  /* =========================================================================
+     INTERACTIVE SLIDE DECK & AI CHATBOT CENTER STYLES
+     ========================================================================= */
+  .pitch-deck-navigator {
+    padding-block: 64px;
+    position: relative;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: radial-gradient(circle at 50% 0%, rgba(0, 245, 255, 0.05), transparent 70%);
+  }
+
+  .slide-chips-tray {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 1100px) {
+    .slide-chips-tray {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .slide-chips-tray {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  .slide-chip-btn {
+    background: rgba(13, 21, 45, 0.75);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-chip-btn:hover {
+    border-color: var(--cyan);
+    background: rgba(0, 245, 255, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 245, 255, 0.15);
+  }
+
+  .slide-chip-btn.active {
+    border-color: var(--cyan);
+    background: linear-gradient(135deg, rgba(0, 245, 255, 0.18), rgba(99, 102, 241, 0.18));
+    box-shadow: 0 0 25px rgba(0, 245, 255, 0.35);
+  }
+
+  .slide-chip-btn.active::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+  }
+
+  .slide-chip-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .slide-chip-text b {
+    display: block;
+    font-size: 14px;
+    color: #fff;
+    font-family: var(--font-display);
+    letter-spacing: 0.2px;
+  }
+
+  .slide-chip-text span {
+    display: block;
+    font-size: 11.5px;
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  /* Active Slide Viewer Box */
+  .active-slide-window {
+    background: linear-gradient(180deg, rgba(13, 21, 45, 0.95), rgba(7, 13, 30, 0.98));
+    border: 1.5px solid rgba(0, 245, 255, 0.4);
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 245, 255, 0.15);
+    position: relative;
+    min-height: 420px;
+    margin-bottom: 28px;
+  }
+
+  .slide-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .slide-tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--cyan);
+    background: rgba(0, 245, 255, 0.12);
+    border: 1px solid rgba(0, 245, 255, 0.35);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .slide-ctrl-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .slide-nav-arrow {
+    background: rgba(13, 21, 45, 0.9);
+    border: 1px solid var(--line-2);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .slide-nav-arrow:hover {
+    border-color: var(--cyan);
+    background: var(--cyan);
+    color: #020617;
+    box-shadow: 0 0 14px var(--cyan);
+  }
+
+  .slide-counter-badge {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    padding: 4px 10px;
+  }
+
+  /* Slide Panels */
+  .slide-pane {
+    display: none;
+    animation: slideFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .slide-pane.active {
+    display: block;
+  }
+
+  @keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-header-box {
+    margin-bottom: 22px;
+  }
+
+  .slide-header-box h3 {
+    font-size: 23px;
+    color: #fff;
+    margin-top: 6px;
+    font-family: var(--font-display);
+  }
+
+  .slide-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .slide-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  @media (max-width: 860px) {
+    .slide-grid-2, .slide-grid-3 {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .active-slide-window {
+      padding: 20px !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  .slide-card {
+    background: rgba(13, 21, 45, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+  }
+
+  .problem-side {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.04);
+  }
+
+  .solution-side {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.04);
+  }
+
+  .side-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .side-badge.bad {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+
+  .side-badge.good {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+
+  .slide-item {
+    margin-bottom: 14px;
+  }
+
+  .slide-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .slide-item b {
+    display: block;
+    font-size: 14.5px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .slide-item p {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .slide-feature-card {
+    background: rgba(13, 21, 45, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .slide-feature-card .feature-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .slide-feature-card h4 {
+    font-size: 16.5px;
+    color: #fff;
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+  }
+
+  .slide-feature-card p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Roadmap Grid */
+  .slide-roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 960px) {
+    .slide-roadmap-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .roadmap-col {
+    background: rgba(13, 21, 45, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+  }
+
+  .roadmap-col.active {
+    border-color: var(--cyan);
+    background: rgba(0, 245, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+  }
+
+  .rm-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink-2);
+    margin-bottom: 8px;
+  }
+
+  .rm-badge.active {
+    background: rgba(0, 245, 255, 0.2);
+    color: var(--cyan);
+    border: 1px solid rgba(0, 245, 255, 0.4);
+  }
+
+  .roadmap-col h4 {
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .roadmap-col ul {
+    padding-left: 18px;
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .roadmap-col li {
+    margin-bottom: 6px;
+  }
+
+  /* AI Companion Chat Box */
+  .slide-ai-companion {
+    background: rgba(13, 21, 45, 0.85);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .companion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .pulse-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+    display: inline-block;
+  }
+
+  .status-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan);
+    background: rgba(0, 245, 255, 0.1);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  /* Collapsible API Details */
+  .api-collapsible-details {
+    background: rgba(13, 21, 45, 0.75);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    transition: all 0.3s;
+  }
+
+  .api-collapsible-details[open] {
+    border-color: rgba(0, 245, 255, 0.4);
+    background: rgba(13, 21, 45, 0.95);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .api-summary-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  .api-summary-toggle::-webkit-details-marker {
+    display: none;
+  }
+
   </style>
 </head>
 <body>
@@ -2384,19 +2937,13 @@
       <span class="pitch-tag">Pitch Day 3.0</span>
     </a>
     <div class="nav-links">
-      <a href="#muammo-yechim" data-i18n="nav_problem_sol">Muammo & Yechim</a>
-      <a href="#jamoa" data-i18n="nav_team">Jamoa</a>
-      <a href="#afzalliklar" data-i18n="nav_why">Nima uchun biz?</a>
-      <a href="#roadmap" data-i18n="nav_roadmap">Yo'l xaritasi</a>
-      <a href="#texnologiya" data-i18n="nav_tech">Yechim & AI</a>
-      <a href="#mobil-ilova" data-i18n="nav_mobile">Mobil & Ulanish</a>
-      <a href="demo.html" class="active-demo" data-i18n="nav_demo">▶ Demo (/demo)</a>
-      <a href="#chatbot" data-i18n="nav_chatbot">AI Chatbot</a>
-      <a href="#api-access" data-i18n="nav_api">API Kirish</a>
-      <a href="#pitch-deck" style="color:#d8b4fe; font-weight:700;">📄 Pitch Deck (PDF)</a>
-      <a href="#isbot" data-i18n="nav_traction">Bozor</a>
-      <a href="#investitsiya" data-i18n="nav_pricing">Tariflar</a>
-      <a href="future.html" style="color:var(--cyan); font-weight:700;">✨ Vision Edition</a>
+      <a href="#top">Asosiy</a>
+      <a href="#jamoa">Jamoa</a>
+      <a href="#taqdimot" style="color:var(--cyan); font-weight:700;">💡 Taqdimot Slaydlari</a>
+      <a href="#chatbot">AI Chatbot</a>
+      <a href="demo.html" class="active-demo">▶ Jonli Demo (/demo)</a>
+      <a href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck (PDF)">📄 Pitch (UZ)</a>
+      <a href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf" title="English Pitch Deck (PDF)">📄 Pitch (EN)</a>
     </div>
     <div class="nav-right">
       <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck (PDF)">📄 Pitch (UZ)</a>
@@ -2406,7 +2953,7 @@
         <button class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
         <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
       </div>
-      <a class="btn btn-primary btn-sm" href="demo.html" data-i18n="btn_open_demo">Jonli Demo</a>
+      <a class="btn btn-primary btn-sm" href="demo.html">Jonli Demo</a>
     </div>
   </div>
 </nav>
@@ -2429,10 +2976,10 @@
             NeuroKey — eshitadi, ko'radi, eslaydi va harakat qiladi. Tabiiy ovoz orqali kompyuteringizni boshqaradi, ekrandagi kontekstni ko'radi, doimiy kognitiv xotiraga ega va faqat SIZ uchun ishlaydi.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="demo.html" data-i18n="cta_demo">▶ Jonli Demoni Ko'rish (/demo)</a>
-            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf" title="O'zbekcha Pitch Deck taqdimotini ochish yoki yuklab olish">📄 O'zbekcha Pitch (PDF)</a>
-            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf" title="Download Official English Pitch Deck Presentation">📄 English Pitch (PDF)</a>
-            <a class="btn btn-outline" href="#investitsiya" data-i18n="cta_preseed">$50,000 Pre-seed</a>
+            <a class="btn btn-primary" href="demo.html">▶ Jonli Demoni Ko'rish (/demo)</a>
+            <a class="btn btn-outline" href="#taqdimot" style="border-color:var(--cyan); color:#fff; box-shadow:0 0 15px rgba(0,245,255,0.2);">💡 Interaktiv Taqdimot & AI</a>
+            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank" download="NeuroKey_Pitch_Deck_UZ.pdf">📄 Pitch (UZ)</a>
+            <a class="btn btn-pitch" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank" download="NeuroKey_Pitch_Deck_EN.pdf">📄 Pitch (EN)</a>
           </div>
           <div class="share-link-bar">
             <span>🌐 Rasmiy havola: <b>https://diyorbek2848.github.io/neurokey/</b></span>
@@ -2517,175 +3064,8 @@
     </div>
   </section>
 
-  
-  <!-- PITCH DECK SHOWCASE (O'ZBEK VA INGLIZ TILLARIDA) -->
-  <section id="pitch-deck" style="padding-top:40px; padding-bottom:40px; border-bottom:1px solid var(--line);">
-    <div class="wrap">
-      <div class="head" style="margin-bottom:24px;">
-        <div class="eyebrow">Pitch Day 3.0 · Rasmiy Taqdimot Fayllari</div>
-        <h2>NeuroKey Pitch Deck (O'zbekcha va Inglizcha)</h2>
-        <p>
-          Hakamlar hay'ati, investorlar va mehmonlar uchun NeuroKey loyihasining to'liq 12 sahifali rasmiy taqdimoti. Muammo, yechim, 50 kognitiv modul, arxitektura, bozor tahlili (TAM $21.1B) va $50,000 pre-seed rejalari bilan tanishing:
-        </p>
-      </div>
-
-      <div class="pitch-deck-grid">
-        <!-- Uzbek Pitch Deck -->
-        <div class="glass-card pitch-card">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span class="pitch-card-badge">🇺🇿 O'zbek tili · 12 Slayd</span>
-              <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">2.56 MB PDF</span>
-            </div>
-            <h3 style="font-size:22px; color:#fff; margin-bottom:8px;">NeuroKey Pitch Deck (O'zbekcha)</h3>
-            <p style="font-size:14px; color:var(--ink-2); line-height:1.55;">
-              Pitch Day 3.0 uchun tayyorlangan rasmiy to'liq taqdimot. Muammo-yechim, xotira grafigi, ekranni ko'rish, 5 ta B2C tarif ($21–$84), B2B reja va moliyaviy hisob-kitoblar.
-            </p>
-          </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-            <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank">👁️ Brauzerda Ochish</a>
-            <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" download="NeuroKey_Pitch_Deck_UZ.pdf">⬇️ Yuklab Olish (PDF)</a>
-          </div>
-        </div>
-
-        <!-- English Pitch Deck -->
-        <div class="glass-card pitch-card">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span class="pitch-card-badge" style="background:rgba(0,245,255,0.15); border-color:var(--cyan); color:var(--cyan);">🇬🇧 English Edition · 12 Slides</span>
-              <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">2.55 MB PDF</span>
-            </div>
-            <h3 style="font-size:22px; color:#fff; margin-bottom:8px;">NeuroKey Pitch Deck (English)</h3>
-            <p style="font-size:14px; color:var(--ink-2); line-height:1.55;">
-              Official English presentation for global partners and judges. Covers cognitive architecture, On-Device privacy, TAM $21.1B / SOM $415K, founders' background, and $50K pre-seed roadmap.
-            </p>
-          </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-            <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank">👁️ View Presentation</a>
-            <a class="btn btn-pitch btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" download="NeuroKey_Pitch_Deck_EN.pdf">⬇️ Download PDF</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 1: MUAMMO -> YECHIM (PROBLEM -> SOLUTION) -->
-  <section id="muammo-yechim">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="ps_eyebrow">Pitch Day 3.0 · 1-band talabi</div>
-        <h2 data-i18n="ps_h2">Muammo → Yechim: AI ko'p, lekin sizni taniydigani yo'q</h2>
-        <p data-i18n="ps_desc">
-          Bozorda mavjud sun'iy intellekt vositalari chat oynasidan nariga o'tmaydi. NeuroKey ushbu to'rtta asosiy tizimli to'siqni to'liq bartaraf etadi:
-        </p>
-      </div>
-
-      <div class="problem-solution-grid">
-        <!-- Problems Column -->
-        <div>
-          <div class="col-header">
-            <span class="pill pill-problem">Muammo (Hozirgi AI)</span>
-            <span style="font-size:13px; color:var(--ink-3);">Bozordagi cheklovlar</span>
-          </div>
-          <div class="item-list">
-            <div class="glass-card ps-card prob">
-              <span class="ps-num">01</span>
-              <div class="ps-content">
-                <h4 data-i18n="prob1_h">Har safar noldan boshlash</h4>
-                <p data-i18n="prob1_p">Suhbat tugashi bilan AI sizni unutadi. Odatlaringiz, ishingiz, loyihalaringiz va shaxsiy afzalliklaringiz saqlanmaydi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card prob">
-              <span class="ps-num">02</span>
-              <div class="ps-content">
-                <h4 data-i18n="prob2_h">Faqat gapiradi, lekin amalda qilmaydi</h4>
-                <p data-i18n="prob2_p">Ko'pchilik yordamchilar faqat matn yozadi. Kompyuteringizni boshqarmaydi, fayllar bilan ishlamaydi va ekrandagi holatni ko'rmaydi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card prob">
-              <span class="ps-num">03</span>
-              <div class="ps-content">
-                <h4 data-i18n="prob3_h">Internet va bulutga to'liq qaramlik</h4>
-                <p data-i18n="prob3_p">Mavjud AI vositalari faqat tashqi bulutli serverlarda ishlaydi. Internet sekinlashsa yoki uzilsa, ular to'xtaydi va har bir so'rov kechikadi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card prob">
-              <span class="ps-num">04</span>
-              <div class="ps-content">
-                <h4 data-i18n="prob4_h">Suhbat begona serverda saqlanadi</h4>
-                <p data-i18n="prob4_p">Shaxsiy va korporativ maxfiy gaplaringiz xorijiy kompaniyalar serverlariga ketadi. Ko'pchilik buni mutlaqo xavfsiz deb hisoblamaydi.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Solutions Column -->
-        <div>
-          <div class="col-header">
-            <span class="pill pill-solution">NeuroKey Yechimi</span>
-            <span style="font-size:13px; color:var(--good);">Inqilobiy yondashuv</span>
-          </div>
-          <div class="item-list">
-            <div class="glass-card ps-card sol">
-              <span class="ps-num">✓</span>
-              <div class="ps-content">
-                <h4 data-i18n="sol1_h">Doimiy Kognitiv Xotira (Memory Graph)</h4>
-                <p data-i18n="sol1_p">NeuroKey sizning har bir suhbatingiz, ishingiz va afzalliklaringizni uzluksiz assotsiativ bilimlar grafigi ko'rinishida doimiy eslab qoladi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card sol">
-              <span class="ps-num">✓</span>
-              <div class="ps-content">
-                <h4 data-i18n="sol2_h">Ekranni Ko'radi va Kompyuterni Boshqaradi</h4>
-                <p data-i18n="sol2_p">Ekraningizda nima ochiqligini (kod, Excel, brauzer) tushunadi. Telefondan buyruq berganingizda ham ofisdagi kompyuteringizda ishlarni avtonom bajaradi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card sol">
-              <span class="ps-num">✓</span>
-              <div class="ps-content">
-                <h4 data-i18n="sol3_h">On-Device Lokal Quvvat va Ultra-Past Kechikish (&lt;800ms)</h4>
-                <p data-i18n="sol3_p">NeuroKey kompyuteringizning o'zida lokal ishlay oladi (8GB RAM). Tashqi internetga bog'lanmasdan, &lt;800ms kechikish bilan vazifalarni bajaradi.</p>
-              </div>
-            </div>
-            <div class="glass-card ps-card sol">
-              <span class="ps-num">✓</span>
-              <div class="ps-content">
-                <h4 data-i18n="sol4_h">Zero-Knowledge va Lokal Maxfiylik</h4>
-                <p data-i18n="sol4_p">O'z kompyuteringizdagi tarifda ma'lumot qurilmadan tashqariga chiqmaydi ($0 server xarajati). Server tarifida esa faqat sizga tegishli shifrlangan xona quriladi.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Pillars Cards -->
-      <div class="pillars-grid">
-        <div class="glass-card pillar-card">
-          <div class="pillar-icon">🎙️</div>
-          <h3 data-i18n="pil1_h">Eshitadi</h3>
-          <p data-i18n="pil1_p">Tabiiy ovoz orqali muloqot. O'zbek, rus, ingliz va 100+ tillar, intonatsiya va kontekstni darhol ilg'ash.</p>
-        </div>
-        <div class="glass-card pillar-card">
-          <div class="pillar-icon">👁️</div>
-          <h3 data-i18n="pil2_h">Ko'radi</h3>
-          <p data-i18n="pil2_p">Ekranni real vaqtda tushunish. Qaysi oynada qanday ish qilayotganingizni ko'rib, ayni vaziyatga mos yordam berish.</p>
-        </div>
-        <div class="glass-card pillar-card">
-          <div class="pillar-icon">🧠</div>
-          <h3 data-i18n="pil3_h">Eslaydi</h3>
-          <p data-i18n="pil3_p">Doimiy xotira grafigi. Oylik uchrashuvlar, qarorlar, mijoz ma'lumotlari va afzalliklaringiz abadiy saqlanadi.</p>
-        </div>
-        <div class="glass-card pillar-card">
-          <div class="pillar-icon">⚡</div>
-          <h3 data-i18n="pil4_h">Harakat Qiladi</h3>
-          <p data-i18n="pil4_p">Kompyuter va ilovalarni avtonom boshqarish. Telefondan Telegram orqali bog'lanib, kompyuterda fayllarni yuborish.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- SECTION 2: JAMOA (TEAM) -->
-  <section id="jamoa">
+<section id="jamoa">
     <div class="wrap">
       <div class="head">
         <div class="eyebrow" data-i18n="team_eyebrow">Pitch Day 3.0 · 2-band talabi</div>
@@ -2762,583 +3142,384 @@
       </div>
     </div>
   </section>
-
-  <!-- SECTION 3: NIMA UCHUN BIZNING JAMOA (WHY OUR TEAM) -->
-  <section id="afzalliklar">
+  <!-- INTERACTIVE PRESENTATION SLIDES & AI CHATBOT CENTER -->
+  <section id="taqdimot" class="pitch-deck-navigator">
     <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="why_eyebrow">Pitch Day 3.0 · 3-band talabi</div>
-        <h2 data-i18n="why_h2">Nima uchun jamoangiz bu muammoni hal qila oladi?</h2>
-        <p data-i18n="why_desc">
-          Biz bu masalaga qog'ozdagi nazariya sifatida emas, balki chuqur amaliy tajriba, empirik sinovlar va mahalliy reallikni tushunish orqali yondashdik:
+      <div class="head" style="margin-bottom:28px;">
+        <div class="eyebrow">Pitch Day 3.0 · Interaktiv Taqdimot & AI Markazi</div>
+        <h2>Loyiha Tafsilotlari va AI Yordamchi</h2>
+        <p>
+          Asosiy sahifani uzoq skroll qilish shart emas! Quyidagi 8 ta mavzudan birini bosing — to'liq slayd ochiladi va AI chatbot bevosita savollaringizga javob beradi:
         </p>
       </div>
 
-      <div class="why-grid">
-        <div class="glass-card why-card">
-          <div class="why-num">01</div>
-          <h4 data-i18n="w1_h">To'liq Mustaqil Ishchi Arxitektura</h4>
-          <p data-i18n="w1_p">
-            Biz shunchaki API chaqiruvchi interfeys emasmiz. Kompyuterni bevosita boshqaruvchi, ekranni ko'ruvchi va foydalanuvchiga moslashuvchi to'liq avtonom agentlik tizimini noldan muhandislik darajasida qurdik.
-          </p>
+      <!-- 8 ta Tayyor Mavzu Chiplari -->
+      <div class="slide-chips-tray" id="slide-chips-tray">
+        <button type="button" class="slide-chip-btn active" onclick="openPitchSlide(1)">
+          <span class="slide-chip-icon">🎯</span>
+          <div class="slide-chip-text">
+            <b>1. Muammo va Yechim</b>
+            <span>Xavflar va On-Device yechim</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(2)">
+          <span class="slide-chip-icon">⭐</span>
+          <div class="slide-chip-text">
+            <b>2. Nima uchun biz?</b>
+            <span>Jamoa salohiyati va tajriba</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(3)">
+          <span class="slide-chip-icon">🗺️</span>
+          <div class="slide-chip-text">
+            <b>3. Yo'l Xaritasi (Roadmap)</b>
+            <span>Idea → Prototype → MVP → Launch</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(4)">
+          <span class="slide-chip-icon">🧠</span>
+          <div class="slide-chip-text">
+            <b>4. Texnologik Arxitektura</b>
+            <span>Bosqichlar va AI vositalar</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(5)">
+          <span class="slide-chip-icon">📱</span>
+          <div class="slide-chip-text">
+            <b>5. Mobil Boshqaruv</b>
+            <span>Telegram bot & Smart Wi-Fi</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(6)">
+          <span class="slide-chip-icon">💰</span>
+          <div class="slide-chip-text">
+            <b>6. Tariflar & Bozor</b>
+            <span>TAM $21.1B, tariflar va Pre-seed</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(7)">
+          <span class="slide-chip-icon">📄</span>
+          <div class="slide-chip-text">
+            <b>7. Pitch Deck (PDF)</b>
+            <span>O'zbekcha va inglizcha taqdimot</span>
+          </div>
+        </button>
+
+        <button type="button" class="slide-chip-btn" onclick="openPitchSlide(8)">
+          <span class="slide-chip-icon">🔒</span>
+          <div class="slide-chip-text">
+            <b>8. Zero-Cloud & Hardware</b>
+            <span>100% lokal maxfiylik va 8GB RAM</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- ACTIVE SLIDE DISPLAY WINDOW -->
+      <div class="active-slide-window" id="active-slide-window">
+        <div class="slide-top-bar">
+          <div class="slide-tag-badge" id="slide-title-badge">
+            <span>● SLAYD 1 / 8:</span> <b id="slide-badge-title">Muammo va Yechim</b>
+          </div>
+          <div class="slide-ctrl-group">
+            <button type="button" class="slide-nav-arrow" onclick="prevPitchSlide()" title="Oldingi slayd">◀ Oldingi</button>
+            <span class="slide-counter-badge" id="slide-counter-text">1 / 8</span>
+            <button type="button" class="slide-nav-arrow" onclick="nextPitchSlide()" title="Keyingi slayd">Keyingi ▶</button>
+          </div>
         </div>
 
-        <div class="glass-card why-card">
-          <div class="why-num">02</div>
-          <h4 data-i18n="w2_h">50 Kognitiv Modulning Empirik Tekshiruvi</h4>
-          <p data-i18n="w2_p">
-            Tizimdagi 50 ta alohida modulning har biri o'chirib-yoqilib (ablation test) tekshirilgan. 47 ta modul o'lchanadigan aniq ijobiy hissa berishi ilmiy asoslangan.
-          </p>
+        <!-- SLIDE 1: MUAMMO VA YECHIM -->
+        <div class="slide-pane active" id="slide-pane-1"><span id="muammo-yechim" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Muammo va Yechim">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Pitch Day 3.0 · 1-band talabi</span>
+            <h3>Muammo → Yechim: Mavjud AI Cheklovlari va NeuroKey Yondashuvi</h3>
+          </div>
+          <div class="slide-grid-2">
+            <div class="slide-card problem-side">
+              <div class="side-badge bad">❌ 3 TA ASOSIY MUAMMO</div>
+              <div class="slide-item">
+                <b>1. Bulut xavfi & Ma'lumotlar oqishi</b>
+                <p>ChatGPT va boshqa AI'larga berilgan shaxsiy yoki biznes sirlari begona serverlarga jo'natiladi va qayta o'qitishda ishlatiladi.</p>
+              </div>
+              <div class="slide-item">
+                <b>2. Qimmat oylik to'lovlar & Server qaramlik</b>
+                <p>Har bir AI servisi uchun oyiga $20–$30 to'lash va cheksiz server hisob-kitoblariga bog'lanish harajatlarni keskin oshiradi.</p>
+              </div>
+              <div class="slide-item">
+                <b>3. Faqat gapiradi, amalda bajarmaydi</b>
+                <p>Mavjud chat-botlar faqat matn chiqaradi. Ular ekranni ko'rmaydi, klaviatura/sichqonchani boshqarmaydi va fayllar bilan mustaqil ishlay olmaydi.</p>
+              </div>
+            </div>
+            <div class="slide-card solution-side">
+              <div class="side-badge good">✅ NEUROKEY ON-DEVICE YECHIMI</div>
+              <div class="slide-item">
+                <b>1. 100% On-Device & Zero-Cloud</b>
+                <p>Barcha hisob-kitoblar o'z kompyuteringizda bajariladi ($0 server sarfi). Hech qanday ma'lumot begona bulutga chiqmaydi.</p>
+              </div>
+              <div class="slide-item">
+                <b>2. Avtonom Harakat (OS Automation)</b>
+                <p>Ekranni ko'radi (Screen Vision OCR), dasturlarni ochadi, matn yozadi, hisobotlarni PDF qilib Telegramga yuboradi.</p>
+              </div>
+              <div class="slide-item">
+                <b>3. Tezkor Mahalliy Ovoz (&lt;800ms)</b>
+                <p>O'zbek va rus tillarida tabiiy insondek ovozli muloqot qiladi. Internet butunlay o'chgan bo'lsa ham ishlay oladi.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="glass-card why-card">
-          <div class="why-num">03</div>
-          <h4 data-i18n="w3_h">8 GB RAM Noutbukda Ishlaydigan Optimallashtirish</h4>
-          <p data-i18n="w3_p">
-            Har qanday foydalanuvchining oddiy kompyuterida ishlay olishi uchun mahalliy inference, kvantlash (4-bit) va kesh xotira mexanizmlari eng yuqori darajada tejamkor qilingan.
-          </p>
+        <!-- SLIDE 2: NIMA UCHUN BIZNING JAMOA -->
+        <div class="slide-pane" id="slide-pane-2"><span id="afzalliklar" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Nima uchun bizning jamoa?">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Pitch Day 3.0 · 3-band talabi</span>
+            <h3>Nima uchun jamoamiz bu muammoni hal qila oladi?</h3>
+          </div>
+          <div class="slide-grid-3">
+            <div class="slide-feature-card">
+              <div class="feature-icon">⚡</div>
+              <h4>1. Ishlayotgan Prototip</h4>
+              <p>Biz nazariya bilan cheklanmadik: 50 ta kognitiv modul, ovozli javob va Telegram orqali kompyuterni boshqarish ko'prigi amalda ishlab turibdi.</p>
+            </div>
+            <div class="slide-feature-card">
+              <div class="feature-icon">💻</div>
+              <h4>2. 8GB RAM Optimizatsiyasi</h4>
+              <p>Qimmatbaho serverlarsiz, oddiy noutbuklarda ishlash uchun 4-bit kvantlash, whisper.cpp va llama.cpp chuqur integratsiya qilingan.</p>
+            </div>
+            <div class="slide-feature-card">
+              <div class="feature-icon">🏛️</div>
+              <h4>3. Founders Hub & Ekotizim</h4>
+              <p>Founders Hub rezidenti, FoundersCamp bitiruvchisi. Mahsulot va GTM strategiyasi shakllantirilgan, IT Park ekotizimida faol rivojlanmoqda.</p>
+            </div>
+          </div>
+          <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <span style="font-size:13.5px; color:var(--ink-2);">Jamoa a'zolari: <b>Diyorbek Sobirjonov</b> (Founder & CEO) · <b>Elbek Azimjonov</b> (Co-founder & CTO)</span>
+            <a href="#jamoa" class="btn btn-outline btn-sm">Jamoa profiliga o'tish ↑</a>
+          </div>
         </div>
 
-        <div class="glass-card why-card">
-          <div class="why-num">04</div>
-          <h4 data-i18n="w4_h">Mahalliy Til va Madaniyat Nozikliklari</h4>
-          <p data-i18n="w4_p">
-            O'zbek tilining so'zlashuv uslubi, rus va o'zbek tillarining aralash qo'llanilishi va mahalliy korxonalarning ish tartibini xorijiy modellardan ko'ra ancha teran tushunamiz.
-          </p>
+        <!-- SLIDE 3: YO'L XARITASI -->
+        <div class="slide-pane" id="slide-pane-3"><span id="roadmap" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Yo'l Xaritasi (Roadmap)">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Pitch Day 3.0 · 4-band talabi</span>
+            <h3>Yo'l Xaritasi: Idea → Prototype → MVP → Launched</h3>
+          </div>
+          <div class="slide-roadmap-grid">
+            <div class="roadmap-col">
+              <span class="rm-badge">Q3 2024 · YAKUNLANDI</span>
+              <h4>1. IDEA (G'oya)</h4>
+              <ul>
+                <li>Lokal AI arxitekturasi kontseptsiyasi</li>
+                <li>On-device LLM va VLM tahlili</li>
+                <li>Kognitiv xotira grafigi loyihasi</li>
+              </ul>
+            </div>
+            <div class="roadmap-col">
+              <span class="rm-badge">Q4 2024 · YAKUNLANDI</span>
+              <h4>2. PROTOTYPE</h4>
+              <ul>
+                <li>50 ta kognitiv modul sinovi</li>
+                <li>Ovozli Whisper VAD (&lt;800ms)</li>
+                <li>Ekran tahlili va OCR integratsiyasi</li>
+              </ul>
+            </div>
+            <div class="roadmap-col active">
+              <span class="rm-badge active">Q1–Q2 2025 · HOZIRGI BOSQICH</span>
+              <h4>3. MVP (Sinov Talqini)</h4>
+              <ul>
+                <li>Telefon orqali PCni boshqarish (Telegram bot)</li>
+                <li>Fayllar, skrinshot va masofaviy buyruqlar</li>
+                <li>B2B pilot sinovlari va takomillashtirish</li>
+              </ul>
+            </div>
+            <div class="roadmap-col">
+              <span class="rm-badge">Q3 2025 · REJA</span>
+              <h4>4. LAUNCHED (Reliz)</h4>
+              <ul>
+                <li>Ommaviy reliz va B2C obuna ($21–$84)</li>
+                <li>B2B Enterprise On-Premise o'rnatish</li>
+                <li>Zararsizlik (break-even ~90 to'lovchida)</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div class="glass-card why-card">
-          <div class="why-num">05</div>
-          <h4 data-i18n="w5_h">FoundersCamp Ekotizimi va Yuridik Tayyorgarlik</h4>
-          <p data-i18n="w5_p">
-            Asoschimiz FoundersCamp sertifikatlangan dasturini tamomlagan. IT Park rezidentligi, mahalliy to'lov tizimlari (Click/Payme) va korporativ shartnomalar yuzasidan aniq reja mavjud.
-          </p>
+        <!-- SLIDE 4: TEXNOLOGIK ARXITEKTURA -->
+        <div class="slide-pane" id="slide-pane-4"><span id="texnologiya" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Texnologik Arxitektura">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Pitch Day 3.0 · 5-band talabi</span>
+            <h3>Yechimni qanday amalga oshiryapmiz: Bosqichlar, Texnologiyalar & AI</h3>
+          </div>
+          <div class="slide-grid-3">
+            <div class="slide-feature-card">
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); font-weight:700;">1-BOSQICH</span>
+              <h4>Kiritish & Idrok</h4>
+              <p><b>Whisper Streaming VAD:</b> O'zbek va rus tillarida nutqni aniq qabul qilish.<br><b>Screen Vision VLM:</b> Ekrandagi oyna, matn va dasturlarni skanerlash.</p>
+            </div>
+            <div class="slide-feature-card">
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); font-weight:700;">2-BOSQICH</span>
+              <h4>Lokal Inferensiya & Xotira</h4>
+              <p><b>llama.cpp / GGUF:</b> 4-bit kvantlangan Llama 3 8B On-Device modeli.<br><b>Memory Graph:</b> Foydalanuvchi ma'lumotlarini bog'lovchi assotsiativ xotira.</p>
+            </div>
+            <div class="slide-feature-card">
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); font-weight:700;">3-BOSQICH</span>
+              <h4>OS Avtomatizatsiya & Ko'prik</h4>
+              <p><b>PyAutoGUI & OS API:</b> Sichqoncha, klaviatura va fayllar bilan ishlash.<br><b>FastAPI & Telegram Bot:</b> Xavfsiz masofaviy boshqaruv ko'prigi.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="glass-card why-card">
-          <div class="why-num">06</div>
-          <h4 data-i18n="w6_h">Zero-Cloud / Mutlaq Maxfiylik Arxitekturasi</h4>
-          <p data-i18n="w6_p">
-            Tijorat sirlari va shaxsiy ma'lumotlarni begona bulutlarga chiqarmasdan, foydalanuvchi ixtiyoridagi lokal "qafas"da saqlash muhandisligini to'liq o'zlashtirganmiz.
-          </p>
+        <!-- SLIDE 5: MOBIL & TELEGRAM BOSHQARUV -->
+        <div class="slide-pane" id="slide-pane-5"><span id="mobil-ilova" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Mobil & Telegram Boshqaruv">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Amaliy Imkoniyatlar</span>
+            <h3>Telefondan Kompyuterni Masofadan Boshqarish</h3>
+          </div>
+          <div class="slide-grid-2">
+            <div class="slide-card">
+              <h4>🤖 Telegram Boti Orqali Boshqaruv</h4>
+              <p>Dunyoning istalgan chekkasidan turib ovozli xabar yo'llaysiz:</p>
+              <div style="background:rgba(0,245,255,0.08); border-left:3px solid var(--cyan); padding:10px 14px; margin:12px 0; border-radius:6px; font-style:italic; font-size:13.5px; color:#fff;">
+                «Ofisdagi kompyuterimdan bugungi savdo hisobotini PDF qilib jo'nat»
+              </div>
+              <p style="font-size:13px; color:var(--ink-2);">
+                NeuroKey kompyuterni uyg'otadi, kerakli dasturni ochadi, faylni eksport qilib, Telegramingizga qaytaradi.
+              </p>
+            </div>
+            <div class="slide-card">
+              <h4>📲 Wi-Fi LAN Smart Trekpad & Sichqoncha</h4>
+              <p>Uy yoki ofis tarmog'ida drayverlarsiz va kabelsiz to'g'ridan-to'g'ri P2P ulanadi:</p>
+              <ul style="padding-left:18px; margin:8px 0; font-size:13px; color:var(--ink-2); line-height:1.6;">
+                <li>Telefon ekrani noutbuk trekpadiga aylanadi (&lt;4ms kechikish)</li>
+                <li>1-bosishda tezkor AI makroslar (ekran tahlili, dasturlarni ochish)</li>
+                <li>100% lokal shifrlangan kanal, begona bulutsiz.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 6: TARIFLAR & BOZOR -->
+        <div class="slide-pane" id="slide-pane-6"><span id="isbot" style="position:relative; top:-80px; display:block; visibility:hidden;"></span><span id="investitsiya" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Tariflar & Bozor">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Biznes Model & Bozor</span>
+            <h3>Bozor Hajmi, Tariflar va $50,000 Pre-seed</h3>
+          </div>
+          <div class="slide-grid-2">
+            <div class="slide-card">
+              <h4>📊 Bozor Hajmi (Pitch Deck 6-sahifa)</h4>
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
+                <div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; font-size:13px;">
+                  <b>TAM: $21.1 Milliard</b> — Global shaxsiy AI yordamchilari bozori
+                </div>
+                <div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; font-size:13px;">
+                  <b>SAM: $52.6 Million</b> — MDH va Markaziy Osiyo mutaxassislari
+                </div>
+                <div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; font-size:13px;">
+                  <b>SOM: $415,000</b> — Dastlabki 1,000+ faol to'lovchilar
+                </div>
+              </div>
+              <p style="margin-top:12px; font-size:12.5px; color:var(--ink-2);">
+                <b>Pre-seed:</b> $50,000 jalb qilinmoqda. 14 oy runway. Break-even atigi ~90 to'lovchida erishiladi.
+              </p>
+            </div>
+            <div class="slide-card">
+              <h4>💳 B2C va B2B Tarif Rejalari</h4>
+              <ul style="padding-left:18px; margin:8px 0; font-size:13px; color:var(--ink-2); line-height:1.7;">
+                <li><b>Start ($21/oy):</b> 8GB RAM lokal kompyuterda ($0 server sarfi)</li>
+                <li><b>Pro ($42/oy):</b> Kuchli lokal model + doimiy xotira grafigi</li>
+                <li><b>Max ($55/oy) & Ultra ($84/oy):</b> Bulutli GPU server, 1200–3000 vazifa</li>
+                <li><b>B2B Enterprise:</b> $50–$500/oy korporativ on-premise xavfsiz yechim.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 7: PITCH DECK PDF -->
+        <div class="slide-pane" id="slide-pane-7"><span id="pitch-deck" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Pitch Deck (PDF)">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Pitch Day 3.0 · Rasmiy Taqdimot Fayllari</span>
+            <h3>NeuroKey Pitch Deck Taqdimotini Yuklab Oling</h3>
+          </div>
+          <div class="slide-grid-2">
+            <div class="slide-card" style="text-align:center; padding:32px 24px;">
+              <div style="font-size:42px; margin-bottom:12px;">📄</div>
+              <h4 style="font-size:18px; color:#fff;">O'zbekcha Pitch Deck (PDF)</h4>
+              <p style="font-size:13.5px; color:var(--ink-2); margin-top:6px;">12 ta to'liq slayd: Muammo, Yechim, Jamoa, Bozor, Texnologiya va $50K Pre-seed rejalari.</p>
+              <div style="display:flex; justify-content:center; gap:10px; margin-top:18px; flex-wrap:wrap;">
+                <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" target="_blank">Ko'rish (UZ)</a>
+                <a class="btn btn-outline btn-sm" href="NeuroKey_Pitch_Deck_UZ.pdf" download="NeuroKey_Pitch_Deck_UZ.pdf">Yuklab olish (2.56 MB)</a>
+              </div>
+            </div>
+            <div class="slide-card" style="text-align:center; padding:32px 24px;">
+              <div style="font-size:42px; margin-bottom:12px;">📄</div>
+              <h4 style="font-size:18px; color:#fff;">Official English Pitch Deck (PDF)</h4>
+              <p style="font-size:13.5px; color:var(--ink-2); margin-top:6px;">Full 12 slides: Problem, Solution, Architecture, Market Size, Traction & $50K Pre-seed.</p>
+              <div style="display:flex; justify-content:center; gap:10px; margin-top:18px; flex-wrap:wrap;">
+                <a class="btn btn-primary btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" target="_blank">View (EN)</a>
+                <a class="btn btn-outline btn-sm" href="NeuroKey_Pitch_Deck_EN.pdf" download="NeuroKey_Pitch_Deck_EN.pdf">Download (2.55 MB)</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 8: ZERO-CLOUD & HARDWARE -->
+        <div class="slide-pane" id="slide-pane-8"><span id="zero-cloud" style="position:relative; top:-80px; display:block; visibility:hidden;"></span data-slide-title="Zero-Cloud & Hardware">
+          <div class="slide-header-box">
+            <span class="pitch-tag">Xavfsizlik & Hardware</span>
+            <h3>Zero-Cloud Maxfiylik va Tizim Talablari</h3>
+          </div>
+          <div class="slide-grid-3">
+            <div class="slide-feature-card">
+              <div class="feature-icon">🔒</div>
+              <h4>100% On-Device Enclave</h4>
+              <p>Start va Pro tariflarida hech qanday bayt tashqariga chiqmaydi. Mahalliy AES-256 shifrlangan SQLite va xotira grafigi.</p>
+            </div>
+            <div class="slide-feature-card">
+              <div class="feature-icon">⚙️</div>
+              <h4>Minimal 8 GB RAM</h4>
+              <p>Intel Core i5 (8-avlod+) yoki AMD Ryzen 5, 8GB operativ xotirada 4-bit kvantlangan modelni bemalol yurgiza oladi.</p>
+            </div>
+            <div class="slide-feature-card">
+              <div class="feature-icon">🔌</div>
+              <h4>To'liq Offline Rejim</h4>
+              <p>Internet butunlay o'chgan bo'lsa ham, kompyuterni boshqarish, ovozli javob va fayllar bilan ishlash davom etadi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI CHATBOT COMPANION INTERFACE -->
+      <div class="slide-ai-companion" id="chatbot">
+        <div class="companion-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="pulse-dot"></span>
+            <b style="color:#fff; font-size:15px;">🤖 NeuroKey AI Chatbot:</b>
+            <span style="font-size:13px; color:var(--ink-2);">Yuqoridagi slaydlar yoki loyiha bo'yicha savolingizni bering:</span>
+          </div>
+          <span class="status-pill">● STATUS: 50 KOGNITIV MODUL FAOL</span>
+        </div>
+
+        <!-- Chat Conversation Log -->
+        <div class="chat-log-box" id="chatbot-log">
+          <div class="chat-bubble agent">
+            Salom! Men <b>NeuroKey</b> kognitiv yordamchisiman. Yuqoridagi 8 ta slayd mavzusi (Muammo, Jamoa, Roadmap, Texnologiya, Mobil boshqaruv, Tariflar, Pitch Deck) bo'yicha istalgan savolingizga javob beraman.
+            <span class="meta">● STATUS: TIZIM TAYYOR · ON-DEVICE ONLINE</span>
+          </div>
+        </div>
+
+        <!-- Chat Input Row -->
+        <div class="chat-input-row" style="margin-top:14px;">
+          <input type="text" id="chatbot-input" placeholder="Savol yoki buyruq yozing (masalan: 'Nega ChatGPTdan afzal?', 'Offline ishlaydimi?')..." onkeydown="if(event.key==='Enter') sendChatbotUserQuery();">
+          <button type="button" class="btn btn-primary" onclick="sendChatbotUserQuery()">So'rash 🚀</button>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- SECTION 4: YO'L XARITASI (ROADMAP) -->
-  <section id="roadmap">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="rm_eyebrow">Pitch Day 3.0 · 4-band talabi</div>
-        <h2 data-i18n="rm_h2">Yo'l Xaritasi: Idea → Prototype → MVP → Launched</h2>
-        <p data-i18n="rm_desc">
-          Bizning bosqichlarimiz qayerdan boshlangani va qayerga qarab borayotgani bo'yicha aniq muddatlar va o'lchanadigan natijalar:
-        </p>
-      </div>
-
-      <div class="roadmap-timeline">
-        <!-- Stage 1: Idea -->
-        <div class="glass-card roadmap-card">
-          <span class="rm-status status-done">✓ Bajarildi</span>
-          <div class="rm-date">2023 — 2024 boshlari</div>
-          <h3>1. Idea (G'oya)</h3>
-          <ul>
-            <li>Shaxsiy kognitiv AI konsepsiyasi shakllantirildi</li>
-            <li>Arxitektura chizmalari va xotira grafigi nazariyasi</li>
-            <li>Ovozli muloqot kechikishini kamaytirish tadqiqoti</li>
-            <li>Bozor tahlili: ChatGPT va Siri kamchiliklari aniqlandi</li>
-          </ul>
-        </div>
-
-        <!-- Stage 2: Prototype -->
-        <div class="glass-card roadmap-card">
-          <span class="rm-status status-done">✓ Bajarildi & Sinovda</span>
-          <div class="rm-date">2024 — 2025</div>
-          <h3>2. Prototype (Prototip)</h3>
-          <ul>
-            <li>50 kognitiv modul ishlab chiqildi va integratsiya qilindi</li>
-            <li>Ovoz, ekran ko'rish va OS avtonom boshqaruv prototipi yaratildi</li>
-            <li>Telegram masofaviy boshqaruv ko'prigi muvaffaqiyatli sinovdan o'tdi</li>
-            <li>Saytda interaktiv sinov simulyatori va demo sahifasi ishga tushirildi</li>
-          </ul>
-        </div>
-
-        <!-- Stage 3: MVP -->
-        <div class="glass-card roadmap-card" style="border-color:var(--cyan); box-shadow:0 0 25px rgba(0,245,255,0.18);">
-          <span class="rm-status status-active">● Hozirgi Bosqich (MVP)</span>
-          <div class="rm-date">1–3 oy (Pre-seed)</div>
-          <h3>3. MVP (Bozorga Kirish)</h3>
-          <ul>
-            <li>MChJ ochish va IT Park rezidentligini olish</li>
-            <li>Click va Payme to'lov tizimlarini to'liq integratsiya qilish</li>
-            <li>O'z kompyuteridagi tariflar (Start $21 / Pro $42) bilan yopiq beta</li>
-            <li>Dastlabki 100 foydalanuvchida narx va tariflarni sinash</li>
-            <li>2 ta B2B korxona bilan bepul sinov (pilot) o'tkazish</li>
-          </ul>
-        </div>
-
-        <!-- Stage 4: Launched -->
-        <div class="glass-card roadmap-card">
-          <span class="rm-status status-future">Reja & Kengayish</span>
-          <div class="rm-date">4–12 oy (Ommaviy Reliz)</div>
-          <h3>4. Launched & Scale</h3>
-          <ul>
-            <li>4–8 oy: Ochiq ishga tushirish, yuk testi va Max/Ultra tariflari</li>
-            <li>9–12 oy: ~90–100 to'lovchi (zararsizlik / break-even nuqtasi)</li>
-            <li>1 000 to'lovchiga chiqish ($34.6K oylik tushum, 43% sof foyda)</li>
-            <li>Jamoani kengaytirish va mintaqaviy bozorga chiqish</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 5: ARCHITECTURE -->
-  <section id="texnologiya">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="tech_eyebrow">Pitch Day 3.0 · 5-band talabi</div>
-        <h2 data-i18n="tech_h2">Yechimni Qanday Amalga Oshiramiz? (Texnologik Arxitektura)</h2>
-        <p data-i18n="tech_desc">
-          NeuroKey bir-biri bilan uzviy bog'langan 5 kognitiv qatlamdan iborat to'liq integratsiyalashgan sun'iy intellekt platformasidir:
-        </p>
-      </div>
-
-      <div class="arch-grid">
-        <div class="arch-preview-wrap">
-          <img src="architecture.jpg" alt="NeuroKey AGI System Architecture">
-        </div>
-
-        <div class="arch-layers-list">
-          <div class="arch-layer-item">
-            <div class="layer-title">
-              <span>1. Voice Streaming & Whisper VAD</span>
-              <span class="layer-tag">&lt; 800ms</span>
-            </div>
-            <p class="layer-desc">
-              Haqiqiy vaqtli audio oqimini qabul qilish, shovqinni filtrlash, nutq faolligini aniqlash (VAD) va mahalliy tilda bir zumda matnga hamda nutqqa (TTS) aylantirish.
-            </p>
-          </div>
-
-          <div class="arch-layer-item">
-            <div class="layer-title">
-              <span>2. Screen Vision & OCR Parser</span>
-              <span class="layer-tag">Multimodal VLM</span>
-            </div>
-            <p class="layer-desc">
-              Foydalanuvchi kompyuter ekranidagi faol darchalar, dastur elementlari, xatolar va jadvallarni skanerlab, chuqur kontekstual anglash.
-            </p>
-          </div>
-
-          <div class="arch-layer-item">
-            <div class="layer-title">
-              <span>3. Cognitive Memory Graph Network</span>
-              <span class="layer-tag">Assotsiativ Graflar</span>
-            </div>
-            <p class="layer-desc">
-              Vektorli xotira va semantik bilim grafigi (Knowledge Graph). Barcha suhbatlar, odatlar va shaxsiy kelishuvlar assotsiativ bog'lanadi.
-            </p>
-          </div>
-
-          <div class="arch-layer-item">
-            <div class="layer-title">
-              <span>4. OS Automation Agent</span>
-              <span class="layer-tag">Autonomous Control</span>
-            </div>
-            <p class="layer-desc">
-              Operatsion tizimni boshqarish: sichqoncha, klaviatura buyruqlari, ilovalarni ishga tushirish, fayllarni yaratish va jo'natish avtomatizatsiyasi.
-            </p>
-          </div>
-
-          <div class="arch-layer-item">
-            <div class="layer-title">
-              <span>5. Zero-Knowledge Private Sandbox</span>
-              <span class="layer-tag">Privacy First</span>
-            </div>
-            <p class="layer-desc">
-              Lokal qurilmada izolyatsiya qilingan hisoblash muhiti. Serverda esa faqat foydalanuvchiga tegishli shifrlangan shaxsiy xona.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: MOBIL ILOVA & KOMPYUTERGA ULANISH (#mobil-ilova) -->
-  <section id="mobil-ilova" class="phone-showcase-section">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="mob_eyebrow">Pitch Day 3.0 · Mobil Ekologiya</div>
-        <h2 data-i18n="mob_h2">Telefonda Qanday Ishlaydi & Kompyuterga Qanday Ulanadi?</h2>
-        <p data-i18n="mob_desc">
-          NeuroKey — faqat kompyuter ekrani emas. Telefoningiz orqali kompyuteringizni masofadan to'liq boshqarasiz. Barcha aloqa lokal Wi-Fi orqali ultra-past kechikishda (&lt;5ms) kechadi.
-        </p>
-      </div>
-
-      <div class="phone-showcase-grid">
-        <!-- LEFT: Virtual Phone Mockup (Ovozsiz & Jonli Interaktiv) -->
-        <div class="phone-mockup-wrapper">
-          <div class="virtual-phone" id="virtual-phone-device">
-            <div class="phone-glare"></div>
-            
-            <!-- Dynamic Island -->
-            <div class="phone-island">
-              <span class="phone-lens"></span>
-              <span class="phone-sensor-dot"></span>
-            </div>
-
-            <!-- Hardware Status Bar -->
-            <div class="phone-status-bar">
-              <span class="phone-status-left" id="phone-clock">14:20</span>
-              <div class="phone-status-right">
-                <span style="font-size:9.5px; color:var(--cyan);">5G</span>
-                <svg width="12" height="10" viewBox="0 0 16 12" fill="none"><path d="M8 2.5C10.5 2.5 12.8 3.5 14.5 5.2L16 3.6C13.9 1.4 11.1 0 8 0C4.9 0 2.1 1.4 0 3.6L1.5 5.2C3.2 3.5 5.5 2.5 8 2.5ZM8 6.5C9.5 6.5 10.9 7.1 12 8.1L13.5 6.5C12.1 5.1 10.1 4.2 8 4.2C5.9 4.2 3.9 5.1 2.5 6.5L4 8.1C5.1 7.1 6.5 6.5 8 6.5ZM8 10.5C8.8 10.5 9.5 11.2 9.5 12H6.5C6.5 11.2 7.2 10.5 8 10.5Z" fill="#00f5ff"/></svg>
-                <div style="display:flex; align-items:center; gap:2px;">
-                  <span style="font-size:9.5px; color:#10b981;">98%</span>
-                  <span style="display:inline-block; width:14px; height:8px; border:1px solid #10b981; border-radius:2px; position:relative;"><span style="position:absolute; inset:1px 2px 1px 1px; background:#10b981; border-radius:1px;"></span></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Phone App Header -->
-            <div class="phone-app-header">
-              <div class="phone-brand">
-                <img src="logo.png" alt="NeuroKey Logo">
-                <div class="phone-brand-title">Neuro<span>Key</span></div>
-              </div>
-              <div style="display:flex; align-items:center; gap:6px;">
-                <span class="phone-tele-badge" id="phone-conn-status">
-                  <span style="width:5px; height:5px; border-radius:50%; background:#10b981;"></span>
-                  <span data-i18n="mob_phone_status">ULANGAN · LAN (4ms)</span>
-                </span>
-                <span style="font-size:10px; color:var(--ink-3);" title="Sokin rejim" data-i18n="mob_phone_silent">🔕</span>
-              </div>
-            </div>
-
-            <!-- Phone Screen Dynamic View Container -->
-            <div class="phone-screen-body">
-
-              <!-- VIEW 0: JONLI VIDEO DEMO (Default) -->
-              <div class="pview active" id="pview-video">
-                <div class="phone-video-box">
-                  <video id="phone-video-player" class="phone-video-el" src="phone_demo.mp4" autoplay loop muted playsinline poster="demo_poster.jpg"></video>
-                  
-                  <!-- Floating HUD over video -->
-                  <div class="phone-video-hud">
-                    <div class="video-live-pill">
-                      <span class="pulse-red-dot"></span> LIVE DEMO
-                    </div>
-                    <span class="phone-video-time" id="phone-vid-time">00:00 / 00:16</span>
-                  </div>
-
-                  <!-- Synchronized Subtitle / Action Ribbon -->
-                  <div class="phone-video-caption-bar" id="phone-vid-caption">
-                    <span style="color:var(--cyan); font-weight:700;">[00:02 ULANISH]:</span> Wi-Fi Direct orqali PC-DESKTOP bilan bog'lanildi (<4ms) ✓
-                  </div>
-
-                  <!-- Controls Bar -->
-                  <div class="phone-video-controls">
-                    <button type="button" class="phone-video-play-btn" id="phone-vid-toggle-btn" onclick="togglePhoneVideo()">
-                      ❚❚ To'xtatish
-                    </button>
-                    <span style="font-family:var(--font-mono); font-size:9.5px; color:var(--cyan);">HD 60FPS · SILENT</span>
-                    <button type="button" class="phone-video-play-btn" onclick="restartPhoneVideo()" style="padding:4px 8px;">
-                      ↺ Boshidan
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- VIEW 1: OVOZLI KOGNITIV BOSHQARUV -->
-              <div class="pview" id="pview-voice">
-                <div class="phone-voice-hub">
-                  <div class="phone-voice-tag">[WHISPER LOCAL VAD · 320ms]</div>
-                  <button type="button" class="phone-mic-btn" id="phone-mic-trigger" onclick="simulatePhoneVoiceClick()" title="Ovozli buyruq sinash">
-                    <div class="mic-pulse-ring"></div>
-                    🎙️
-                  </button>
-                  <div style="font-size:11px; color:var(--ink-2);" id="phone-voice-hint">Tugmani bosing yoki gapiring</div>
-                  
-                  <div class="phone-bubble user" id="phone-user-query">
-                    "NeuroKey, brauzerda taqdimotni och va xatolarni ko'rsat"
-                  </div>
-                  <div class="phone-bubble agent" id="phone-agent-res">
-                    <b>PC Buyrug'i:</b> Chrome ochildi, ekrandagi 3 ta kod xatosi ajratib ko'rsatildi ✓
-                  </div>
-
-                  <div style="display:flex; gap:3px; align-items:center; height:14px;">
-                    <span class="h-bar" style="height:6px; background:var(--cyan); width:3px; animation:wave 1s infinite;"></span>
-                    <span class="h-bar" style="height:12px; background:var(--cyan); width:3px; animation:wave 0.8s infinite 0.2s;"></span>
-                    <span class="h-bar" style="height:18px; background:var(--cyan); width:3px; animation:wave 1.1s infinite 0.4s;"></span>
-                    <span class="h-bar" style="height:9px; background:var(--cyan); width:3px; animation:wave 0.9s infinite 0.1s;"></span>
-                    <span class="h-bar" style="height:5px; background:var(--cyan); width:3px; animation:wave 1.2s infinite 0.3s;"></span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- VIEW 2: SMART TREKPAD & SICHQONCHA -->
-              <div class="pview" id="pview-trackpad">
-                <div class="phone-trackpad-hub">
-                  <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--cyan);" id="trackpad-coords">KURSOR: X: 1420 | Y: 860</span>
-                    <span style="font-size:10px; color:var(--good);">● 120 FPS</span>
-                  </div>
-
-                  <div class="trackpad-surface" id="trackpad-surface-area">
-                    <div class="trackpad-dot" id="trackpad-cursor-dot" style="top:50%; left:50%;"></div>
-                    <div style="font-size:26px; opacity:0.35; margin-bottom:6px;">🖱️</div>
-                    <div style="font-size:11px; color:var(--ink-2); max-width:180px; line-height:1.4;">
-                      Sirt bo'ylab barmog'ingizni yoki sichqonchani suring — PC kursor bir zumda harakatlanadi
-                    </div>
-                  </div>
-
-                  <div class="trackpad-buttons-row">
-                    <button type="button" class="trackpad-btn" onclick="simulateTrackpadClick('left')">CHAP TUGMA</button>
-                    <button type="button" class="trackpad-btn" onclick="simulateTrackpadClick('right')">O'NG TUGMA</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- VIEW 3: TEZKOR AI MAKROSLAR -->
-              <div class="pview" id="pview-macros">
-                <div class="phone-macros-hub">
-                  <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); margin-bottom:4px;">
-                    1-BOSISHDA PC AMALLARI:
-                  </div>
-
-                  <div class="macro-tiles-grid">
-                    <div class="macro-tile" onclick="triggerPhoneMacro('vision')">
-                      <span class="icon">👁️</span>
-                      <span class="name">Ekran Tahlili</span>
-                      <span class="desc">Ekrandagi xatoni VLM orqali tekshirish</span>
-                    </div>
-                    <div class="macro-tile" onclick="triggerPhoneMacro('pdf')">
-                      <span class="icon">📄</span>
-                      <span class="name">PDF Hisobot</span>
-                      <span class="desc">Hujjatni PDF qilib mijozga yuborish</span>
-                    </div>
-                    <div class="macro-tile" onclick="triggerPhoneMacro('code')">
-                      <span class="icon">💻</span>
-                      <span class="name">Oxirgi Loyiha</span>
-                      <span class="desc">VS Code & loyiha fayllarini ochish</span>
-                    </div>
-                    <div class="macro-tile" onclick="triggerPhoneMacro('lock')">
-                      <span class="icon">🔒</span>
-                      <span class="name">Kompyuterni Qulflash</span>
-                      <span class="desc">Masofadan Windows ekranni qulflash</span>
-                    </div>
-                  </div>
-
-                  <div class="phone-bubble agent" id="phone-macro-feedback" style="margin-top:auto; font-size:11px;">
-                    <b>AI Natijasi:</b> Tayyor. Kerakli buyruqni bosing.
-                  </div>
-                </div>
-              </div>
-
-              <!-- VIEW 4: ULASH & QR KOD -->
-              <div class="pview" id="pview-pairing">
-                <div class="phone-pairing-hub">
-                  <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan);">
-                    XAVFSIZ LOKAL ULANISH (LAN)
-                  </div>
-
-                  <div class="qr-box">
-                    <!-- SVG Cyber QR code representation -->
-                    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-                      <rect width="120" height="120" fill="#000"/>
-                      <rect x="10" y="10" width="35" height="35" stroke="#00f5ff" stroke-width="4" fill="none" rx="4"/>
-                      <rect x="19" y="19" width="17" height="17" fill="#00f5ff" rx="2"/>
-                      <rect x="75" y="10" width="35" height="35" stroke="#00f5ff" stroke-width="4" fill="none" rx="4"/>
-                      <rect x="84" y="19" width="17" height="17" fill="#00f5ff" rx="2"/>
-                      <rect x="10" y="75" width="35" height="35" stroke="#00f5ff" stroke-width="4" fill="none" rx="4"/>
-                      <rect x="19" y="84" width="17" height="17" fill="#00f5ff" rx="2"/>
-                      <rect x="52" y="12" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="62" y="12" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="52" y="24" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="52" y="36" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="62" y="36" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="12" y="52" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="24" y="52" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="36" y="52" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="52" y="52" width="16" height="16" fill="#38bdf8" rx="2"/>
-                      <rect x="75" y="52" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="95" y="52" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="75" y="64" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="88" y="75" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="100" y="75" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="52" y="75" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="62" y="88" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="75" y="100" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="95" y="100" width="6" height="6" fill="#00f5ff"/>
-                      <rect x="52" y="100" width="6" height="6" fill="#00f5ff"/>
-                    </svg>
-                  </div>
-
-                  <div class="pin-display">PIN: 8492</div>
-
-                  <div style="font-size:10.5px; color:var(--ink-2); line-height:1.4;">
-                    IP: 192.168.1.108:8888<br>
-                    <span style="color:var(--good);">TLS 1.3 · Shaxsiy P2P Tunnel</span>
-                  </div>
-
-                  <button type="button" class="btn btn-outline" style="font-size:10.5px; padding:6px 14px; width:100%; border-radius:8px;" onclick="simulatePhoneReconnect()">
-                    🔁 Ulanishni Yangilash
-                  </button>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Phone Bottom Navigation Dock -->
-            <div class="phone-bottom-dock">
-              <button type="button" class="dock-tab active" id="dock-btn-video" onclick="switchPhoneMode('video')">
-                <span class="dock-icon">🎬</span>
-                <span data-i18n="mob_tab_video">Video</span>
-              </button>
-              <button type="button" class="dock-tab" id="dock-btn-voice" onclick="switchPhoneMode('voice')">
-                <span class="dock-icon">🎙️</span>
-                <span>Ovoz</span>
-              </button>
-              <button type="button" class="dock-tab" id="dock-btn-trackpad" onclick="switchPhoneMode('trackpad')">
-                <span class="dock-icon">🖱️</span>
-                <span>Trekpad</span>
-              </button>
-              <button type="button" class="dock-tab" id="dock-btn-macros" onclick="switchPhoneMode('macros')">
-                <span class="dock-icon">⚡</span>
-                <span>Makros</span>
-              </button>
-              <button type="button" class="dock-tab" id="dock-btn-pairing" onclick="switchPhoneMode('pairing')">
-                <span class="dock-icon">🔗</span>
-                <span>Ulanish</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: Essential Information & Connection Steps (Lakonik va Aniq) -->
-        <div class="phone-info-col">
-
-          <!-- Mode Quick Switcher Selector Bar -->
-          <div class="phone-mode-selector-bar">
-            <button type="button" class="mode-sel-btn active" id="sel-btn-video" onclick="switchPhoneMode('video')">
-              🎬 Jonli Video (Qanday Ishlashi)
-            </button>
-            <button type="button" class="mode-sel-btn" id="sel-btn-voice" onclick="switchPhoneMode('voice')">
-              🎙️ Ovoz Rejimi
-            </button>
-            <button type="button" class="mode-sel-btn" id="sel-btn-trackpad" onclick="switchPhoneMode('trackpad')">
-              🖱️ Trekpad & Sichqoncha
-            </button>
-            <button type="button" class="mode-sel-btn" id="sel-btn-macros" onclick="switchPhoneMode('macros')">
-              ⚡ Tezkor Makroslar
-            </button>
-            <button type="button" class="mode-sel-btn" id="sel-btn-pairing" onclick="switchPhoneMode('pairing')">
-              🔗 Ulanish & QR
-            </button>
-          </div>
-
-          <!-- VIDEO TIMELINE HIGHLIGHT CARD -->
-          <div class="connect-step-card" id="video-summary-card" style="border-color:rgba(0,245,255,0.3); background:rgba(6,16,36,0.85);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <span class="step-number-badge" style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);">🔴 JONLI DEMO-VIDEO</span>
-              <span style="font-family:var(--font-mono); font-size:11px; color:var(--cyan);">00:16 HD</span>
-            </div>
-            <h4 style="font-size:16px; margin-bottom:6px;" data-i18n="mob_vid_h">🎬 Videoda Ishlash Jarayoni:</h4>
-            <div style="font-size:12.5px; color:var(--ink-2); display:grid; gap:6px;">
-              <div><b style="color:var(--cyan);">00:01</b> — Kompyuterga bir soniyada avto-ulanish (<4ms lokal kanal).</div>
-              <div><b style="color:var(--cyan);">00:05</b> — O'zbek tilida tabiiy ovozli buyruq va Whisper VAD talaffuz tahlili.</div>
-              <div><b style="color:var(--cyan);">00:09</b> — Air Trackpad orqali kompyuterdagi sichqoncha va oynalarni boshqarish.</div>
-              <div><b style="color:var(--cyan);">00:13</b> — 1-bosishda AI makros: ekran OCR skanerlash va PDF hisobot jo'natish.</div>
-            </div>
-          </div>
-
-          <!-- BLOCK 1: QANDAY ULANADI? (3 ODDIY QADAM) -->
-          <div>
-            <h3 style="font-size:19px; color:#fff; margin-bottom:12px; display:flex; align-items:center; gap:8px;" data-i18n="mob_step_title">
-              <span style="color:var(--cyan);">🔗</span> Kompyuterga Qanday Ulanadi? (3 ta oddiy qadam)
-            </h3>
-            
-            <div class="steps-card-grid">
-              <div class="connect-step-card">
-                <span class="step-number-badge">QADAM 01</span>
-                <h4 data-i18n="mob_s1_h">1. PC'da NeuroKey ishga tushadi</h4>
-                <p data-i18n="mob_s1_p">Kompyuterda lokal xizmat ochiladi va xavfsiz bir martalik QR-kod yoki PIN generatsiya qilinadi.</p>
-              </div>
-
-              <div class="connect-step-card">
-                <span class="step-number-badge">QADAM 02</span>
-                <h4 data-i18n="mob_s2_h">2. Telefondan bitta bosish</h4>
-                <p data-i18n="mob_s2_p">Lokal Wi-Fi orqali avtomatik topadi yoki telefon kamerasida QR-kodni skanerlaysiz.</p>
-              </div>
-
-              <div class="connect-step-card">
-                <span class="step-number-badge">QADAM 03</span>
-                <h4 data-i18n="mob_s3_h">3. 1 soniyada to'liq sinxron</h4>
-                <p data-i18n="mob_s3_p">Internet o'chganda ham ishlaydi. 100% lokal shifrlash, drayversiz va kabel talab qilinmaydi (&lt;5ms ping).</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- BLOCK 2: TELEFONDA QANDAY BOSHQARILADI? (4 ASOSIY REJIM) -->
-          <div>
-            <h3 style="font-size:19px; color:#fff; margin-bottom:12px; display:flex; align-items:center; gap:8px;" data-i18n="mob_ctrl_title">
-              <span style="color:var(--cyan);">📱</span> Telefonda Qanday Boshqariladi?
-            </h3>
-
-            <div class="caps-card-grid">
-              <div class="cap-card active" id="cap-card-voice" onclick="switchPhoneMode('voice')">
-                <div class="cap-icon">🎙️</div>
-                <div>
-                  <h4 data-i18n="mob_m1_t">Ovozli Kognitiv Boshqaruv</h4>
-                  <p data-i18n="mob_m1_d">Telefonga gapiring — kompyuterda ilovalar ochiladi, matn yoziladi va vazifalar bajariladi.</p>
-                </div>
-              </div>
-
-              <div class="cap-card" id="cap-card-trackpad" onclick="switchPhoneMode('trackpad')">
-                <div class="cap-icon">🖱️</div>
-                <div>
-                  <h4 data-i18n="mob_m2_t">Smart Touchpad & Sichqoncha</h4>
-                  <p data-i18n="mob_m2_d">Telefon ekrani sezgir noutbuk trekpadiga aylanadi (surish, 2 barmoq bilan skroll, bosish).</p>
-                </div>
-              </div>
-
-              <div class="cap-card" id="cap-card-macros" onclick="switchPhoneMode('macros')">
-                <div class="cap-icon">⚡</div>
-                <div>
-                  <h4 data-i18n="mob_m3_t">1-Bosishda AI Makroslar</h4>
-                  <p data-i18n="mob_m3_d">Ekrandagi xatoni tahlil qilish, hisobotni PDF qilib yuborish yoki darchalarni almashtirish.</p>
-                </div>
-              </div>
-
-              <div class="cap-card" id="cap-card-pairing" onclick="switchPhoneMode('pairing')">
-                <div class="cap-icon">🔕</div>
-                <div>
-                  <h4 data-i18n="mob_m4_t">Ovozsiz & Sokin Ishlash</h4>
-                  <p data-i18n="mob_m4_d">Saytda hech qanday ortiqcha shovqinsiz jim turadi, istalgan vaziyatda noqulayliksiz boshqarasiz.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- LIVE PC ACTION TELEMETRY BANNER -->
-          <div class="pc-telemetry-ribbon" id="pc-telemetry-ribbon">
-            <div class="pc-telemetry-status">
-              <span style="width:7px; height:7px; border-radius:50%; background:var(--good); box-shadow:0 0 8px var(--good);"></span>
-              <span>PC STATUS: SINKRONLANMOQDA</span>
-            </div>
-            <div class="pc-telemetry-action" id="pc-telemetry-action-text">
-              [KOMPYUTERDA: O'zbek tili nutqi qabul qilindi → Chrome ochildi ✓ · 310ms]
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 6: DEMO SPOTLIGHT -->
-  <section id="demo-spotlight">
+<section id="demo-spotlight">
     <div class="wrap">
       <div class="demo-spotlight">
         <div class="demo-spotlight-header">
@@ -3389,110 +3570,43 @@
       </div>
     </div>
   </section>
-
-  <!-- QO'SHIMCHA TALAB 1: SAVOL-JAVOB NAMUNALARI BILAN AI-CHATBOT -->
-  <section id="chatbot">
+  <!-- API KIRISH (COLLAPSIBLE DETAILS) -->
+  <section id="api-access" style="padding-block:36px;">
     <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="cb_eyebrow">Qo'shimcha Talab · Interaktiv AI-Chatbot</div>
-        <h2 data-i18n="cb_h2">Savol-Javob Namunalari Bilan AI-Chatbot</h2>
-        <p data-i18n="cb_desc">
-          Sayt mehmonlari va Pitch Day hakamlari uchun: Quyidagi savol namunalaridan birini bosing yoki o'z savolingizni yozing. NeuroKey sun'iy intellekti qanday javob berishi va kompyuterni qanday boshqarishini jonli sinab ko'ring:
-        </p>
-      </div>
-
-      <div class="chatbot-card">
-        <!-- Preset Quick Prompts -->
-        <div class="chat-presets">
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(0)">👥 «Jamoa va asoschilar kimlar?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(1)">⚡ «ChatGPT yoki Siri dan nimasi bilan ustun?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(2)">📱 «Telefondan kompyuterni qanday boshqaradi?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(3)">💰 «Tariflar ($21–$84) va B2B narxlari qanday?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(4)">📄 «Pitch Deck (UZ va EN) taqdimotini yuklab olish»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(5)">🔒 «Zero-Cloud va Maxfiylik qanday ishlaydi?»</button>
-          <button type="button" class="chat-preset-btn" onclick="sendChatbotPreset(6)">📈 «Investitsiya ($50K Pre-seed) va Bozor (TAM $21.1B)»</button>
-        </div>
-
-        <!-- Chat Conversation Log -->
-        <div class="chat-log-box" id="chatbot-log">
-          <div class="chat-bubble agent">
-            Salom! Men <b>NeuroKey</b> shaxsiy kognitiv yordamchisiman. Siz bilan ovozli yoki matnli muloqot qilaman, ekraningizni ko'raman, doimiy xotirangizni eslayman va kompyuteringizda vazifalarni avtonom bajaraman.
-            <span class="meta">● STATUS: TIZIM TAYYOR · 50 KOGNITIV MODUL FAOL</span>
-          </div>
-        </div>
-
-        <!-- Chat Input Row -->
-        <div class="chat-input-row">
-          <input type="text" id="chatbot-input" placeholder="Savol yoki buyruq yozing (masalan: 'Telegramga bugungi hisobotni yubor')..." onkeydown="if(event.key==='Enter') sendChatbotUserQuery();">
-          <button type="button" class="btn btn-primary" onclick="sendChatbotUserQuery()" data-i18n="cb_send_btn">Yuborish 🚀</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QO'SHIMCHA TALAB 2: API KIRISH (API ACCESS & SDK) -->
-  <section id="api-access">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="api_eyebrow">Qo'shimcha Talab · Dasturchilar & Korxonalar Uchun</div>
-        <h2 data-i18n="api_h2">API Kirish: Dasturchilar va B2B Integratsiya</h2>
-        <p data-i18n="api_desc">
-          O'z dasturingiz, mobil ilovangiz yoki korxona ichki CRM/ERP tizimiga NeuroKey kognitiv qatlamlarini to'g'ridan-to'g'ri REST va WebSocket API orqali ulang:
-        </p>
-      </div>
-
-      <div class="api-card">
-        <div class="api-grid">
-          <!-- Left: API Highlights & Token Request -->
-          <div>
-            <h3 style="font-size:22px; color:#fff; margin-bottom:12px;">NeuroKey On-Device & Cloud API v1</h3>
-            <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin-bottom:20px;">
-              Lokal va bulutli modellarimiz uchun yagona xavfsiz endpoint. Foydalanuvchi ma'lumotlari to'liq shifrlangan, so'rov kechikishi 800ms dan past.
-            </p>
-
-            <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <span class="pitch-tag" style="background:rgba(16,185,129,0.15); border-color:var(--good); color:var(--good);">POST</span>
-                <span style="font-family:var(--font-mono); font-size:13px; color:#fff;">/v1/agent/execute</span>
-                <span style="font-size:12px; color:var(--ink-3);">— Kompyuterda harakat bajarish</span>
-              </div>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <span class="pitch-tag" style="background:rgba(56,189,248,0.15); border-color:var(--cyan); color:var(--cyan);">WSS</span>
-                <span style="font-family:var(--font-mono); font-size:13px; color:#fff;">/v1/voice/stream</span>
-                <span style="font-size:12px; color:var(--ink-3);">— 2 tomonlama past kechikishli ovoz</span>
-              </div>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <span class="pitch-tag" style="background:rgba(139,92,246,0.15); border-color:var(--purple); color:#d8b4fe;">GET</span>
-                <span style="font-family:var(--font-mono); font-size:13px; color:#fff;">/v1/memory/context</span>
-                <span style="font-size:12px; color:var(--ink-3);">— Assotsiativ xotiradan qidiruv</span>
-              </div>
-            </div>
-
-            <div style="background:rgba(255,255,255,0.03); padding:16px; border-radius:12px; border:1px solid var(--line); margin-bottom:20px;">
-              <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">TEST API KALITI:</span>
-              <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-                <input type="text" id="api-key-display" value="nk_live_2026_preseed_test_token" readonly style="flex:1; background:#020617; border:1px solid var(--line-2); border-radius:8px; padding:8px 12px; font-family:var(--font-mono); font-size:12px; color:var(--cyan);">
-                <button type="button" class="btn btn-outline btn-sm" onclick="copyApiKey()">Nusxalash 📋</button>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:12px; flex-wrap:wrap;">
-              <a href="https://t.me/Neuro_Key" target="_blank" class="btn btn-primary btn-sm">B2B API Kirish So'rovi ✈️</a>
-              <button type="button" class="btn btn-outline btn-sm" onclick="testApiPing()">Jonli Ping Tekshirish ⚡</button>
+      <details class="api-collapsible-details">
+        <summary class="api-summary-toggle">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:24px;">⚡</span>
+            <div>
+              <b style="font-size:17px; color:#fff;">Dasturchilar & B2B Uchun: REST & WebSocket API</b>
+              <span style="display:block; font-size:12.5px; color:var(--ink-2); font-weight:normal; font-family:var(--font-sans);">
+                NeuroKey kognitiv qatlamlarini o'z loyihangizga ulash kod namunalari (bosing va ko'ring)
+              </span>
             </div>
           </div>
+          <span style="font-size:12px; color:var(--cyan); font-family:var(--font-mono); border:1px solid rgba(0,245,255,0.3); padding:4px 12px; border-radius:999px;">
+            Ochish / Yopish ▾
+          </span>
+        </summary>
 
-          <!-- Right: Code Snippet -->
-          <div class="code-editor-box">
-            <div class="code-top-bar">
-              <div class="code-tabs">
-                <button type="button" class="code-tab-btn active" id="tab-py" onclick="switchApiTab('py')">Python</button>
-                <button type="button" class="code-tab-btn" id="tab-curl" onclick="switchApiTab('curl')">cURL</button>
-                <button type="button" class="code-tab-btn" id="tab-js" onclick="switchApiTab('js')">Node.js</button>
+        <div style="margin-top:24px; border-top:1px solid var(--line); padding-top:20px;">
+          <div class="api-console">
+            <div class="api-topbar">
+              <div class="api-auth-pill">
+                <span>BEARER TOKEN:</span>
+                <input type="text" id="api-key-display" value="nk_live_2026_preseed_test_token" readonly>
+                <button type="button" class="btn btn-outline btn-sm" onclick="copyApiKey()">Nusxalash</button>
               </div>
-              <span style="font-size:11px; color:var(--cyan);">v1.4 SDK</span>
+              <div class="api-endpoint-badge">POST http://127.0.0.1:8765/v1/agent/execute</div>
             </div>
-            <pre class="code-content" id="api-code-block"><span style="color:var(--cyan);">import</span> neurokey
+
+            <div class="code-editor-tabs">
+              <button type="button" class="code-tab-btn active" id="tab-py" onclick="switchApiTab('py')">Python (neurokey-sdk)</button>
+              <button type="button" class="code-tab-btn" id="tab-curl" onclick="switchApiTab('curl')">cURL / Bash</button>
+              <button type="button" class="code-tab-btn" id="tab-js" onclick="switchApiTab('js')">Node.js / TypeScript</button>
+            </div>
+
+            <pre class="api-code-viewer"><code id="api-code-block"><span style="color:var(--cyan);">import</span> neurokey
 
 client = neurokey.Client(api_key=<span style="color:#fde047;">"nk_live_2026_preseed_test_token"</span>)
 
@@ -3504,261 +3618,20 @@ result = client.agent.execute(
 )
 
 <span style="color:var(--cyan);">print</span>(f<span style="color:#fde047;">"Status: {result.status} | Kechikish: {result.latency_ms}ms"</span>)
-<span style="color:var(--good);"># &gt;&gt;&gt; Status: completed | Kechikish: 780ms</span></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<span style="color:var(--good);"># &gt;&gt;&gt; Status: completed | Kechikish: 780ms</span></code></pre>
 
-  <!-- SECTION 7: BOZOR & POTENTSIAL (TRACTION & PROOF) -->
-  <section id="isbot">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="tr_eyebrow">Bozor & Potentsial</div>
-        <h2 data-i18n="tr_h2">Bozor Ko'lami va Aniq Mintaqaviy Boshlanish</h2>
-        <p data-i18n="tr_desc">
-          NeuroKey — hisob-kitob qilingan real bozor sig'imi va o'lchanadigan unit-iqtisodiyot ustiga qurilgan:
-        </p>
-      </div>
-
-      <div class="traction-strip">
-        <div class="glass-card traction-item">
-          <b>$21.1B</b>
-          <span class="title" data-i18n="tr1_t">TAM: Global AI Bozori</span>
-          <span class="sub" data-i18n="tr1_s">2030-yilga kelib, yillik 44.5% o'sish</span>
-        </div>
-        <div class="glass-card traction-item">
-          <b>52.6M</b>
-          <span class="title" data-i18n="tr2_t">SAM: Internet Aholisi</span>
-          <span class="sub" data-i18n="tr2_s">O'zbekiston 33.1M + Qozog'iston 19.5M</span>
-        </div>
-        <div class="glass-card traction-item">
-          <b>$415K</b>
-          <span class="title" data-i18n="tr3_t">SOM: Dastlabki Daromad</span>
-          <span class="sub" data-i18n="tr3_s">1 000 to'lovchida yillik tushum</span>
-        </div>
-        <div class="glass-card traction-item">
-          <b>50 ta</b>
-          <span class="title" data-i18n="tr4_t">Kognitiv Modul</span>
-          <span class="sub" data-i18n="tr4_s">Nutq, ko'rish, xotira, OS va mobil relay</span>
-        </div>
-      </div>
-
-      <div style="margin-top:28px; background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:24px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-        <div>
-          <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan); text-transform:uppercase;">Zararsizlik Nuqtasi (Break-even):</span>
-          <div style="font-size:15px; color:#fff; margin-top:4px;">
-            Atigi <b style="color:var(--good);">~90–100 to'lovchi</b> (lean jamoa xarajatini to'liq qoplaydi)
-          </div>
-        </div>
-        <div>
-          <span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-3); text-transform:uppercase;">1 000 to'lovchida moliyaviy natija:</span>
-          <div style="font-size:14px; color:var(--ink-2); margin-top:4px;">
-            Oylik tushum: <b style="color:#fff;">$34,570</b> · Sof foyda: <b style="color:var(--good);">$14,852/oy (43%)</b>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: PRICING & $50,000 PRE-SEED -->
-  <section id="investitsiya">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="pr_eyebrow">Mahsulot va Moliyaviy Model</div>
-        <h2 data-i18n="pr_h2">Beshta pullik qatlam & $50,000 Pre-seed</h2>
-        <p data-i18n="pr_desc">
-          Bitta akkaunt telefonda ham, kompyuterda ham ishlaydi. O'rtacha bitta to'lovchidan tushum: <b>$34.57/oy</b>.
-        </p>
-      </div>
-
-      <div class="pricing-grid">
-        <div class="glass-card price-card">
-          <div class="price-val">$21 <span>/oy</span></div>
-          <h4>Start</h4>
-          <p>8 GB kompyuter va telefon. Bitta kichik model, xotira, ovoz. So'rov limiti yo'q.</p>
-        </div>
-
-        <div class="glass-card price-card featured">
-          <div class="price-val">$42 <span>/oy</span></div>
-          <h4>Pro</h4>
-          <p>Kuchliroq model foydalanuvchining o'z kompyuterida. So'rov limiti yo'q. Mutlaq maxfiylik.</p>
-        </div>
-
-        <div class="glass-card price-card">
-          <div class="price-val">$55 <span>/oy</span></div>
-          <h4>Max</h4>
-          <p>Eng kuchli model, kompyuter o'chiq bo'lsa ham ishlaydi. Oyiga 1 200 ta vazifa.</p>
-        </div>
-
-        <div class="glass-card price-card">
-          <div class="price-val">$84 <span>/oy</span></div>
-          <h4>Ultra</h4>
-          <p>Max ning hammasi, ko'proq hajm. Oyiga 3 000 ta vazifa. (Qo'ng'iroq markazi uchun emas).</p>
-        </div>
-
-        <div class="glass-card price-card">
-          <div class="price-val">+$17 <span>/oy</span></div>
-          <h4>Optimal yo'l</h4>
-          <p>Istalgan tarif ustiga: muammoni aytasiz, NeuroKey ochiq oynadan yechim topadi.</p>
-        </div>
-      </div>
-
-      <!-- B2B KORXONALAR UCHUN (Pitch Deck 9-sahifa) -->
-      <div style="margin-top:28px; padding:26px 30px; background:linear-gradient(135deg, rgba(14,23,46,0.92), rgba(7,13,29,0.97)); border:1px solid rgba(56,189,248,0.25); border-radius:var(--radius); box-shadow:0 15px 35px rgba(0,0,0,0.5);">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-          <div>
-            <span class="pitch-tag">BIZNES UCHUN (B2B)</span>
-            <h4 style="font-size:20px; color:#fff; margin-top:6px;">Kompaniyangiz uchun alohida sozlangan yordamchi</h4>
-          </div>
-          <span style="font-family:var(--font-mono); font-size:13px; color:var(--cyan); background:rgba(0,245,255,0.1); border:1px solid rgba(0,245,255,0.25); padding:6px 14px; border-radius:999px;">
-            Kichik: $50–150/oy · O'rta: $200–500/oy
-          </span>
-        </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:16px;">
-          <div style="background:rgba(255,255,255,0.03); padding:14px; border-radius:12px; border:1px solid var(--line);">
-            <b style="color:#fff; font-size:14px;">👥 Kadrlar (HR)</b>
-            <p style="font-size:12.5px; color:var(--ink-2); margin-top:4px;">«Xodimning shartnomasi qayerda?» Soniyada javob beradi.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03); padding:14px; border-radius:12px; border:1px solid var(--line);">
-            <b style="color:#fff; font-size:14px;">⚖️ Yuridik firmalar</b>
-            <p style="font-size:12.5px; color:var(--ink-2); margin-top:4px;">Keys fayli, oldingi qaror va yozishmalarni bir gap bilan topadi.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03); padding:14px; border-radius:12px; border:1px solid var(--line);">
-            <b style="color:#fff; font-size:14px;">🏥 Klinikalar</b>
-            <p style="font-size:12.5px; color:var(--ink-2); margin-top:4px;">Bemor tarixi va navbat jadvalini ovoz orqali boshqaradi.</p>
-          </div>
-          <div style="background:rgba(255,255,255,0.03); padding:14px; border-radius:12px; border:1px solid var(--line);">
-            <b style="color:#fff; font-size:14px;">🎓 Ta'lim markazlari</b>
-            <p style="font-size:12.5px; color:var(--ink-2); margin-top:4px;">Har bir o'quvchiga 24/7 shaxsiy AI-repetitor.</p>
-          </div>
-        </div>
-        <div style="font-size:12.5px; color:var(--ink-3); font-family:var(--font-mono); border-top:1px dashed var(--line); padding-top:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <span>1. Bepul suhbat (muammoni tinglaymiz) → 2. 2–4 hafta bepul sinov (pilot) → 3. Natija yoqsa: oylik shartnoma</span>
-          <span style="color:var(--cyan);">🔒 Ma'lumot mijoz kompyuterida qoladi</span>
-        </div>
-      </div>
-
-      <!-- $50,000 Pre-seed Box (Pitch Deck 14-sahifa) -->
-      <div class="invest-summary-box" style="margin-top:24px;">
-        <div>
-          <span class="eyebrow" style="margin-bottom:8px;">Pre-seed 2026 · Toshkent, O'zbekiston</span>
-          <h3 style="font-size:26px; color:#fff; margin-bottom:12px;">$50,000 jalb qilinmoqda · Pre-seed bosqichi</h3>
-          <p style="font-size:14px; color:var(--ink-2); line-height:1.6;">
-            MVP'ni to'liq bozorga chiqarish, jamoa kengayishi, mobil ko'prikni barqarorlashtirish va dastlabki zararsizlik nuqtasiga (~90–100 to'lovchi) yetish uchun <b>$50,000</b> investitsiya jalb qilinmoqda (14 oylik xarajatlar to'liq qoplanadi).<br>
-            <i>Shartlar, ulush va baholash investor bilan ochiq muzokaralar asosida individual muhokama qilinadi.</i>
-          </p>
-        </div>
-        <div style="text-align:right;">
-          <span class="runway-badge">$50,000</span>
-          <span style="font-size:13px; color:var(--ink-3);">Pre-seed investitsiya maqsadi</span>
-          <div style="margin-top:12px; font-family:var(--font-mono); font-size:13px; color:var(--good);">
-            1 000 to'lovchida: $14,852 - $21,347 sof foyda/oy (43%)
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 9: REGISTRATION -->
-  <section id="royxat">
-    <div class="wrap">
-      <div class="head">
-        <div class="eyebrow" data-i18n="reg_eyebrow">Ro'yxatdan o'tish</div>
-        <h2 data-i18n="reg_h2">Kutish ro'yxatiga qo'shiling yoki biznesingiz uchun konsultatsiya oling</h2>
-        <p data-i18n="reg_desc">Bir necha daqiqa vaqt oladi. Ma'lumotlaringiz to'g'ridan-to'g'ri asoschilarimizga yetib boradi.</p>
-      </div>
-
-      <div class="tabs-wrap" role="tablist">
-        <button class="tab-btn" id="tab-individual" role="tab" aria-selected="true" data-i18n="tab_individual">Shaxsiy foydalanuvchi</button>
-        <button class="tab-btn" id="tab-business" role="tab" aria-selected="false" data-i18n="tab_business">Biznes / Kompaniya</button>
-      </div>
-
-      <div id="panel-individual" role="tabpanel">
-        <div class="form-card">
-          <form id="form-individual">
-            <div class="field-row">
-              <div class="field">
-                <label for="ind-name" data-i18n="f_name">Ismingiz</label>
-                <input type="text" id="ind-name" required placeholder="Diyorbek Sobirjonov">
-              </div>
-              <div class="field">
-                <label for="ind-contact" data-i18n="f_contact">Telefon yoki Telegram</label>
-                <input type="text" id="ind-contact" required placeholder="+998 90 123 45 67 / @username">
-              </div>
+            <div class="api-action-bar">
+              <button type="button" class="btn btn-primary btn-sm" onclick="testApiPing()">⚡ API Ping Sinovi (Localhost:8765)</button>
+              <span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-2);">WebSocket Voice Stream: <code>ws://127.0.0.1:8765/v1/voice/stream</code></span>
             </div>
-            <div class="field">
-              <label for="ind-lang" data-i18n="f_pref_lang">Qaysi tilda muloqot qilishni xohlaysiz?</label>
-              <select id="ind-lang">
-                <option value="uz">O'zbek tili</option>
-                <option value="ru">Русский язык</option>
-                <option value="en">English language</option>
-              </select>
-            </div>
-            <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center; margin-top:8px;" data-i18n="btn_join_waitlist">
-              Kutish ro'yxatiga qo'shilish
-            </button>
-          </form>
-          <div id="ind-success" style="display:none; margin-top:14px; padding:16px; background:rgba(16,185,129,0.1); border:1px solid var(--good); border-radius:10px; color:#fff;">
-            ✓ Rahmat! Siz kutish ro'yxatiga qo'shildingiz. Yangiliklar va beta reliz chiqishi bilan sizga xabar beramiz.
           </div>
         </div>
-      </div>
-
-      <div id="panel-business" role="tabpanel" style="display:none;">
-        <div class="form-card">
-          <form id="form-business">
-            <div class="field-row">
-              <div class="field">
-                <label for="biz-company" data-i18n="f_company">Kompaniya / biznes nomi</label>
-                <input type="text" id="biz-company" required placeholder="Masalan: Target O'quv Markazi">
-              </div>
-              <div class="field">
-                <label for="biz-person" data-i18n="f_person">Bog'lanish uchun ism</label>
-                <input type="text" id="biz-person" required placeholder="Azizbek">
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="biz-phone" data-i18n="f_contact">Telefon yoki Telegram</label>
-                <input type="text" id="biz-phone" required placeholder="+998 90 123 45 67">
-              </div>
-              <div class="field">
-                <label for="biz-email" data-i18n="f_email">Email (ixtiyoriy)</label>
-                <input type="email" id="biz-email" placeholder="info@company.uz">
-              </div>
-            </div>
-            <div class="field">
-              <label data-i18n="f_industry">Biznes sohasi</label>
-              <div class="chip-row" id="industry-chips"></div>
-            </div>
-            <div class="field">
-              <label for="biz-details" data-i18n="f_details">Biznesingizdagi muammo haqida qisqacha yozing</label>
-              <textarea id="biz-details" rows="3" placeholder="Masalan: kuniga 60 ta qo'ng'iroq keladi, mijozlarga javob berishga ulgurmayapmiz..."></textarea>
-            </div>
-            <div class="ai-box">
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span style="font-family:var(--font-mono); font-size:12px; color:var(--cyan);">✨ NEUROKEY AI TAHLILI</span>
-                <button type="button" class="btn btn-outline btn-sm" id="ai-analyze-btn">Tahlil qildirish</button>
-              </div>
-              <div id="ai-res-box" class="ai-res-box" style="display:none;"></div>
-            </div>
-            <button class="btn btn-primary" type="submit" style="width:100%; justify-content:center; margin-top:18px;" data-i18n="btn_submit_biz">
-              Bepul konsultatsiyaga yozilish
-            </button>
-          </form>
-          <div id="biz-success" style="display:none; margin-top:14px; padding:16px; background:rgba(16,185,129,0.1); border:1px solid var(--good); border-radius:10px; color:#fff;">
-            ✓ So'rovingiz qabul qilindi! Asoschilarimiz tez orada siz bilan bog'lanib, bepul pilot sinovini tashkil etadilar.
-          </div>
-        </div>
-      </div>
+      </details>
     </div>
   </section>
 
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="wrap foot-row">
     <div class="foot-brand">
@@ -4654,41 +4527,141 @@ result = client.agent.execute(
 // INTERACTIVE AI CHATBOT PRESETS & HANDLERS
   var CHAT_PRESETS = [
     {
-      q: "Jamoa va asoschilar kimlar?",
-      a: "NeuroKey jamoasi: <b>Diyorbek Sobirjonov</b> (Founder & CEO, Founders Hub rezidenti va FoundersCamp bitiruvchisi) va <b>Elbek Azimjonov</b> (Co-founder — 5+ yillik dasturiy muhandislik tajribasi). Pre-seed mablag'i 2 asoschi va 1 dasturchi maoshi ($1,456/oy) uchun ajratilgan. Aloqa: Telegram @Neuro_Key va @RealFoundr.",
-      meta: "[JAMOA]: FoundersCamp · 50 Kognitiv Modul Mualliflari ✓"
+      q: "1. Muammo va Yechim: Mavjud AI cheklovlari va NeuroKey yechimi",
+      a: "Mavjud AI yordamchilar (ChatGPT, Copilot, Siri) faqat chat oynasida gapiradi, har safar sizni unutadi va barcha ma'lumotlarni begona bulutlarga yuboradi.<br><br><b>NeuroKey On-Device yechimi:</b><br>1) <b>100% On-Device & Zero-Cloud:</b> Barcha hisob-kitoblar o'z kompyuteringizda ($0 server sarfi, to'liq maxfiylik);<br>2) <b>Avtonom OS Harakatlari:</b> Ekranni ko'radi (Screen Vision OCR), klaviatura va sichqonchani boshqaradi, dasturlarni ochadi;<br>3) <b>Tezkor Mahalliy Ovoz (&lt;800ms):</b> O'zbek va rus tillarida insondek tabiiy so'zlashadi.",
+      meta: "[PITCH DAY 3.0 · 1-BAND]: 100% On-Device & Zero-Cloud Yechim ✓"
     },
     {
-      q: "ChatGPT yoki Siri dan nimasi bilan ustun?",
-      a: "Oddiy chat-botlar (ChatGPT, Copilot, Siri) sizni har safar unutadi va kompyuterda real ish qilmaydi. NeuroKey 4 ta tub ustunlikka ega:<br>1) <b>Doimiy xotira (Memory Graph)</b> — barcha suhbatlar va odatlaringizni doim eslaydi;<br>2) <b>Ekranni ko'radi va OS'ni avtonom boshqaradi</b> — fayllar, dasturlar va sichqoncha bilan ishlaydi;<br>3) <b>Mahalliy jonli ovoz</b> (&lt;800ms) — o'zbek va rus tilida insondek so'zlashadi;<br>4) <b>Zero-Cloud</b> — ma'lumotlar o'z kompyuteringizda qoladi ($0 server sarfi).",
-      meta: "[USTUNLIK]: Doimiy Xotira · Ekran Multimodal VLM · OS Automation ✓"
+      q: "2. Nima uchun bizning jamoa bu muammoni hal qila oladi?",
+      a: "NeuroKey jamoasi — <b>Diyorbek Sobirjonov</b> (Founder & CEO, Founders Hub rezidenti va FoundersCamp bitiruvchisi) va <b>Elbek Azimjonov</b> (Co-founder & CTO — 5+ yillik dasturiy injiniring tajribasi).<br><br><b>Nima uchun biz?</b><br>• Nazariya emas, amalda ishlayotgan 50 ta kognitiv modul va prototip;<br>• 8GB RAM oddiy noutbuklar uchun chuqur kvantlangan lokal inferensiya;<br>• Founders Hub va IT Park ekotizimi ko'magi.",
+      meta: "[PITCH DAY 3.0 · 2-3-BAND]: Diyorbek & Elbek · Founders Hub Rezidenti ✓"
     },
     {
-      q: "Telefondan kompyuterni qanday boshqaradi?",
-      a: "Telefondan kompyuterni boshqarish 2 xil qulay usulda ishlaydi:<br>1) <b>Telegram boti</b> orqali ovozli xabar yo'llaysiz ('Ofisdagi hisobotni PDF qilib mijozga yubor'), kompyuter avtonom bajaradi;<br>2) <b>Mobil LAN/Wi-Fi ilovasi</b> orqali to'g'ridan-to'g'ri P2P shifrlangan kanal ochiladi. Begona bulut shart emas!",
+      q: "3. Yo'l Xaritasi: Idea → Prototype → MVP → Launched",
+      a: "<b>NeuroKey rivojlanish bosqichlari:</b><br>1) <b>Idea (Q3 2024):</b> Lokal kognitiv arxitektura va xotira grafigi tadqiqoti (YAKUNLANDI);<br>2) <b>Prototype (Q4 2024):</b> 50 modul sinovi, ovozli javob va ekran OCR (YAKUNLANDI);<br>3) <b>MVP (Q1–Q2 2025):</b> Telefon orqali kompyuterni boshqarish, Telegram bot integratsiyasi (HOZIRGI BOSQICH);<br>4) <b>Launched (Q3 2025):</b> Ommaviy reliz, B2C obuna ($21–$84) va B2B Enterprise.",
+      meta: "[PITCH DAY 3.0 · 4-BAND]: 4 bosqichli aniq Roadmap ✓"
+    },
+    {
+      q: "4. Yechimni qanday amalga oshiryapmiz: Bosqichlar va AI vositalar?",
+      a: "<b>3 bosqichli amalga oshirish:</b><br>1) <b>Kiritish & Idrok:</b> Whisper Streaming VAD (ovoz) va Screen Vision VLM/OCR (ekran konteksti);<br>2) <b>Lokal Inferensiya:</b> llama.cpp / GGUF (Llama 3 8B 4-bit) va assotsiativ kognitiv xotira grafigi;<br>3) <b>OS Avtomatizatsiya & Ko'prik:</b> PyAutoGUI, OS API, FastAPI va xavfsiz Telegram Bot Relay ko'prigi.",
+      meta: "[PITCH DAY 3.0 · 5-BAND]: On-Device PyTorch, llama.cpp & Whisper ✓"
+    },
+    {
+      q: "5. Telefondan kompyuterni qanday boshqaradi?",
+      a: "Telefon orqali kompyuterni 2 xil usulda boshqarish mumkin:<br>1) <b>Telegram boti orqali:</b> Ovozli xabar yo'llaysiz ('Ofisdagi hisobotni PDF qilib mijozga yubor'), kompyuter o'zi bajarib natijani qaytaradi;<br>2) <b>Lokal Wi-Fi smart trekpad:</b> Telefoningiz virtual sichqoncha va trekpadga aylanadi (&lt;4ms kechikish, kabel talab qilinmaydi, begona bulutsiz).",
       meta: "[ULANISH]: Telegram Relay & Local Wi-Fi Bridge ✓"
     },
     {
-      q: "Tariflar ($21–$84) va B2B narxlari qanday?",
-      a: "<b>B2C (Shaxsiy) tariflar:</b><br>• Start: <b>$21/oy</b> (8GB lokal model, $0 server);<br>• Pro: <b>$42/oy</b> (Kuchli lokal model, xotira grafigi, $0 server);<br>• Max: <b>$55/oy</b> (GPU server, 1200 vazifa);<br>• Ultra: <b>$84/oy</b> (GPU server, 3000 vazifa);<br>• Optimal yo'l: <b>+$17</b> (Smart-fix).<br><b>B2B korxonalar:</b> $50–150 (kichik) va $200–500 (o'rta). O'rtacha oylik tushum: <b>$34.57/oy</b>.",
-      meta: "[MOLIYA]: ARPU $34.57 · Break-even ~90 to'lovchi ✓"
+      q: "6. Tariflar ($21–$84), Bozor va Pre-seed investitsiya",
+      a: "<b>Bozor hajmi:</b> TAM $21.1B, SAM $52.6M, SOM $415K.<br><b>Tariflar:</b> Start ($21/oy — 8GB lokal), Pro ($42/oy — kuchli lokal model), Max ($55/oy) va Ultra ($84/oy). B2B korxonalar: $50–$500/oy.<br><b>Pre-seed:</b> $50,000 jalb qilinmoqda (14 oy runway, break-even ~90 to'lovchida).",
+      meta: "[MOLIYA]: Pre-seed $50K · ARPU $34.57 · Break-even ~90 to'lovchi ✓"
     },
     {
-      q: "Pitch Deck (UZ va EN) taqdimotini yuklab olish",
-      a: "NeuroKey rasmiy Pitch Day 3.0 taqdimoti (12 slayd) 2 tilda yuklab olish uchun tayyor:<br>📄 <b>O'zbekcha Pitch Deck:</b> <a href='NeuroKey_Pitch_Deck_UZ.pdf' target='_blank' download='NeuroKey_Pitch_Deck_UZ.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_UZ.pdf (2.56 MB)</a><br>📄 <b>English Pitch Deck:</b> <a href='NeuroKey_Pitch_Deck_EN.pdf' target='_blank' download='NeuroKey_Pitch_Deck_EN.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_EN.pdf (2.55 MB)</a>",
+      q: "7. Pitch Deck (UZ va EN) taqdimot fayllari",
+      a: "Rasmiy Pitch Day 3.0 taqdimot hujjatlari (12 slayd) yuklab olish uchun tayyor:<br>📄 <b>O'zbekcha:</b> <a href='NeuroKey_Pitch_Deck_UZ.pdf' target='_blank' download='NeuroKey_Pitch_Deck_UZ.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_UZ.pdf (2.56 MB)</a><br>📄 <b>English:</b> <a href='NeuroKey_Pitch_Deck_EN.pdf' target='_blank' download='NeuroKey_Pitch_Deck_EN.pdf' style='color:var(--cyan); font-weight:700; text-decoration:underline;'>NeuroKey_Pitch_Deck_EN.pdf (2.55 MB)</a>",
       meta: "[HUJJAT]: 12 slayd · Pitch Day 3.0 Rasmiy Taqdimot ✓"
     },
     {
-      q: "Zero-Cloud va Maxfiylik qanday ishlaydi?",
-      a: "Mutlaq xavfsizlik: Start va Pro tariflarida barcha hisob-kitoblar (ovoz, ko'rish, xotira) foydalanuvchining o'z kompyuterida <b>100% On-Device</b> kechadi ($0 server sarfi). Hech qanday ma'lumot begona bulutlarga chiqmaydi. Max va Ultra tariflarida esa ma'lumotlar faqat sizga tegishli Zero-Knowledge Enclave'da AES-256 bilan shifrlanadi.",
-      meta: "[MAXFIYLIK]: Zero-Knowledge On-Device Enclave ✓"
-    },
-    {
-      q: "Investitsiya ($50K Pre-seed) va Bozor (TAM $21.1B)",
-      a: "<b>Investitsiya:</b> Pre-seed bosqichida $50,000 jalb qilinmoqda. Runway — 14 oy. Zararsizlikka (break-even) atigi ~90–100 to'lovchida erishiladi.<br><b>Bozor tahlili:</b><br>• TAM: $21.1 Milliard (Global shaxsiy AI bozori);<br>• SAM: $52.6 Million (MDH va Markaziy Osiyo mutaxassislari);<br>• SOM: $415,000 (Dastlabki 1 000+ to'lovchilar).",
-      meta: "[PRE-SEED & BOZOR]: $50K · TAM $21.1B · SOM $415K ✓"
+      q: "8. Zero-Cloud Maxfiylik va Tizim Talablari (8GB RAM)",
+      a: "<b>Zero-Cloud Xavfsizlik:</b> Start va Pro tariflarida hisob-kitoblar foydalanuvchining o'z kompyuterida kechadi ($0 server sarfi). Hech narsa bulutga chiqmaydi.<br><b>Hardware talablari:</b> Minimal 8 GB RAM, 4-yadroli CPU (Intel i5 8-avlod+ yoki Ryzen 5). To'liq offline ishlay oladi.",
+      meta: "[MAXFIYLIK]: 100% On-Device · 8GB RAM Minimal Talab ✓"
     }
   ];
+
+  
+  // PITCH DECK SLIDE CONTROLLER
+  var currentPitchSlide = 1;
+  var totalPitchSlides = 8;
+  var slideTitles = [
+    "Muammo va Yechim",
+    "Nima uchun bizning jamoa?",
+    "Yo'l Xaritasi (Roadmap)",
+    "Texnologik Arxitektura",
+    "Mobil & Telegram Boshqaruv",
+    "Tariflar & Bozor",
+    "Pitch Deck (PDF)",
+    "Zero-Cloud & Hardware"
+  ];
+
+  window.openPitchSlide = function(num, triggerChat){
+    if(num < 1) num = 1;
+    if(num > totalPitchSlides) num = totalPitchSlides;
+    currentPitchSlide = num;
+
+    // Update active chip
+    var chips = document.querySelectorAll('.slide-chip-btn');
+    chips.forEach(function(btn, i){
+      if(i + 1 === num) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+
+    // Update active pane
+    for(var i = 1; i <= totalPitchSlides; i++){
+      var pane = document.getElementById('slide-pane-' + i);
+      if(pane){
+        if(i === num) pane.classList.add('active');
+        else pane.classList.remove('active');
+      }
+    }
+
+    // Update top badge
+    var badgeTitle = document.getElementById('slide-badge-title');
+    if(badgeTitle) badgeTitle.textContent = slideTitles[num - 1];
+    var badgeTag = document.getElementById('slide-title-badge');
+    if(badgeTag){
+      badgeTag.innerHTML = '<span>● SLAYD ' + num + ' / ' + totalPitchSlides + ':</span> <b id="slide-badge-title">' + slideTitles[num - 1] + '</b>';
+    }
+    var counterText = document.getElementById('slide-counter-text');
+    if(counterText) counterText.textContent = num + ' / ' + totalPitchSlides;
+
+    // Trigger AI Chatbot response if requested or default
+    if(triggerChat !== false && typeof sendChatbotPreset === 'function'){
+      sendChatbotPreset(num - 1);
+    }
+  };
+
+  window.nextPitchSlide = function(){
+    var next = currentPitchSlide + 1;
+    if(next > totalPitchSlides) next = 1;
+    openPitchSlide(next, false);
+  };
+
+  window.prevPitchSlide = function(){
+    var prev = currentPitchSlide - 1;
+    if(prev < 1) prev = totalPitchSlides;
+    openPitchSlide(prev, false);
+  };
+
+  // Keyboard navigation for slides
+  window.addEventListener('keydown', function(e){
+    if(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+    if(e.key === 'ArrowRight') nextPitchSlide();
+    if(e.key === 'ArrowLeft') prevPitchSlide();
+  });
+
+  // Hash route listener to open matching slide
+  function handleHashSlide(){
+    var hash = window.location.hash;
+    var map = {
+      '#muammo-yechim': 1,
+      '#afzalliklar': 2,
+      '#roadmap': 3,
+      '#texnologiya': 4,
+      '#mobil-ilova': 5,
+      '#investitsiya': 6,
+      '#isbot': 6,
+      '#pitch-deck': 7,
+      '#zero-cloud': 8
+    };
+    if(map[hash]){
+      openPitchSlide(map[hash], false);
+      var sec = document.getElementById('taqdimot');
+      if(sec) sec.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  window.addEventListener('hashchange', handleHashSlide);
+  window.addEventListener('DOMContentLoaded', handleHashSlide);
+
 
   window.sendChatbotPreset = function(idx){
     var item = CHAT_PRESETS[idx];
