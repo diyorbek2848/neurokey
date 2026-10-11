@@ -786,6 +786,148 @@
       font-weight: 700;
     }
     .foot-brand img { width: 28px; height: 28px; border-radius: 8px; }
+  
+    /* =========================================================================
+       SUPERIOR MOBILE RESPONSIVENESS FOR DEMO PAGE
+       ========================================================================= */
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden !important;
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .wrap {
+        padding-inline: 16px !important;
+      }
+      section {
+        padding-block: 36px !important;
+      }
+      .head {
+        margin-bottom: 24px !important;
+      }
+      .head h1 {
+        font-size: clamp(26px, 7vw, 34px) !important;
+      }
+      .head p {
+        font-size: 14.5px !important;
+      }
+
+      /* Navbar */
+      .nav-row {
+        padding-block: 10px !important;
+        gap: 8px !important;
+      }
+      .brand-text {
+        font-size: 19px !important;
+      }
+      .pitch-badge {
+        display: none !important;
+      }
+      .nav-right {
+        gap: 6px !important;
+      }
+      .nav-right .btn-pitch {
+        display: none !important;
+      }
+      .btn-outline {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+      }
+
+      /* Video Player Section */
+      .player-wrap {
+        padding: 12px !important;
+        border-radius: 16px !important;
+      }
+      .player-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding-bottom: 12px !important;
+      }
+      .video-viewport {
+        border-radius: 10px !important;
+      }
+      .play-btn-circle {
+        width: 64px !important;
+        height: 64px !important;
+      }
+      .play-btn-circle svg {
+        width: 24px !important;
+        height: 24px !important;
+      }
+      .play-label {
+        font-size: 11px !important;
+        padding: 4px 10px !important;
+      }
+      .player-controls {
+        padding: 10px 12px !important;
+        gap: 8px !important;
+      }
+
+      /* Chapters Grid */
+      .chapters-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+      .chapter-card {
+        padding: 16px !important;
+      }
+
+      /* Prototype Grid */
+      .proto-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+      .proto-card {
+        padding: 18px !important;
+      }
+
+      /* Sandbox */
+      .sandbox-container {
+        padding: 16px !important;
+      }
+      .sandbox-presets {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+      }
+      .preset-btn {
+        width: 100% !important;
+        text-align: left !important;
+        font-size: 12px !important;
+        padding: 8px 10px !important;
+      }
+      .sandbox-input-row {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .sandbox-input {
+        width: 100% !important;
+        font-size: 14px !important;
+      }
+      .sandbox-input-row .btn {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .sandbox-screen {
+        padding: 16px !important;
+      }
+
+      /* Footer */
+      footer {
+        padding-block: 28px !important;
+        margin-top: 36px !important;
+      }
+      .foot-row {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 14px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
