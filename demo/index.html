@@ -1,0 +1,1562 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NeuroKey — Jonli Demo & Prototip | Pitch Day 3.0</title>
+  <meta name="description" content="NeuroKey ishlayotgan demo-video (1-5 daqiqa), stsenariy tavsifi, texnik arxitektura va ishlayotgan prototip havolalari. Pitch Day 3.0 taqdimoti.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --bg-1: #070d1d;
+      --bg-2: #0e172e;
+      --card: rgba(13, 21, 41, 0.75);
+      --card-border: rgba(56, 189, 248, 0.18);
+      --card-hover: rgba(56, 189, 248, 0.35);
+      --line: rgba(200, 220, 255, 0.08);
+      --line-2: rgba(200, 220, 255, 0.16);
+      --ink: #f1f5f9;
+      --ink-2: #94a3b8;
+      --ink-3: #64748b;
+      --cyan: #00f2fe;
+      --blue: #38bdf8;
+      --accent: #2563eb;
+      --purple: #8b5cf6;
+      --good: #10b981;
+      --warning: #f59e0b;
+      --radius: 16px;
+      --font-display: 'Barlow Semi Condensed', system-ui, sans-serif;
+      --font-body: 'Manrope', system-ui, sans-serif;
+      --font-mono: 'Chivo Mono', ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    ::selection { background: var(--cyan); color: #020617; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.2px; line-height: 1.15; }
+    .mono { font-family: var(--font-mono); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding-inline: 24px; }
+
+    /* Canvas background */
+    #neural-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* Ambient lighting */
+    .glow-sphere {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(120px);
+      z-index: 0;
+      opacity: 0.22;
+    }
+    .glow-cyan { top: -100px; left: 10%; background: radial-gradient(circle, var(--cyan), transparent 70%); }
+    .glow-purple { top: 40%; right: -150px; background: radial-gradient(circle, var(--purple), transparent 70%); }
+
+    /* Header Nav */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(16px) saturate(160%);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-block: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand img {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.3);
+    }
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #fff;
+    }
+    .brand-text span {
+      color: var(--blue);
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+    }
+    .pitch-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pitch-badge::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+    .nav-links a {
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .lang-switch {
+      display: flex;
+      background: var(--bg-1);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      padding: 3px;
+    }
+    .lang-btn {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink-3);
+      background: transparent;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn[aria-pressed="true"] {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #020617;
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13.5px;
+      border-radius: 999px;
+      padding: 10px 20px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #00f2fe);
+      color: #020617;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.35);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 28px rgba(0, 242, 254, 0.6);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: rgba(14, 23, 46, 0.6);
+      border-color: var(--card-border);
+      color: #fff;
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.25);
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+    }
+
+    /* Main Container */
+    main { position: relative; z-index: 1; padding-bottom: 80px; }
+
+    /* Section Styles */
+    section { padding-block: 60px; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 16px; height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .head {
+      margin-bottom: 36px;
+    }
+    .head h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .head h1 span {
+      background: linear-gradient(135deg, #fff 20%, var(--cyan) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .head p {
+      font-size: 17px;
+      color: var(--ink-2);
+      max-width: 68ch;
+    }
+
+    /* Card standard with Cybernetic HUD Corners */
+    .glass-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-card::before, .glass-card::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      opacity: 0.35;
+    }
+    .glass-card::before {
+      top: 0; left: 0;
+      border-top: 2px solid var(--cyan);
+      border-left: 2px solid var(--cyan);
+      border-top-left-radius: 6px;
+    }
+    .glass-card::after {
+      bottom: 0; right: 0;
+      border-bottom: 2px solid var(--cyan);
+      border-right: 2px solid var(--cyan);
+      border-bottom-right-radius: 6px;
+    }
+    .glass-card:hover {
+      border-color: var(--card-hover);
+      box-shadow: 0 25px 50px rgba(0, 242, 254, 0.12);
+    }
+    .glass-card:hover::before, .glass-card:hover::after {
+      opacity: 1;
+      width: 18px;
+      height: 18px;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* Floating Status Telemetry Pill */
+    .floating-telemetry-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 70;
+      background: rgba(3, 7, 20, 0.88);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      backdrop-filter: blur(16px);
+      border-radius: 999px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: #e2e8f0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 20px rgba(0, 242, 254, 0.15);
+      transition: all 0.3s ease;
+    }
+    .floating-telemetry-pill:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 30px rgba(0, 242, 254, 0.35);
+      transform: translateY(-2px);
+    }
+    .telemetry-live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--good);
+      box-shadow: 0 0 10px var(--good);
+      animation: pulse 1.8s infinite;
+    }
+    @media (max-width: 640px) {
+      .floating-telemetry-pill { display: none; }
+    }
+
+    /* Video Player Section */
+    .player-wrap {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(14, 23, 46, 0.85) 0%, rgba(7, 13, 29, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 242, 254, 0.12);
+    }
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .player-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--good);
+      box-shadow: 0 0 12px var(--good);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+
+    /* Video Screen Viewport */
+    .video-viewport {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.8);
+      cursor: pointer;
+    }
+    .video-poster {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s;
+    }
+    .video-viewport:hover .video-poster {
+      filter: brightness(0.92);
+    }
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 7, 18, 0.45);
+      backdrop-filter: blur(2px);
+      transition: all 0.3s ease;
+    }
+    .play-btn-circle {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.7);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .play-btn-circle svg {
+      width: 32px; height: 32px;
+      fill: #020617;
+      margin-left: 5px;
+    }
+    .video-viewport:hover .play-btn-circle {
+      transform: scale(1.1);
+      box-shadow: 0 0 60px rgba(0, 242, 254, 0.9);
+    }
+    .play-label {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Floating HUD telemetry on video */
+    .hud-telemetry {
+      position: absolute;
+      top: 16px; left: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(3, 7, 18, 0.75);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .hud-right {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(3, 7, 18, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #e2e8f0;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Subtitles bar on active video */
+    .video-caption-bar {
+      position: absolute;
+      bottom: 24px; left: 24px; right: 24px;
+      background: rgba(3, 7, 18, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      padding: 12px 18px;
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 500;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      transition: opacity 0.3s;
+    }
+    .caption-highlight {
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      margin-right: 8px;
+    }
+
+    /* Custom Player Controls */
+    .player-controls {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .progress-container {
+      position: relative;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .progress-bar {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 999px;
+      box-shadow: 0 0 12px var(--cyan);
+      transition: width 0.1s linear;
+    }
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .controls-left, .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ctrl-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #fff;
+      padding: 7px 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .time-readout {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .time-readout b { color: #fff; }
+
+    /* Audio wave visualizer bar */
+    .audio-visualizer {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+    }
+    .audio-bar {
+      width: 3px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 999px;
+      transition: height 0.15s ease;
+    }
+    .audio-bar.playing {
+      animation: wave 1.2s ease-in-out infinite alternate;
+    }
+    .audio-bar:nth-child(2) { animation-delay: 0.15s; }
+    .audio-bar:nth-child(3) { animation-delay: 0.3s; }
+    .audio-bar:nth-child(4) { animation-delay: 0.45s; }
+    .audio-bar:nth-child(5) { animation-delay: 0.6s; }
+    .audio-bar:nth-child(6) { animation-delay: 0.75s; }
+    .audio-bar:nth-child(7) { animation-delay: 0.9s; }
+    .audio-bar:nth-child(8) { animation-delay: 1.05s; }
+    @keyframes wave { 0% { height: 4px; } 100% { height: 20px; } }
+
+    /* Live Terminal Log */
+    .terminal-box {
+      margin-top: 18px;
+      background: #020617;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #94a3b8;
+      max-height: 140px;
+      overflow-y: auto;
+      line-height: 1.7;
+    }
+    .terminal-box .log-tag { color: var(--cyan); }
+    .terminal-box .log-action { color: var(--good); }
+    .terminal-box .log-highlight { color: #fff; }
+
+    /* Video Description Section */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .chapter-card {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .chapter-card:hover, .chapter-card.active {
+      border-color: var(--cyan);
+      background: rgba(14, 23, 46, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.1);
+    }
+    .chapter-time {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--cyan);
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+    .chapter-card h4 {
+      font-size: 18px;
+      color: #fff;
+    }
+    .chapter-card p {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+    .chapter-tech {
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--blue);
+      border-top: 1px dashed var(--line);
+      padding-top: 8px;
+    }
+
+    /* Prototype Links Section */
+    .proto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+    .proto-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+    }
+    .proto-card .icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .proto-card h3 { font-size: 22px; color: #fff; }
+    .proto-card p { font-size: 14px; color: var(--ink-2); }
+    .proto-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .proto-pill {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line-2);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #cbd5e1;
+    }
+
+    /* Live Interactive Sandbox */
+    .sandbox-container {
+      margin-top: 28px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(14, 23, 46, 0.95), rgba(7, 13, 29, 0.98));
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    .sandbox-presets {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .preset-btn {
+      background: rgba(14, 23, 46, 0.8);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      padding: 9px 16px;
+      color: var(--ink);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preset-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+    }
+    .sandbox-input-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .sandbox-input {
+      flex: 1;
+      background: #020617;
+      border: 1px solid var(--line-2);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      color: #fff;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sandbox-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.25);
+    }
+    .sandbox-screen {
+      background: #020617;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 24px;
+      min-height: 180px;
+      position: relative;
+    }
+    .sandbox-output {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+    .sandbox-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding-block: 40px;
+      margin-top: 60px;
+      color: var(--ink-3);
+      font-size: 13.5px;
+    }
+    .foot-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 700;
+    }
+    .foot-brand img { width: 28px; height: 28px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+<canvas id="neural-canvas"></canvas>
+<div class="glow-sphere glow-cyan"></div>
+<div class="glow-sphere glow-purple"></div>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="NeuroKey Logo">
+      <div class="brand-text">Neuro<span>Key</span></div>
+      <span class="pitch-badge">Pitch Day 3.0 Demo</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html#muammo-yechim" data-i18n="nav_problem_sol">Muammo & Yechim</a>
+      <a href="../index.html#jamoa" data-i18n="nav_team">Jamoa</a>
+      <a href="../index.html#roadmap" data-i18n="nav_roadmap">Yo'l xaritasi</a>
+      <a href="../index.html#texnologiya" data-i18n="nav_tech">Yechim & AI</a>
+      <a href="../index.html#mobil-ilova" data-i18n="nav_mobile">Mobil & Ulanish</a>
+      <a href="#video" style="color:var(--cyan); font-weight:700;" data-i18n="nav_video">Demo-Video</a>
+      <a href="#tavsif" data-i18n="nav_desc">Video Tavsifi</a>
+      <a href="#prototip" data-i18n="nav_proto">Ishlayotgan Prototip</a>
+      <a href="#sandbox" data-i18n="nav_sandbox">Jonli Sandbox</a>
+      <a href="../future.html" style="color:var(--cyan); font-weight:700;">✨ Vision Edition</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Til tanlash">
+        <button class="lang-btn" data-lang="uz" aria-pressed="true">UZ</button>
+        <button class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-outline" href="../index.html" data-i18n="btn_back_pitch">← Asosiy Taqdimot</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero Section -->
+  <section>
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="hero_eyebrow">Pitch Day 3.0 · 1-bosqich</div>
+        <h1 data-i18n="hero_h1">NeuroKey Jonli <span>Demo-Video</span> va Ishlayotgan Prototip</h1>
+        <p data-i18n="hero_desc">
+          NeuroKey — eshitadi, ko'radi, eslaydi va harakat qiladi. Quyida tizimning real vaqtda ovozli buyruqlarni qabul qilishi, ekranni ko'rishi, kognitiv xotiradan foydalanishi va kompyuterni boshqarishi namoyish etilgan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.1 DEMO-VIDEO SECTION -->
+  <section id="video" style="padding-top:0;">
+    <div class="wrap">
+      <div class="player-wrap">
+        <div class="player-header">
+          <div class="player-title">
+            <div class="status-dot"></div>
+            <div>
+              <h3 style="font-size:20px; color:#fff;" data-i18n="player_headline">NeuroKey Demo (Rus tilida, inglizcha subtitrlar bilan)</h3>
+              <div style="font-family:var(--font-mono); font-size:12px; color:var(--ink-2);" data-i18n="player_sub">
+                Jonli tizim namoyishi · STT / TTS / Screen VLM / Memory Graph / OS Automation
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <span class="pitch-badge">HD 60FPS</span>
+            <span class="pitch-tag" style="background:rgba(0,245,255,0.15); border-color:var(--cyan); color:var(--cyan);">SAYTNING O'ZIDA IJRO</span>
+          </div>
+        </div>
+
+        <!-- Real Embedded Video Player (No YouTube Redirect) -->
+        <div class="video-viewport" id="viewport" style="position:relative; aspect-ratio:16/9; background:#000; border-radius:18px; overflow:hidden; border:2px solid rgba(0,245,255,0.35); box-shadow:0 0 35px rgba(0,245,255,0.15);">
+          <iframe 
+            src="https://www.youtube-nocookie.com/embed/dCyGHctaNRg?rel=0&modestbranding=1" 
+            title="NeuroKey Demo (Rus tilida, inglizcha subtitrlar bilan)" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen 
+            style="width:100%; height:100%; border:none; display:block;">
+          </iframe>
+        </div>
+
+        <!-- IMPORTANT MVP TEAM NOTICE CARD -->
+        <div class="demo-notice-card" style="margin-top:22px; padding:20px 24px; background:rgba(11, 18, 38, 0.95); border:1px solid rgba(0, 245, 255, 0.35); border-left:5px solid var(--cyan); border-radius:14px; box-shadow:0 8px 30px rgba(0, 245, 255, 0.08);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+            <span style="font-size:22px;">⚡</span>
+            <h4 style="font-size:16.5px; color:#fff; font-family:var(--font-display); letter-spacing:0.3px;" data-i18n="demo_notice_h">Jamoa Izohi & MVP Yangilanishi:</h4>
+          </div>
+          <p style="font-size:14.5px; color:var(--ink); line-height:1.65; margin:0;" data-i18n="demo_notice_p">
+            Bu demo-video yozilganiga 1 oydan oshdi. Hozirda jamoamiz bilan telefon orqali kompyuterni boshqarish va to'liq lokalda ishlash bo'yicha katta yangilanish qildik, MVP darajasiga chiqmoqdamiz. Yangi demo-videoni yozishga ulgurmadik (lekin tizim allaqachon to'liq ishlamoqda va sinovga tayyor).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.2 DEMO-VIDEONING TAVSIFI SECTION -->
+  <section id="tavsif">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="desc_eyebrow">Pitch Day 3.0 · 6.2-band talabi</div>
+        <h2 data-i18n="desc_h2">Demo-Videoning Bosqichma-bosqich Tavsifi</h2>
+        <p data-i18n="desc_desc">
+          Videoda ko'rsatilgan har bir soniya va daqiqa — tasodifiy emas. Quyida tizimning to'rtta asosiy kognitiv ustuni real senariyda qanday ishlashi batafsil tushuntirilgan:
+        </p>
+      </div>
+
+      <div class="chapters-grid">
+        <!-- Chapter 1 -->
+        <div class="chapter-card active" onclick="seekVideo(15)">
+          <div class="chapter-time">00:00 – 00:35</div>
+          <h4 data-i18n="ch1_h">1. Ovozli Muloqot & Tabiiy Nutq</h4>
+          <p data-i18n="ch1_p">
+            Foydalanuvchi tabiiy o'zbek tilida: "NeuroKey, salom, bugungi rejalarimni ko'rib chiqaylik" deydi. Tizim o'zbek tili so'zlashuv uslubini, fonetik nozikliklarni tushunib, 800ms kechikish bilan insoniy ovozda javob qaytaradi.
+          </p>
+          <div class="chapter-tech">Texnologiya: Whisper Streaming + VAD + Edge Kokoro TTS</div>
+        </div>
+
+        <!-- Chapter 2 -->
+        <div class="chapter-card" onclick="seekVideo(60)">
+          <div class="chapter-time">00:36 – 01:25</div>
+          <h4 data-i18n="ch2_h">2. Ekranni Ko'rish & Kontekstni Anglash</h4>
+          <p data-i18n="ch2_p">
+            Foydalanuvchi ekranda ochiq turgan kod muharriri (VS Code) va brauzer oynasini ko'rsatadi: "Bu yerdagi xatolikni tushuntir". NeuroKey ekran tasvirini skanerlaydi, xatolik kodi va UI kontekstini bir zumda aniqlaydi.
+          </p>
+          <div class="chapter-tech">Texnologiya: Screen Vision VLM + OCR + Active Window Parser</div>
+        </div>
+
+        <!-- Chapter 3 -->
+        <div class="chapter-card" onclick="seekVideo(110)">
+          <div class="chapter-time">01:26 – 02:15</div>
+          <h4 data-i18n="ch3_h">3. Doimiy Kognitiv Xotiradan Qidiruv</h4>
+          <p data-i18n="ch3_p">
+            "O'tgan haftadagi uchrashuvimizda mijoz qanday taklif bergandi?". NeuroKey 16,093 ta xotira tugunlari ichidan kontekstual bog'liqliklar (Knowledge Graph) bo'yicha qidirib, aniq sana va kelishuv tafsilotlarini chiqarib beradi.
+          </p>
+          <div class="chapter-tech">Texnologiya: Cognitive Memory Graph + Vector Embeddings</div>
+        </div>
+
+        <!-- Chapter 4 -->
+        <div class="chapter-card" onclick="seekVideo(160)">
+          <div class="chapter-time">02:16 – 03:20</div>
+          <h4 data-i18n="ch4_h">4. Avtonom Harakat & Mobil Ko'prik</h4>
+          <p data-i18n="ch4_p">
+            Foydalanuvchi ko'chada turib, telefonidagi Telegram orqali ovozli xabar yo'llaydi: "Ofisdagi kompyuterimda bugungi hisobotni PDF qilib mijozga yubor". Kompyuter avtonom tarzda ilovani ochadi, PDF yaratadi va yuboradi!
+          </p>
+          <div class="chapter-tech">Texnologiya: OS Action Agent + P2P Encrypted Relay Ko'prigi</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.3 ISHLAYOTGAN PROTOTIP HAVOLASI SECTION -->
+  <section id="prototip">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="proto_eyebrow">Pitch Day 3.0 · 6.3-band talabi</div>
+        <h2 data-i18n="proto_h2">Ishlayotgan Prototip Havolalari</h2>
+        <p data-i18n="proto_desc">
+          NeuroKey shunchaki g'oya yoki prezentatsiya emas — u 1.5+ yildan beri har kuni ishlatilib kelinayotgan, 358 real suhbat sessiyasiga ega ishchi prototipdir. Quyidagi havolalar orqali tizim bilan bevosita tanishishingiz mumkin:
+        </p>
+      </div>
+
+      <div class="proto-grid">
+        <!-- Link 1: Founders Direct Telegram -->
+        <div class="glass-card proto-card">
+          <div>
+            <div class="icon-wrap">✈️</div>
+            <h3 style="margin-top:14px;" data-i18n="pr1_h">Asoschilar bilan Telegram Muloqoti & Sinov</h3>
+            <p style="margin-top:8px;" data-i18n="pr1_p">
+              Asoschilar bilan to'g'ridan-to'g'ri bog'lanib, tizimni jonli ovozli rejimda sinab ko'rish va savollaringizga birinchi qo'ldan javob olish imkoniyati.
+            </p>
+          </div>
+          <div>
+            <div class="proto-meta">
+              <span class="proto-pill">Status: Doim Aloqada</span>
+              <span class="proto-pill">O'lchangan kechikish: 3–4s</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+              <a href="https://t.me/Neuro_Key" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%; justify-content:center;">
+                ✈️ Diyorbek (@Neuro_Key)
+              </a>
+              <a href="https://t.me/RealFoundr" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width:100%; justify-content:center;">
+                ✈️ Elbek (@RealFoundr)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Link 2: Web Client / Dashboard -->
+        <div class="glass-card proto-card">
+          <div>
+            <div class="icon-wrap">🖥️</div>
+            <h3 style="margin-top:14px;" data-i18n="pr2_h">Veb Prototip & Boshqaruv Paneli</h3>
+            <p style="margin-top:8px;" data-i18n="pr2_p">
+              NeuroKey'ning xotira grafigini, faol modullarini (47/50 faol kognitiv modul) va suhbat tarixini ko'rish uchun mo'ljallangan veb interfeys prototipi.
+            </p>
+          </div>
+          <div>
+            <div class="proto-meta">
+              <span class="proto-pill">WebRTC P2P</span>
+              <span class="proto-pill">Zero-Knowledge Vault</span>
+            </div>
+            <a href="https://neurokey-site.vercel.app/demo" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="margin-top:16px; width:100%; justify-content:center;" data-i18n="pr2_cta">
+              🌐 Veb Prototipni Ko'rish
+            </a>
+          </div>
+        </div>
+
+        <!-- Link 3: Technical Architecture & Cognitive Engine -->
+        <div class="glass-card proto-card">
+          <div>
+            <div class="icon-wrap">📐</div>
+            <h3 style="margin-top:14px;" data-i18n="pr3_h">Texnik Arxitektura & Kognitiv Tizim</h3>
+            <p style="margin-top:8px;" data-i18n="pr3_p">
+              NeuroKey kognitiv modullari, Whisper VAD lokal ovoz oqimi, xotira grafigi va P2P shifrlangan kompyuter boshqaruvi arxitekturasi chizmasi.
+            </p>
+          </div>
+          <div>
+            <div class="proto-meta">
+              <span class="proto-pill">5 Kognitiv Qatlam</span>
+              <span class="proto-pill">On-Device Privacy</span>
+            </div>
+            <a href="../index.html#texnologiya" class="btn btn-outline" style="margin-top:16px; width:100%; justify-content:center;" data-i18n="pr3_cta">
+              📐 Arxitektura & Yechimni Ko'rish
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JONLI INTERAKTIV PROTOTIP SIMULYATORI (SANDBOX) -->
+  <section id="sandbox">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="sb_eyebrow">Hakamlar va Mehmonlar uchun interaktiv sinov</div>
+        <h2 data-i18n="sb_h2">Jonli Interaktiv Prototip Simulyatori</h2>
+        <p data-i18n="sb_desc">
+          Saytning o'zida NeuroKey kognitiv modullari qanday javob berishini sinab ko'ring. Quyidagi namunaviy buyruqlardan birini bosing yoki o'z so'rovingizni yozing:
+        </p>
+      </div>
+
+      <div class="sandbox-container">
+        <div class="sandbox-presets">
+          <button class="preset-btn" onclick="runSandboxScenario('memory')">
+            🧠 1. Xotira: "O'tgan haftadagi kelishuvimizni eslat"
+          </button>
+          <button class="preset-btn" onclick="runSandboxScenario('vision')">
+            👁️ 2. Ekran: "Ekrandagi kod xatosini tahlil qil"
+          </button>
+          <button class="preset-btn" onclick="runSandboxScenario('action')">
+            ⚡ 3. Harakat: "Hisobotni PDF qilib mijozga yubor"
+          </button>
+          <button class="preset-btn" onclick="runSandboxScenario('security')">
+            🔐 4. Xavfsizlik: "Biometrik kalit holatini tekshir"
+          </button>
+        </div>
+
+        <div class="sandbox-input-row">
+          <input type="text" id="sandbox-query" class="sandbox-input" placeholder="NeuroKey uchun buyruq yoki savol yozing..." value="O'tgan haftadagi kelishuvimizni eslat">
+          <button class="btn btn-primary" id="sandbox-run-btn" onclick="executeCustomQuery()" data-i18n="sb_run_btn">
+            🚀 Yuborish & Sinash
+          </button>
+        </div>
+
+        <div class="sandbox-screen">
+          <div id="sandbox-status" style="font-family:var(--font-mono); font-size:12px; color:var(--cyan); margin-bottom:10px;">
+            ● TIZIM TAYYOR · KOGNITIV MODULLAR: 50/50 ULANISHDA
+          </div>
+          <div class="sandbox-output" id="sandbox-response">
+            <b>NeuroKey Javobi:</b><br>
+            "Eslayman! 2026-yil 3-oktyabr kuni bo'lib o'tgan suhbatimizda siz o'quv markazi filiali uchun NeuroKey ovozli modulini sinab ko'rishga kelishgan edingiz. Baza bo'yicha ularning kunlik qo'ng'iroqlar soni 60 tadan oshadi. Tayyor bo'lsangiz, integratsiya shablonini ochaymi?"
+          </div>
+          <div class="sandbox-meta">
+            <div><span>KECHIKISH:</span> <b style="color:var(--good);" id="sb-latency">740 ms</b> · <span>XOTIRA QIDIRUVI:</span> <b style="color:var(--cyan);">16,093 ta yozuvdan 3 ta mos kontekst topildi</b></div>
+            <div><span>MAXFIYLIK:</span> <b style="color:#fff;">100% On-Device Local Sandbox</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="foot-brand">
+      <img src="../logo.png" alt="NeuroKey Logo">
+      <span>NeuroKey AI</span>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:12px; color:var(--ink-2);">
+      Pitch Day 3.0 · Toshkent, O'zbekiston · © 2026 NeuroKey
+    </div>
+    <div style="display:flex; gap:16px; align-items:center;">
+      <a href="https://t.me/Neuro_Key" target="_blank" style="color:var(--cyan);">@Neuro_Key</a>
+      <a href="https://t.me/RealFoundr" target="_blank" style="color:var(--cyan);">@RealFoundr</a>
+      <a href="../index.html" class="btn btn-outline" style="font-size:12px; padding:6px 14px;" data-i18n="btn_full_pitch">Asosiy Taqdimot Sahifasiga Qaytish →</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating Status Telemetry Pill -->
+<div class="floating-telemetry-pill">
+  <div class="telemetry-live-dot"></div>
+  <span>DEMO-ROOM ACTIVE</span>
+  <span style="color:var(--line-2);">|</span>
+  <span style="color:var(--cyan);">03:20 HD 60FPS</span>
+  <span style="color:var(--line-2);">|</span>
+  <a href="../index.html" style="color:#fff; text-decoration:underline;">TAQDIMOTGA QAYTISH →</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Neural Canvas Animation
+  var canvas = document.getElementById('neural-canvas');
+  var ctx = canvas.getContext('2d');
+  var points = [];
+  var width, height;
+
+  function resize(){
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for(var i=0; i<45; i++){
+    points.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      r: Math.random() * 2 + 1
+    });
+  }
+
+  function drawCanvas(){
+    ctx.clearRect(0,0,width,height);
+    for(var i=0; i<points.length; i++){
+      var p = points[i];
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0 || p.x > width) p.vx *= -1;
+      if(p.y < 0 || p.y > height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = '#00f2fe';
+      ctx.fill();
+
+      for(var j=i+1; j<points.length; j++){
+        var p2 = points[j];
+        var d = Math.hypot(p.x - p2.x, p.y - p2.y);
+        if(d < 130){
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = 'rgba(0, 242, 254, ' + (0.16 * (1 - d/130)) + ')';
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawCanvas);
+  }
+  drawCanvas();
+
+  // Multi-Language Dictionary
+  var I18N = {
+    uz: {
+      nav_problem_sol: "Muammo & Yechim",
+      nav_team: "Jamoa",
+      nav_roadmap: "Yo'l xaritasi",
+      nav_tech: "Yechim & AI",
+      nav_mobile: "Mobil & Ulanish",
+      nav_video: "Demo-Video",
+      nav_desc: "Video Tavsifi",
+      nav_proto: "Ishlayotgan Prototip",
+      nav_sandbox: "Jonli Sandbox",
+      btn_back_pitch: "← Asosiy Taqdimot",
+      hero_eyebrow: "Pitch Day 3.0 · 1-bosqich",
+      hero_h1: "NeuroKey Jonli Demo-Video va Ishlayotgan Prototip",
+      hero_desc: "NeuroKey — eshitadi, ko'radi, eslaydi va harakat qiladi. Quyida tizimning real vaqtda ovozli buyruqlarni qabul qilishi, ekranni ko'rishi, kognitiv xotiradan foydalanishi va kompyuterni boshqarishi namoyish etilgan.",
+      player_headline: "NeuroKey Demo (Rus tilida, inglizcha subtitrlar bilan)",
+      player_sub: "Jonli tizim namoyishi · STT / TTS / Screen VLM / Memory Graph / OS Automation",
+      demo_notice_h: "⚡ Jamoa Izohi & MVP Yangilanishi:",
+      demo_notice_p: "Bu demo-video yozilganiga 1 oydan oshdi. Hozirda jamoamiz bilan telefon orqali kompyuterni boshqarish va to'liq lokalda ishlash bo'yicha katta yangilanish qildik, MVP darajasiga chiqmoqdamiz. Yangi demo-videoni yozishga ulgurmadik (lekin tizim allaqachon to'liq ishlamoqda va sinovga tayyor).",
+      btn_custom_url: "🔗 Video Havolasini O'zgartirish",
+      play_video_btn: "▶ Demo-Videoni Ijro Etish (03:20)",
+      ctrl_play: "Ijro",
+      ctrl_pause: "Pauza",
+      ctrl_restart: "↺ Boshidan",
+      ctrl_fullscreen: "⛶ To'liq Ekran",
+      desc_eyebrow: "Pitch Day 3.0 · 6.2-band talabi",
+      desc_h2: "Demo-Videoning Bosqichma-bosqich Tavsifi",
+      desc_desc: "Videoda ko'rsatilgan har bir soniya va daqiqa — tasodifiy emas. Quyida tizimning to'rtta asosiy kognitiv ustuni real senariyda qanday ishlashi batafsil tushuntirilgan:",
+      ch1_h: "1. Ovozli Muloqot & Tabiiy Nutq",
+      ch1_p: "Foydalanuvchi tabiiy o'zbek tilida: \"NeuroKey, salom, bugungi rejalarimni ko'rib chiqaylik\" deydi. Tizim o'zbek tili so'zlashuv uslubini, fonetik nozikliklarni tushunib, 800ms kechikish bilan insoniy ovozda javob qaytaradi.",
+      ch2_h: "2. Ekranni Ko'rish & Kontekstni Anglash",
+      ch2_p: "Foydalanuvchi ekranda ochiq turgan kod muharriri (VS Code) va brauzer oynasini ko'rsatadi: \"Bu yerdagi xatolikni tushuntir\". NeuroKey ekran tasvirini skanerlaydi, xatolik kodi va UI kontekstini bir zumda aniqlaydi.",
+      ch3_h: "3. Doimiy Kognitiv Xotiradan Qidiruv",
+      ch3_p: "\"O'tgan haftadagi uchrashuvimizda mijoz qanday taklif bergandi?\". NeuroKey 16,093 ta xotira tugunlari ichidan kontekstual bog'liqliklar (Knowledge Graph) bo'yicha qidirib, aniq sana va kelishuv tafsilotlarini chiqarib beradi.",
+      ch4_h: "4. Avtonom Harakat & Mobil Ko'prik",
+      ch4_p: "Foydalanuvchi ko'chada turib, telefonidagi Telegram orqali ovozli xabar yo'llaydi: \"Ofisdagi kompyuterimda bugungi hisobotni PDF qilib mijozga yubor\". Kompyuter avtonom tarzda ilovani ochadi, PDF yaratadi va yuboradi!",
+      proto_eyebrow: "Pitch Day 3.0 · 6.3-band talabi",
+      proto_h2: "Ishlayotgan Prototip Havolalari",
+      proto_desc: "NeuroKey shunchaki g'oya yoki prezentatsiya emas — u 1.5+ yildan beri har kuni ishlatilib kelinayotgan, 358 real suhbat sessiyasiga ega ishchi prototipdir. Quyidagi havolalar orqali tizim bilan bevosita tanishishingiz mumkin:",
+      pr1_h: "Asoschilar bilan Telegram Muloqoti & Sinov",
+      pr1_p: "Asoschilar bilan to'g'ridan-to'g'ri bog'lanib, tizimni jonli ovozli rejimda sinab ko'rish va savollaringizga birinchi qo'ldan javob olish imkoniyati.",
+      pr1_cta: "✈️ Diyorbek (@Neuro_Key)",
+      pr2_h: "Veb Prototip & Boshqaruv Paneli",
+      pr2_p: "NeuroKey'ning xotira grafigini, faol modullarini (47/50 faol kognitiv modul) va suhbat tarixini ko'rish uchun mo'ljallangan veb interfeys prototipi.",
+      pr2_cta: "🌐 Veb Prototipni Ko'rish",
+      pr3_h: "Texnik Arxitektura & Kognitiv Tizim",
+      pr3_p: "NeuroKey kognitiv modullari, Whisper VAD lokal ovoz oqimi, xotira grafigi va P2P shifrlangan kompyuter boshqaruvi arxitekturasi chizmasi.",
+      pr3_cta: "📐 Arxitektura & Yechimni Ko'rish",
+      sb_eyebrow: "Hakamlar va Mehmonlar uchun interaktiv sinov",
+      sb_h2: "Jonli Interaktiv Prototip Simulyatori",
+      sb_desc: "Saytning o'zida NeuroKey kognitiv modullari qanday javob berishini sinab ko'ring. Quyidagi namunaviy buyruqlardan birini bosing yoki o'z so'rovingizni yozing:",
+      sb_run_btn: "🚀 Yuborish & Sinash",
+      btn_full_pitch: "Asosiy Taqdimot Sahifasiga Qaytish →"
+    },
+    ru: {
+      nav_problem_sol: "Проблема & Решение",
+      nav_team: "Команда",
+      nav_roadmap: "Дорожная карта",
+      nav_tech: "Решение & AI",
+      nav_mobile: "Мобильный & Связь",
+      nav_video: "Демо-Видео",
+      nav_desc: "Описание Видео",
+      nav_proto: "Рабочий Прототип",
+      nav_sandbox: "Живая Песочница",
+      btn_back_pitch: "← Главная презентация",
+      hero_eyebrow: "Pitch Day 3.0 · 1-й этап",
+      hero_h1: "NeuroKey Живое Демо-Видео и Рабочий Прототип",
+      hero_desc: "NeuroKey — слышит, видит, помнит и действует. Ниже показано, как система в реальном времени принимает голосовые команды, анализирует экран, использует память и управляет ПК.",
+      player_headline: "NeuroKey Demo (На русском языке с английскими субтитрами)",
+      player_sub: "Живая демонстрация системы · STT / TTS / Screen VLM / Memory Graph / OS Automation",
+      demo_notice_h: "⚡ Примечание Команды & Обновление MVP:",
+      demo_notice_p: "Это демо-видео было записано более месяца назад. Сейчас мы с командой сделали масштабное обновление по управлению ПК со смартфона и локальной работе, выходим на уровень MVP. Новое видео записать не успели (но система уже полностью функционирует и готова к тестированию).",
+      btn_custom_url: "🔗 Изменить ссылку на видео",
+      play_video_btn: "▶ Воспроизвести Демо-Видео (03:20)",
+      ctrl_play: "Играть",
+      ctrl_pause: "Пауза",
+      ctrl_restart: "↺ С начала",
+      ctrl_fullscreen: "⛶ Полный экран",
+      desc_eyebrow: "Требование Pitch Day 3.0 · пункт 6.2",
+      desc_h2: "Пошаговое Описание Демо-Видео",
+      desc_desc: "Каждая минута и секунда в видео обоснована. Ниже подробно описано, как четыре когнитивных столпа системы работают в реальном сценарии:",
+      ch1_h: "1. Голосовое общение и естественная речь",
+      ch1_p: "Пользователь естественным голосом обращается к NeuroKey. Система с задержкой 800мс понимает узбекский/русский контекст и отвечает человеческим голосом.",
+      ch2_h: "2. Зрение экрана и анализ контекста",
+      ch2_p: "Пользователь показывает открытый VS Code и браузер: «В чем здесь ошибка?». NeuroKey сканирует окно и моментально указывает на причину бага.",
+      ch3_h: "3. Долговременный поиск в Графе Памяти",
+      ch3_p: "«Что клиент предложил на прошлой встрече?». NeuroKey находит среди 16,093 записей точные договоренности и цитирует факты.",
+      ch4_h: "4. Автономное действие и мобильный мост",
+      ch4_p: "Пользователь с улицы через Telegram отправляет команду: «Сделай отчет PDF на моем офисном ПК и отправь». ПК автономно запускает приложение и выполняет задачу!",
+      proto_eyebrow: "Требование Pitch Day 3.0 · пункт 6.3",
+      proto_h2: "Ссылки на Рабочий Прототип",
+      proto_desc: "NeuroKey — это не просто концепт. Это система, которая ежедневно используется более 1.5 лет, с 358 реальными сессиями диалогов:",
+      pr1_h: "Прямая связь с Основателями в Telegram",
+      pr1_p: "Возможность связаться с основателями напрямую для проведения индивидуальной демонстрации и живого тестирования.",
+      pr1_cta: "✈️ Диёрбек (@Neuro_Key)",
+      pr2_h: "Веб-прототип и панель управления",
+      pr2_p: "Веб-интерфейс для просмотра графа памяти, статуса 47/50 активных модулей и истории сессий.",
+      pr2_cta: "🌐 Открыть Веб-прототип",
+      pr3_h: "Техническая Архитектура и Когнитивные Слои",
+      pr3_p: "Архитектура когнитивных модулей NeuroKey, локального аудиоконтура Whisper VAD и безопасного P2P управления.",
+      pr3_cta: "📐 Смотреть Архитектуру и Решение",
+      sb_eyebrow: "Интерактивный тест для судей и гостей",
+      sb_h2: "Живой Интерактивный Симулятор Прототипа",
+      sb_desc: "Проверьте прямо на сайте, как реагируют модули NeuroKey. Выберите сценарий или напишите свой запрос:",
+      sb_run_btn: "🚀 Отправить & Проверить",
+      btn_full_pitch: "Вернуться к презентации →"
+    },
+    en: {
+      nav_problem_sol: "Problem & Solution",
+      nav_team: "Team",
+      nav_roadmap: "Roadmap",
+      nav_tech: "Solution & AI",
+      nav_mobile: "Mobile & Connect",
+      nav_video: "Demo-Video",
+      nav_desc: "Video Breakdown",
+      nav_proto: "Working Prototype",
+      nav_sandbox: "Live Sandbox",
+      btn_back_pitch: "← Main Pitch Deck",
+      hero_eyebrow: "Pitch Day 3.0 · Stage 1",
+      hero_h1: "NeuroKey Live Demo-Video and Working Prototype",
+      hero_desc: "NeuroKey listens, sees, remembers, and acts. Below is a real-time showcase of voice comprehension, computer vision, cognitive memory graph, and autonomous OS execution.",
+      player_headline: "NeuroKey Demo (In Russian with English Subtitles)",
+      player_sub: "Live system demonstration · STT / TTS / Screen VLM / Memory Graph / OS Automation",
+      demo_notice_h: "⚡ Team Note & MVP Update:",
+      demo_notice_p: "This demo was recorded over a month ago. Since then, our team has completed a major update introducing smartphone-to-PC control and 100% on-device local execution as we advance toward our MVP. We haven't had time to record a new demo yet (though the system is already fully operational).",
+      btn_custom_url: "🔗 Change Video Source URL",
+      play_video_btn: "▶ Play Demo Video (03:20)",
+      ctrl_play: "Play",
+      ctrl_pause: "Pause",
+      ctrl_restart: "↺ Restart",
+      ctrl_fullscreen: "⛶ Fullscreen",
+      desc_eyebrow: "Pitch Day 3.0 · Requirement 6.2",
+      desc_h2: "Step-by-Step Video Description",
+      desc_desc: "Every minute and second in this demo is purposeful. Here is how the four cognitive pillars operate during the live demonstration:",
+      ch1_h: "1. Voice Wake & Natural Dialogue",
+      ch1_p: "The user talks naturally: \"NeuroKey, review today's schedule\". The system identifies language nuances with 800ms low latency and speaks back naturally.",
+      ch2_h: "2. Screen Vision & Context Understanding",
+      ch2_p: "The user points to active windows (VS Code + Browser): \"Analyze this bug on screen\". NeuroKey captures the frame, parses OCR elements, and diagnoses the root cause.",
+      ch3_h: "3. Persistent Cognitive Memory Recall",
+      ch3_p: "\"What did the client propose last week?\". NeuroKey navigates 16,093 memory graph nodes to synthesize exact dates and decisions.",
+      ch4_h: "4. Autonomous Computer Action & Mobile Relay",
+      ch4_p: "From outside, the user sends a voice note via Telegram: \"Export today's report to PDF on my office PC and send it\". The PC executes the workflow autonomously!",
+      proto_eyebrow: "Pitch Day 3.0 · Requirement 6.3",
+      proto_h2: "Working Prototype Links",
+      proto_desc: "NeuroKey is already battle-tested: 1.5+ years of daily use, 358 real conversation sessions, and 16,093 memory records:",
+      pr1_h: "Direct Telegram Contact with Founders",
+      pr1_p: "Connect directly with the founders for personalized demonstrations and live audio pipeline testing.",
+      pr1_cta: "✈️ Diyorbek (@Neuro_Key)",
+      pr2_h: "Web Prototype & Dashboard",
+      pr2_p: "Web companion interface to inspect memory nodes, 47/50 cognitive modules, and session timeline.",
+      pr2_cta: "🌐 Open Web Prototype",
+      pr3_h: "Technical Architecture & Cognitive Engine",
+      pr3_p: "Detailed blueprints for NeuroKey cognitive modules, Whisper streaming VAD, memory graph, and private P2P OS actions.",
+      pr3_cta: "📐 View Architecture & Solution",
+      sb_eyebrow: "Interactive Test for Pitch Day Judges",
+      sb_h2: "Live Interactive Prototype Simulator",
+      sb_desc: "Experience how NeuroKey's cognitive modules respond directly in your browser. Choose a scenario or enter a command:",
+      sb_run_btn: "🚀 Run & Evaluate",
+      btn_full_pitch: "Return to Main Pitch Deck →"
+    }
+  };
+
+  var currentLang = (function(){
+    try { return localStorage.getItem('nk-lang') || 'uz'; } catch(e){ return 'uz'; }
+  })();
+
+  function t(k){
+    return (I18N[currentLang] && I18N[currentLang][k]) || (I18N.uz[k]) || k;
+  }
+
+  function applyLang(){
+    document.documentElement.setAttribute('lang', currentLang);
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if(key && t(key)) el.textContent = t(key);
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === currentLang));
+    });
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      currentLang = btn.getAttribute('data-lang');
+      try { localStorage.setItem('nk-lang', currentLang); } catch(e){}
+      applyLang();
+    });
+  });
+
+  // Video Player Simulation Engine
+  var isPlaying = false;
+  var currentTimeSec = 0;
+  var totalDurationSec = 200; // 3 min 20 sec
+  var playbackSpeed = 1.0;
+  var timerInterval = null;
+
+  var playOverlay = document.getElementById('play-overlay');
+  var playToggleBtn = document.getElementById('play-toggle-btn');
+  var playText = document.getElementById('play-text');
+  var playIcon = document.getElementById('play-icon');
+  var progressBar = document.getElementById('progress-bar');
+  var progressContainer = document.getElementById('progress-container');
+  var currentTimeEl = document.getElementById('current-time');
+  var speedBtn = document.getElementById('speed-btn');
+  var restartBtn = document.getElementById('restart-btn');
+  var captionTag = document.getElementById('caption-tag');
+  var captionText = document.getElementById('caption-text');
+  var dynamicLog = document.getElementById('dynamic-log');
+  var visualizerBars = document.querySelectorAll('.audio-bar');
+
+  var CHAPTERS = [
+    { start: 0, tag: "[00:15] OVOZLI_MUVOFIQLIK", text: "\"NeuroKey, salom! Ekranimdagi xatolikni ko'rib, o'tgan haftadagi xotiradan mos yechimni topib ber...\"", log: "[WHISPER_STT]: Ovozli oqim aniqlandi (Uzbek audio stream, SNR 24dB). Kechikish: 780ms." },
+    { start: 36, tag: "[00:48] EKRAN_KO'RISH", text: "\"Faol oyna: VS Code & Chrome. 42-qatordagi TypeError aniqlandi. Sintaksis va kontekst tahlili tayyor.\"", log: "[SCREEN_VLM]: Ekran kadri olindi (1920x1080). Faol oyna identifikatsiyasi: VS Code. Xato belgisi topildi." },
+    { start: 86, tag: "[01:30] XOTIRA_GRAFIGI", text: "\"2026-yil 3-oktyabr sessiyasi eslandi: Ushbu xato avvalgi arxitektura o'zgarishi bilan bog'liq.\"", log: "[MEMORY_GRAPH]: 16,093 ta xotira yozuvidan 3 ta assotsiativ tugun tiklandi. Ma'lumot lokal shifrdan olindi." },
+    { start: 136, tag: "[02:25] AVTONOM_OS_HARAKATI", text: "\"Telefondan buyruq qabul qilindi: Ofis kompyuterida hisobotni PDF qilib mijozga yuborish bajarilmoqda.\"", log: "[OS_ACTION_AGENT]: Sichqoncha va klaviatura harakati simulyatsiyasi: PDF yaratildi va Telegramga yuborildi." }
+  ];
+
+  function formatTime(s){
+    var m = Math.floor(s / 60);
+    var sec = Math.floor(s % 60);
+    return (m < 10 ? '0' + m : m) + ':' + (sec < 10 ? '0' + sec : sec);
+  }
+
+  function updatePlayerUI(){
+    currentTimeEl.textContent = formatTime(currentTimeSec);
+    var pct = (currentTimeSec / totalDurationSec) * 100;
+    progressBar.style.width = pct + '%';
+
+    // Synchronize subtitles and logs
+    var currentChap = CHAPTERS[0];
+    for(var i=0; i<CHAPTERS.length; i++){
+      if(currentTimeSec >= CHAPTERS[i].start){
+        currentChap = CHAPTERS[i];
+      }
+    }
+    captionTag.textContent = currentChap.tag;
+    captionText.textContent = currentChap.text;
+    dynamicLog.innerHTML = '<span class="log-highlight">' + currentChap.log + '</span>';
+
+    // Highlight chapter cards
+    document.querySelectorAll('.chapter-card').forEach(function(card, idx){
+      if(CHAPTERS[idx] === currentChap) card.classList.add('active');
+      else card.classList.remove('active');
+    });
+  }
+
+  function startPlayback(){
+    isPlaying = true;
+    playOverlay.style.display = 'none';
+    playIcon.textContent = '⏸';
+    playText.textContent = t('ctrl_pause') || 'Pauza';
+    visualizerBars.forEach(function(b){ b.classList.add('playing'); });
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(function(){
+      currentTimeSec += 1 * playbackSpeed;
+      if(currentTimeSec >= totalDurationSec){
+        currentTimeSec = totalDurationSec;
+        pausePlayback();
+      }
+      updatePlayerUI();
+    }, 1000);
+  }
+
+  function pausePlayback(){
+    isPlaying = false;
+    playOverlay.style.display = 'flex';
+    playIcon.textContent = '▶';
+    playText.textContent = t('ctrl_play') || 'Ijro';
+    visualizerBars.forEach(function(b){ b.classList.remove('playing'); });
+    clearInterval(timerInterval);
+  }
+
+  function togglePlay(){
+    if(isPlaying) pausePlayback();
+    else startPlayback();
+  }
+
+  window.seekVideo = function(sec){
+    currentTimeSec = sec;
+    updatePlayerUI();
+    if(!isPlaying) startPlayback();
+  };
+
+  playOverlay.addEventListener('click', togglePlay);
+  playToggleBtn.addEventListener('click', togglePlay);
+
+  restartBtn.addEventListener('click', function(){
+    currentTimeSec = 0;
+    updatePlayerUI();
+    startPlayback();
+  });
+
+  speedBtn.addEventListener('click', function(){
+    if(playbackSpeed === 1.0) playbackSpeed = 1.25;
+    else if(playbackSpeed === 1.25) playbackSpeed = 1.5;
+    else if(playbackSpeed === 1.5) playbackSpeed = 2.0;
+    else playbackSpeed = 1.0;
+    speedBtn.textContent = playbackSpeed.toFixed(1) + 'x Tezlik';
+  });
+
+  progressContainer.addEventListener('click', function(e){
+    var rect = progressContainer.getBoundingClientRect();
+    var pos = (e.clientX - rect.left) / rect.width;
+    currentTimeSec = Math.floor(pos * totalDurationSec);
+    updatePlayerUI();
+  });
+
+  // Custom Video URL prompt
+  document.getElementById('custom-video-btn').addEventListener('click', function(){
+    var url = prompt("Agar sizda tashqi video fayl (MP4) yoki YouTube embed havolasi bo'lsa, kiriting:\n(Masalan: https://your-domain.com/neurokey-demo.mp4)", "");
+    if(url && url.trim()){
+      var vp = document.getElementById('viewport');
+      if(url.includes('youtube.com') || url.includes('youtu.be')){
+        var embedUrl = url.replace('watch?v=', 'embed/');
+        vp.innerHTML = '<iframe src="' + embedUrl + '?autoplay=1" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen"></iframe>';
+      } else {
+        vp.innerHTML = '<video controls autoplay style="width:100%; height:100%; object-fit:cover;"><source src="' + url + '" type="video/mp4"></video>';
+      }
+    }
+  });
+
+  // Sandbox Scenarios
+  var SCENARIOS = {
+    memory: {
+      q: "O'tgan haftadagi kelishuvimizni eslat",
+      r: "\"Eslayman! 2026-yil 3-oktyabr kuni bo'lib o'tgan suhbatimizda siz o'quv markazi filiali uchun NeuroKey ovozli modulini sinab ko'rishga kelishgan edingiz. Baza bo'yicha ularning kunlik qo'ng'iroqlar soni 60 tadan oshadi. Tayyor bo'lsangiz, integratsiya shablonini ochaymi?\"",
+      meta: "KECHIKISH: 740 ms · XOTIRA QIDIRUVI: 16,093 ta yozuvdan 3 ta mos kontekst topildi"
+    },
+    vision: {
+      q: "Ekrandagi kod xatosini tahlil qil",
+      r: "\"Ekraningizda VS Code oynasi skanerlandi: 'api/voice_relay.py' faylining 42-qatorida WebSocket connection timeout aniqlandi. Tavsiya: heartbeat intervalini 15 soniyadan 30 soniyaga oshirish va reconnect hook qo'shish.\"",
+      meta: "KECHIKISH: 890 ms · EKRAN VLM: 1920x1080 Active Window (VS Code OCR muvaffaqiyatli)"
+    },
+    action: {
+      q: "Hisobotni PDF qilib mijozga yubor",
+      r: "\"Buyruq qabul qilindi va bajarilmoqda: 1) CRM tizimidan bugungi eksport olindi; 2) 'Haftalik_Hisobot_Oktyabr.pdf' generatsiya qilindi; 3) Telegram ko'prigi orqali mijoz @Azizbek_Director ga jo'natildi. Holat: Yuborildi ✅\"",
+      meta: "KECHIKISH: 1,120 ms · OS ACTION AGENT: 3 ta avtonom buyruq muvaffaqiyatli bajarildi"
+    },
+    security: {
+      q: "Biometrik kalit holatini tekshir",
+      r: "\"Biometrik tekshiruv: Yuz va ovoz modeli tasdiqlandi (Match rate: 98.4%). Siz ro'yxatdan o'tgan yagona egasiz. Boshqa shaxslar uchun tizim to'liq bloklangan holda saqlanmoqda. Barcha ma'lumotlar lokal shifrlangan.\"",
+      meta: "KECHIKISH: 320 ms · ZERO-KNOWLEDGE ENCLAVE: Shaxsiy kalit faqat qurilmangizda"
+    }
+  };
+
+  // Web Audio Synthesizer for tactile feedback
+  var audioCtx = null;
+  function playFuturisticPing(frequency, duration, type){
+    try {
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(frequency || 580, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime((frequency || 580) * 1.5, audioCtx.currentTime + (duration || 0.12));
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (duration || 0.12));
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + (duration || 0.12));
+    } catch(e){}
+  }
+
+  window.runSandboxScenario = function(type){
+    var sc = SCENARIOS[type];
+    if(!sc) return;
+    playFuturisticPing(540, 0.1);
+    document.getElementById('sandbox-query').value = sc.q;
+    var resEl = document.getElementById('sandbox-response');
+    var statusEl = document.getElementById('sandbox-status');
+    statusEl.innerHTML = '<span style="color:var(--warning);">⚡ TAHLIL QILINMOQDA... NEVRON TUGUNLAR IZLANMOQDA...</span>';
+    resEl.innerHTML = '<i>NeuroKey o\'ylayapti... <span style="color:var(--cyan);">▌</span></i>';
+
+    setTimeout(function(){
+      playFuturisticPing(780, 0.14);
+      statusEl.innerHTML = '<span style="color:var(--good);">● JAVOB TAYYOR · KOGNITIV MODULLAR FAOL</span>';
+      resEl.innerHTML = '<b>NeuroKey Javobi:</b><br>' + sc.r;
+      document.querySelector('.sandbox-meta').innerHTML = '<div><span>' + sc.meta + '</span></div><div><span>MAXFIYLIK:</span> <b style="color:#fff;">100% On-Device Local Sandbox</b></div>';
+    }, 450);
+  };
+
+  window.executeCustomQuery = function(){
+    var val = document.getElementById('sandbox-query').value.trim();
+    if(!val) return;
+    playFuturisticPing(480, 0.1);
+    var resEl = document.getElementById('sandbox-response');
+    var statusEl = document.getElementById('sandbox-status');
+    statusEl.innerHTML = '<span style="color:var(--cyan);">⚡ NEUROKEY KOGNITIV JAVOB BERMOQDA...</span>';
+    resEl.innerHTML = '<i>Kognitiv xotira va ekran konteksti tahlil qilinmoqda... <span style="color:var(--cyan);">▌</span></i>';
+
+    setTimeout(function(){
+      playFuturisticPing(820, 0.14);
+      statusEl.innerHTML = '<span style="color:var(--good);">● SIZNING SO\'ROVINGIZ QAYTA ISHLANDI</span>';
+      resEl.innerHTML = '<b>NeuroKey Javobi:</b><br>"Sizning so\'rovingiz: \'' + val.replace(/</g,'&lt;') + '\' qabul qilindi. Men ushbu vazifani doimiy xotiramga yozib qo\'ydim va kerakli kompyuter amallarini bajarishga tayyorman."';
+    }, 600);
+  };
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
